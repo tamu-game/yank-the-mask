@@ -161,23 +161,6 @@ export const CardStack = ({ characters, onSwipeLeft, onSwipeRight }: CardStackPr
         })}
       </div>
 
-      <div className="pointer-events-none fixed bottom-6 left-1/2 z-20 flex -translate-x-1/2 items-center gap-6">
-        <div className="pointer-events-auto flex items-center gap-4 rounded-full border-2 border-white/80 bg-white/80 px-5 py-3 shadow-xl">
-          <Button
-            variant="danger"
-            className="h-12 w-12 rounded-full text-xl"
-            onClick={() => triggerSwipe("left")}
-          >
-            X
-          </Button>
-          <Button
-            className="h-14 w-14 rounded-full text-2xl"
-            onClick={() => triggerSwipe("right")}
-          >
-            💖
-          </Button>
-        </div>
-      </div>
     </div>
   );
 };
