@@ -37,6 +37,8 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
   const [pendingQuestionId, setPendingQuestionId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [decision, setDecision] = useState<"accuse" | "trust" | null>(null);
+  const [exitConfirm, setExitConfirm] = useState(false);
+  const [isSheetCollapsed, setIsSheetCollapsed] = useState(false);
   const [typingDelay, setTypingDelay] = useState(false);
   const [glitchActive, setGlitchActive] = useState(false);
   const lastTurnIdRef = useRef<string | null>(null);
@@ -93,6 +95,7 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
     if (pendingQuestionId) return;
     setError(null);
     setPendingQuestionId(questionId);
+    setIsSheetCollapsed(true);
 
     try {
       const response = await fetch(`/api/session/${sessionId}/ask`, {
@@ -160,6 +163,7 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
           isTyping={false}
           glitch={false}
           suspicion={0}
+          onBack={() => setExitConfirm(true)}
         />
         <div className="absolute inset-0 z-20 flex items-center justify-center px-6 text-center">
           <div className="rounded-full bg-white/80 px-4 py-2 text-sm text-slate-600 shadow-lg">
@@ -181,10 +185,17 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
         isTyping={isTyping}
         glitch={glitchActive}
         suspicion={session?.suspicion ?? 0}
+        onBack={() => setExitConfirm(true)}
       />
       <div className="absolute inset-x-0 bottom-0 z-30 flex flex-col items-center gap-3 px-4 pb-4">
         {questionText ? (
-          <div className="pointer-events-auto w-full max-w-xl">
+          <div
+            className={`w-full max-w-xl transform-gpu will-change-[opacity,transform] motion-safe:transition-[opacity,transform] motion-safe:duration-300 motion-safe:ease-out ${
+              isSheetCollapsed
+                ? "pointer-events-auto opacity-100 translate-y-0"
+                : "pointer-events-none opacity-0 translate-y-3"
+            }`}
+          >
             <div className="animate-bubble-pop rounded-[18px] border border-white/70 bg-white/85 px-4 py-3 text-sm text-slate-700 shadow-[0_10px_20px_rgba(15,23,42,0.12)] backdrop-blur">
               <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700/70">
                 Your note
@@ -215,6 +226,8 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
           pendingId={pendingQuestionId}
           onAsk={handleAsk}
           disabled={!session || session.status !== "in_progress"}
+          collapsed={isSheetCollapsed}
+          onToggle={() => setIsSheetCollapsed((prev) => !prev)}
         />
         <ChoiceBar
           className="pointer-events-auto w-full max-w-xl"
@@ -253,6 +266,32 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
                 onClick={confirmDecision}
               >
                 {decision === "accuse" ? "Yank it" : "Trust"}
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+      {exitConfirm ? (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-slate-900/35 px-6 backdrop-blur-sm">
+          <div className="w-full max-w-xs rounded-[24px] border border-white/70 bg-white/95 p-5 text-center shadow-2xl">
+            <div className="text-base font-semibold text-slate-700">Quit the date?</div>
+            <p className="mt-2 text-xs text-slate-500">
+              Are you sure to quit? Your progress is lost.
+            </p>
+            <div className="mt-5 flex items-center justify-center gap-3">
+              <button
+                type="button"
+                className="rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-xs font-semibold text-slate-600 shadow-sm transition hover:-translate-y-0.5"
+                onClick={() => setExitConfirm(false)}
+              >
+                Stay
+              </button>
+              <button
+                type="button"
+                className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-lg transition hover:-translate-y-0.5"
+                onClick={() => router.push("/feed")}
+              >
+                Quit
               </button>
             </div>
           </div>

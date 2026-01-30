@@ -16,6 +16,7 @@ type CafeSceneProps = {
   glitch: boolean;
   suspicion: number;
   className?: string;
+  onBack?: () => void;
 };
 
 export const CafeScene = ({
@@ -26,7 +27,8 @@ export const CafeScene = ({
   isTyping,
   glitch,
   suspicion,
-  className = ""
+  className = "",
+  onBack
 }: CafeSceneProps) => {
   const segments = 5;
   const clamped = Math.max(0, Math.min(gameConfig.suspicionClamp.max, suspicion));
@@ -35,7 +37,7 @@ export const CafeScene = ({
 
   return (
     <div className={`relative min-h-screen w-full overflow-hidden bg-[#f6efe6] ${className}`}>
-      <div className="absolute inset-0">
+      <div className="pointer-events-none absolute inset-0">
         <Image
           src="/backgrounds/cafe.png"
           alt="Cafe background"
@@ -53,13 +55,23 @@ export const CafeScene = ({
       <div className="pointer-events-none absolute left-[24%] top-[32%] h-1 w-1 rounded-full bg-white/80 opacity-70 animate-subtle-float" />
 
       <div className="relative z-10 flex min-h-screen flex-col">
-        <div className="flex items-center justify-between px-4 pt-4">
-          <Link
-            href="/feed"
-            className="rounded-full bg-black/35 px-3 py-1 text-xs font-semibold text-white/90 backdrop-blur"
-          >
-            ← Back
-          </Link>
+        <div className="relative z-40 pointer-events-auto flex items-center justify-between px-4 pt-4">
+          {onBack ? (
+            <button
+              type="button"
+              onClick={onBack}
+              className="relative z-40 rounded-full bg-black/35 px-3 py-1 text-xs font-semibold text-white/90 backdrop-blur transition hover:bg-black/45"
+            >
+              ← Back
+            </button>
+          ) : (
+            <Link
+              href="/feed"
+              className="relative z-40 rounded-full bg-black/35 px-3 py-1 text-xs font-semibold text-white/90 backdrop-blur"
+            >
+              ← Back
+            </Link>
+          )}
           <div className="flex items-center gap-2 rounded-full bg-black/35 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/80 backdrop-blur">
             <span>Vibe</span>
             <div className="flex items-center gap-1">
@@ -85,7 +97,7 @@ export const CafeScene = ({
 
         <div className="relative flex-1">
           <div className="absolute inset-x-0 bottom-[40%] flex justify-center">
-            <div className="relative h-[80vh] w-[108%] max-w-[780px]">
+            <div className="relative h-[80vh] w-[108%] max-w-[880px]">
               <CharacterSprite
                 src={character.portraitSrc}
                 alt={character.name}
@@ -93,7 +105,7 @@ export const CafeScene = ({
                 priority
               />
               {showBubble ? (
-                <div className="absolute left-1/2 top-[22%] z-20 w-[120%] max-w-[600px] -translate-x-1/2">
+                <div className="absolute left-1/2 bottom-[calc(55%+8px)] z-20 w-[78%] max-w-[420px] -translate-x-1/2">
                   <SpeechBubble
                     text={answerText ?? ""}
                     isTyping={isTyping}

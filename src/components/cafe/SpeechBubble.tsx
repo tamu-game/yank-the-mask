@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-
 type SpeechBubbleProps = {
   text: string;
   isTyping?: boolean;
@@ -27,18 +25,11 @@ export const SpeechBubble = ({
       role="status"
       aria-live="polite"
     >
-      <div className="relative w-full">
-        <div className="relative w-full aspect-[4/3]">
-          <Image
-            src="/bubble/bubble.png"
-            alt=""
-            fill
-            sizes="(max-width: 640px) 70vw, 320px"
-            className="object-contain"
-            priority
-          />
+      <div className="rounded-[18px] border border-white/70 bg-white/85 px-4 py-3 text-sm text-slate-700 shadow-[0_10px_20px_rgba(15,23,42,0.12)] backdrop-blur">
+        <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700/70">
+          Answer
         </div>
-        <div className="absolute inset-0 flex items-center justify-center px-6 pb-6 text-center">
+        <div className="mt-1 translate-y-[-2px]">
           {isTyping ? (
             <div className="flex items-center justify-center gap-1">
               <span className="typing-dot h-2 w-2 rounded-full bg-slate-500/70" />
@@ -54,7 +45,7 @@ export const SpeechBubble = ({
           ) : (
             <span
               key={animateKey ?? text}
-              className="typing-reveal block leading-relaxed"
+              className="typing-reveal block leading-relaxed text-slate-600"
             >
               {text}
             </span>
