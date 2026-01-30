@@ -1,0 +1,30 @@
+.DS_Store
+
+# dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# next.js
+/.next/
+/out/
+
+# production
+/build/
+
+# misc
+.env*
+!.env.example
+.vercel
+.turbo
+.swc
+coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDEs
+.idea/
+.vscode/
+
