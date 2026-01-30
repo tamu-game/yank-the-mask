@@ -136,6 +136,13 @@ body {
   animation: typingDots 1.1s ease-in-out infinite;
 }
 
+.typing-reveal {
+  display: inline-block;
+  max-width: 100%;
+  animation: typingReveal 700ms steps(28, end) both;
+  clip-path: inset(0 100% 0 0);
+}
+
 .bubble-glitch {
   position: relative;
   overflow: hidden;
@@ -184,6 +191,15 @@ body {
   }
 }
 
+@keyframes typingReveal {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
 @keyframes sheetSlideUp {
   0% {
     transform: translateY(14px);
@@ -227,6 +243,7 @@ body {
   .animate-sheet-slide,
   .animate-subtle-float,
   .typing-dot,
+  .typing-reveal,
   .bubble-glitch {
     animation: none !important;
   }

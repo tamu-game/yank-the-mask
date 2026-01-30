@@ -7,13 +7,15 @@ type SpeechBubbleProps = {
   isTyping?: boolean;
   glitch?: boolean;
   className?: string;
+  animateKey?: string | null;
 };
 
 export const SpeechBubble = ({
   text,
   isTyping = false,
   glitch = false,
-  className = ""
+  className = "",
+  animateKey = null
 }: SpeechBubbleProps) => {
   if (!text && !isTyping) return null;
 
@@ -50,7 +52,12 @@ export const SpeechBubble = ({
               />
             </div>
           ) : (
-            <span className="block leading-relaxed">{text}</span>
+            <span
+              key={animateKey ?? text}
+              className="typing-reveal block leading-relaxed"
+            >
+              {text}
+            </span>
           )}
         </div>
       </div>

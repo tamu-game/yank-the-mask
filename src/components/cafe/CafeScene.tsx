@@ -11,6 +11,7 @@ type CafeSceneProps = {
   character: CharacterPreview;
   questionText: string | null;
   answerText: string | null;
+  answerKey?: string | null;
   isTyping: boolean;
   glitch: boolean;
   suspicion: number;
@@ -21,6 +22,7 @@ export const CafeScene = ({
   character,
   questionText,
   answerText,
+  answerKey = null,
   isTyping,
   glitch,
   suspicion,
@@ -96,6 +98,7 @@ export const CafeScene = ({
                     text={answerText ?? ""}
                     isTyping={isTyping}
                     glitch={glitch}
+                    animateKey={answerKey}
                   />
                 </div>
               ) : null}

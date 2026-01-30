@@ -145,6 +145,7 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
   };
 
   const isTyping = Boolean(pendingQuestionId) || typingDelay;
+  const isQuestionTyping = isTyping && Boolean(questionText);
   const answerText = lastTurn?.answerText ?? null;
 
   if (!sessionId) {
@@ -155,6 +156,7 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
           character={character}
           questionText={null}
           answerText={null}
+          answerKey={null}
           isTyping={false}
           glitch={false}
           suspicion={0}
@@ -175,6 +177,7 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
         character={character}
         questionText={null}
         answerText={answerText}
+        answerKey={lastTurnId}
         isTyping={isTyping}
         glitch={glitchActive}
         suspicion={session?.suspicion ?? 0}
@@ -186,7 +189,22 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
               <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700/70">
                 Your note
               </div>
-              <div className="mt-1 leading-relaxed">{questionText}</div>
+              <div className="mt-1 leading-relaxed">
+                <span className={isQuestionTyping ? "typing-reveal" : ""}>{questionText}</span>
+                {isQuestionTyping ? (
+                  <span className="ml-2 inline-flex items-center gap-1 align-baseline">
+                    <span className="typing-dot h-1.5 w-1.5 rounded-full bg-amber-500/70" />
+                    <span
+                      className="typing-dot h-1.5 w-1.5 rounded-full bg-amber-500/70"
+                      style={{ animationDelay: "0.15s" }}
+                    />
+                    <span
+                      className="typing-dot h-1.5 w-1.5 rounded-full bg-amber-500/70"
+                      style={{ animationDelay: "0.3s" }}
+                    />
+                  </span>
+                ) : null}
+              </div>
             </div>
           </div>
         ) : null}

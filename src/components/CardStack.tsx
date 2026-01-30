@@ -101,7 +101,7 @@ export const CardStack = ({ characters, onSwipeLeft, onSwipeRight }: CardStackPr
 
   return (
     <div className="relative w-full max-w-[92%] sm:max-w-[520px] lg:max-w-[560px]">
-      <div className="relative h-[70vh] min-h-[480px] max-h-[560px]">
+      <div className="relative h-[78vh] min-h-[520px] max-h-[720px]">
         {[...stackedCards].reverse().map((card, reverseIndex) => {
           const position = stackedCards.length - 1 - reverseIndex;
           const depth = position;
@@ -129,7 +129,7 @@ export const CardStack = ({ characters, onSwipeLeft, onSwipeRight }: CardStackPr
             <div
               key={card.id}
               className={`absolute inset-0 ${transitionClass} ${
-                isTop ? "pointer-events-auto touch-none select-none" : "pointer-events-none"
+                isTop ? "pointer-events-auto touch-pan-y select-none" : "pointer-events-none"
               }`}
               style={{ ...style, opacity, zIndex: STACK_DEPTH - depth }}
               onPointerDown={isTop ? handlePointerDown : undefined}
