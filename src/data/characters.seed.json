@@ -1,0 +1,100 @@
+[
+  {
+    "id": "harley-quinn",
+    "name": "Harley Quinn",
+    "age": 26,
+    "avatarSeed": "HQ",
+    "tags": ["Chaos", "Roller skates", "Dark humor"],
+    "bio": "Love is messy. So am I. But at least I’m fun.",
+    "profile": {
+      "movies": ["Suicide Squad", "Birds of Prey", "The Dark Knight"],
+      "shows": ["Harley Quinn", "Gotham"],
+      "sports": ["gymnastics", "boxing"],
+      "traits": ["impulsive", "flirty", "unpredictable"]
+    }
+  },
+  {
+    "id": "spider-man",
+    "name": "Peter Parker",
+    "age": 23,
+    "avatarSeed": "PP",
+    "tags": ["Photography", "Science", "Awkward jokes"],
+    "bio": "Friendly neighborhood overthinker.",
+    "profile": {
+      "movies": ["Spider-Man", "Spider-Man 2", "Spider-Man: No Way Home"],
+      "shows": ["What If...?"],
+      "sports": ["parkour", "climbing"],
+      "traits": ["kind", "self-sacrificing", "nerdy"]
+    }
+  },
+  {
+    "id": "wanda-maximoff",
+    "name": "Wanda Maximoff",
+    "age": 28,
+    "avatarSeed": "WM",
+    "tags": ["Reality bending", "Classic sitcoms", "Grief"],
+    "bio": "I just want a quiet life. Reality disagrees.",
+    "profile": {
+      "movies": ["Avengers: Infinity War", "Avengers: Endgame"],
+      "shows": ["WandaVision"],
+      "sports": ["meditation", "yoga"],
+      "traits": ["emotional", "powerful", "protective"]
+    }
+  },
+  {
+    "id": "john-wick",
+    "name": "John Wick",
+    "age": 40,
+    "avatarSeed": "JW",
+    "tags": ["Dogs", "Classic cars", "Silence"],
+    "bio": "I’m thinking I’m back.",
+    "profile": {
+      "movies": ["John Wick", "John Wick: Chapter 2", "John Wick: Chapter 4"],
+      "shows": [],
+      "sports": ["shooting", "martial arts"],
+      "traits": ["stoic", "loyal", "dangerous"]
+    }
+  },
+  {
+    "id": "daenerys-targaryen",
+    "name": "Daenerys Targaryen",
+    "age": 25,
+    "avatarSeed": "DT",
+    "tags": ["Dragons", "Power", "Destiny"],
+    "bio": "I don’t want the throne. I deserve it.",
+    "profile": {
+      "movies": [],
+      "shows": ["Game of Thrones"],
+      "sports": ["horse riding"],
+      "traits": ["ambitious", "charismatic", "intense"]
+    }
+  },
+  {
+    "id": "deadpool",
+    "name": "Deadpool",
+    "age": 30,
+    "avatarSeed": "DP",
+    "tags": ["Breaking the 4th wall", "Tacos", "Sarcasm"],
+    "bio": "You’re probably wondering how I got this profile.",
+    "profile": {
+      "movies": ["Deadpool", "Deadpool 2"],
+      "shows": [],
+      "sports": ["parkour", "fencing"],
+      "traits": ["chaotic", "funny", "self-aware"]
+    }
+  },
+  {
+    "id": "loki",
+    "name": "Loki Laufeyson",
+    "age": 29,
+    "avatarSeed": "LO",
+    "tags": ["Mischief", "Illusions", "Sibling rivalry"],
+    "bio": "I am burdened with glorious purpose.",
+    "profile": {
+      "movies": ["Thor", "Avengers"],
+      "shows": ["Loki"],
+      "sports": ["dagger throwing"],
+      "traits": ["manipulative", "charming", "intelligent"]
+    }
+  }
+]

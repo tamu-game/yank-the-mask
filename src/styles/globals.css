@@ -1,0 +1,240 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply text-slate-900 antialiased;
+  background: linear-gradient(180deg, #fff6ec 0%, #fdf2ff 45%, #fff7ed 100%);
+  min-height: 100%;
+}
+
+.glitch {
+  position: relative;
+  animation: glitch 1.6s infinite;
+}
+
+@keyframes glitch {
+  0%,
+  100% {
+    text-shadow: 0 0 0 rgba(244, 114, 182, 0.25);
+  }
+  50% {
+    text-shadow: 1px 0 rgba(45, 212, 191, 0.35), -1px 0 rgba(244, 114, 182, 0.35);
+  }
+}
+
+.bubble-pop {
+  animation: bubble-pop 220ms ease-out;
+}
+
+
+.sticker-tag {
+  @apply inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold tracking-wide ring-1 shadow-sm;
+}
+
+.note-card {
+  @apply rounded-2xl border-2 border-white/80 bg-white/90 px-4 py-3 shadow-lg;
+  box-shadow: 0 14px 30px rgba(251, 113, 133, 0.18);
+}
+
+.notebook-panel {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(253, 230, 255, 0.4) 0px,
+    rgba(253, 230, 255, 0.4) 1px,
+    transparent 1px,
+    transparent 18px
+  );
+}
+
+.steam {
+  position: absolute;
+  inset: -8px;
+}
+
+.steam::before,
+.steam::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 10px;
+  height: 22px;
+  border-radius: 999px;
+  border: 2px solid rgba(148, 163, 184, 0.5);
+  border-color: rgba(148, 163, 184, 0.5) transparent transparent transparent;
+  transform: translateX(-50%);
+  animation: steam 2.4s ease-in-out infinite;
+}
+
+.steam::after {
+  left: 40%;
+  height: 18px;
+  animation-delay: 0.4s;
+}
+
+.animate-float {
+  animation: floaty 3.5s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: floaty 5s ease-in-out infinite;
+}
+
+@keyframes bubble-pop {
+  0% {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(-8px);
+    opacity: 1;
+  }
+}
+
+@keyframes steam {
+  0%,
+  100% {
+    transform: translate(-50%, 0) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(-50%, -6px) scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+.animate-bubble-pop {
+  animation: bubblePop 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.animate-sheet-slide {
+  animation: sheetSlideUp 380ms ease-out;
+}
+
+.animate-subtle-float {
+  animation: subtleFloat 4.5s ease-in-out infinite;
+}
+
+.typing-dot {
+  animation: typingDots 1.1s ease-in-out infinite;
+}
+
+.bubble-glitch {
+  position: relative;
+  overflow: hidden;
+  animation: bubbleGlitch 250ms ease-in-out;
+}
+
+.bubble-glitch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    -4deg,
+    rgba(15, 23, 42, 0.08),
+    rgba(15, 23, 42, 0.08) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+@keyframes bubblePop {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes typingDots {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+@keyframes sheetSlideUp {
+  0% {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes subtleFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateY(-6px);
+    opacity: 1;
+  }
+}
+
+@keyframes bubbleGlitch {
+  0% {
+    transform: translateX(0) skewX(0deg);
+  }
+  40% {
+    transform: translateX(-2px) skewX(-2deg);
+  }
+  70% {
+    transform: translateX(2px) skewX(1deg);
+  }
+  100% {
+    transform: translateX(0) skewX(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-bubble-pop,
+  .animate-sheet-slide,
+  .animate-subtle-float,
+  .typing-dot,
+  .bubble-glitch {
+    animation: none !important;
+  }
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

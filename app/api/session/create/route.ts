@@ -1,0 +1,50 @@
+import { NextRequest, NextResponse } from "next/server";
+import { createSessionSchema } from "@/validation/schemas";
+import { charactersById } from "@/data/characters";
+import { memoryStore } from "@/store/memoryStore";
+import { createSeed, createSeededRng } from "@/lib/rng";
+import { gameConfig } from "@/lib/config";
+import type { Session } from "@/types/game";
+
+export const runtime = "nodejs";
+
+const jsonError = (message: string, status = 400, code = "bad_request") => {
+  return NextResponse.json({ error: { code, message } }, { status });
+};
+
+export async function POST(request: NextRequest) {
+  const body = await request.json().catch(() => null);
+  const parsed = createSessionSchema.safeParse(body);
+  if (!parsed.success) {
+    return jsonError("Invalid request body.");
+  }
+
+  const { characterId } = parsed.data;
+  const character = charactersById.get(characterId);
+  if (!character) {
+    return jsonError("Character not found.", 404, "not_found");
+  }
+
+  const seed = createSeed();
+  const rng = createSeededRng(seed);
+  const isAlien = rng() < gameConfig.alienChance;
+
+  const session: Session = {
+    id: crypto.randomUUID(),
+    seed,
+    characterId,
+    isAlien,
+    askedQuestionIds: [],
+    turns: [],
+    suspicion: 0,
+    status: "in_progress",
+    finalDecision: null,
+    finalOutcome: null,
+    score: 0,
+    scoreBreakdown: null
+  };
+
+  await memoryStore.createSession(session);
+
+  return NextResponse.json({ sessionId: session.id });
+}
