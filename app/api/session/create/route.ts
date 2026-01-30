@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createSessionSchema } from "@/validation/schemas";
 import { charactersById } from "@/data/characters";
 import { memoryStore } from "@/store/memoryStore";
-import { createSeed, createSeededRng } from "@/lib/rng";
-import { gameConfig } from "@/lib/config";
+import { createSeed } from "@/lib/rng";
 import type { Session } from "@/types/game";
 
 export const runtime = "nodejs";
@@ -26,17 +25,15 @@ export async function POST(request: NextRequest) {
   }
 
   const seed = createSeed();
-  const rng = createSeededRng(seed);
-  const isAlien = rng() < gameConfig.alienChance;
-
   const session: Session = {
     id: crypto.randomUUID(),
     seed,
     characterId,
-    isAlien,
+    isAlien: false,
     askedQuestionIds: [],
     turns: [],
     suspicion: 0,
+    totalQuestions: character.questions.length,
     status: "in_progress",
     finalDecision: null,
     finalOutcome: null,

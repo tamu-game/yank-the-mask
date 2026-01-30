@@ -1,26 +1,20 @@
-export type AnswerChoice = 1 | 2 | 3 | 4 | 5;
+export type AnswerChoice = 1 | 2 | 3 | 4;
 
 export type AnswerOption = {
   text: string;
-  weight: number;
+  suspicion: 0 | 1 | 2 | 3;
 };
 
 export type Question = {
   id: string;
   prompt: string;
   answers: AnswerOption[];
+  answerIndex: AnswerChoice;
 };
 
 export type QuestionPrompt = {
   id: string;
   prompt: string;
-};
-
-export type CharacterProfile = {
-  movies: string[];
-  shows: string[];
-  sports: string[];
-  traits: string[];
 };
 
 export type Character = {
@@ -31,7 +25,7 @@ export type Character = {
   portraitSrc: string;
   tags: string[];
   bio: string;
-  profile: CharacterProfile;
+  traits: string[];
   questions: Question[];
 };
 
@@ -43,6 +37,7 @@ export type CharacterPreview = {
   portraitSrc: string;
   tags: string[];
   bio: string;
+  traits: string[];
 };
 
 export type CharacterPublic = CharacterPreview & {
@@ -83,6 +78,7 @@ export type Session = {
   askedQuestionIds: string[];
   turns: TurnLog[];
   suspicion: number;
+  totalQuestions: number;
   status: SessionStatus;
   finalDecision: FinalDecision;
   finalOutcome: FinalOutcome;

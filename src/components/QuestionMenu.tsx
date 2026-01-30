@@ -1,7 +1,6 @@
 "use client";
 
 import type { QuestionPrompt } from "@/types/game";
-import { gameConfig } from "@/lib/config";
 
 type QuestionMenuProps = {
   questions: QuestionPrompt[];
@@ -18,7 +17,7 @@ export const QuestionMenu = ({
   onAsk,
   disabled
 }: QuestionMenuProps) => {
-  const questionsLeft = Math.max(0, gameConfig.totalQuestions - askedIds.length);
+  const questionsLeft = Math.max(0, questions.length - askedIds.length);
 
   return (
     <div className="notebook-panel rounded-[28px] border-2 border-white/80 bg-white/80 p-4 shadow-xl">

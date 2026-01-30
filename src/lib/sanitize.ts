@@ -6,8 +6,8 @@ export const sanitizeSession = (session: Session): SessionPublic => {
 };
 
 export const getCharacterPreview = (character: Character): CharacterPreview => {
-  const { id, name, age, avatarSeed, portraitSrc, tags, bio } = character;
-  return { id, name, age, avatarSeed, portraitSrc, tags, bio };
+  const { id, name, age, avatarSeed, portraitSrc, tags, bio, traits } = character;
+  return { id, name, age, avatarSeed, portraitSrc, tags, bio, traits };
 };
 
 export const getCharacterPublic = (character: Character): CharacterPublic => {

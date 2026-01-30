@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { decideSchema } from "@/validation/schemas";
 import { memoryStore } from "@/store/memoryStore";
 import { calculateScore } from "@/lib/scoring";
+import { isAlienFromSuspicion } from "@/lib/suspicion";
 
 export const runtime = "nodejs";
 
@@ -32,16 +33,17 @@ export async function POST(
   }
 
   const { decision } = parsed.data;
+  const isAlien = isAlienFromSuspicion(session.suspicion);
   const isWin =
-    (decision === "accuse" && session.isAlien) ||
-    (decision === "trust" && !session.isAlien);
+    (decision === "accuse" && isAlien) || (decision === "trust" && !isAlien);
 
   const outcome = isWin ? "win" : "lose";
   const breakdown = calculateScore({
     isWin,
     decision,
-    isAlien: session.isAlien,
+    isAlien,
     questionsAsked: session.askedQuestionIds.length,
+    totalQuestions: session.totalQuestions,
     suspicion: session.suspicion
   });
 
@@ -50,6 +52,7 @@ export async function POST(
   session.finalOutcome = outcome;
   session.score = breakdown.total;
   session.scoreBreakdown = breakdown;
+  session.isAlien = isAlien;
 
   await memoryStore.updateSession(session);
 

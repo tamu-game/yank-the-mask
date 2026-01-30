@@ -24,17 +24,6 @@ const pickFrom = (pool: string[], count: number, seed: number) => {
   return picks;
 };
 
-const EXTRA_TRAITS = [
-  "warm",
-  "clever",
-  "independent",
-  "romantic",
-  "grounded",
-  "bold",
-  "dreamy",
-  "thoughtful"
-];
-
 const LIKE_POOL = [
   "late-night cafes",
   "street food",
@@ -104,9 +93,7 @@ export const ProfileCard = ({ character }: { character: CharacterPreview }) => {
   const dislikes = pickFrom(DISLIKE_POOL, 2, detailSeed + 6);
   const quirks = pickFrom(QUIRK_POOL, 2, detailSeed + 11);
   const hangout = pickFrom(HANGOUT_POOL, 1, detailSeed + 9)[0];
-  const personality = Array.from(
-    new Set([...character.tags, ...pickFrom(EXTRA_TRAITS, 2, detailSeed + 4)])
-  ).slice(0, 5);
+  const personality = character.traits.slice(0, 5);
   const shortDescriptor = character.tags[0] ?? "New face";
   const observation = character.tags[1]
     ? `Moves like a ${character.tags[1]} rumor.`

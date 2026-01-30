@@ -1,6 +1,6 @@
 export const gameConfig = {
-  totalQuestions: 10,
   alienChance: 0.45,
+  alienSuspicionThreshold: 12,
   streakLimit: 3,
   maxObviousLies: 1,
   minNonPerfectByEnd: 2,

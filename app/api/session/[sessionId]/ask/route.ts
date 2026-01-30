@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { askQuestionSchema } from "@/validation/schemas";
 import { charactersById } from "@/data/characters";
 import { memoryStore } from "@/store/memoryStore";
-import { decideAlienAnswer, updateSuspicion } from "@/lib/alienBrain";
+import { addSuspicion, isAlienFromSuspicion } from "@/lib/suspicion";
 import { nowIso } from "@/lib/time";
 import type { AnswerChoice, TurnLog } from "@/types/game";
 
@@ -46,22 +46,11 @@ export async function POST(
   }
 
   const suspicionBefore = session.suspicion;
-  let answerChoice: AnswerChoice = 1;
-  let glitchChance = 0;
-
-  if (session.isAlien) {
-    const decision = decideAlienAnswer({
-      seed: session.seed,
-      questionId,
-      previousTurns: session.turns,
-      suspicion: session.suspicion
-    });
-    answerChoice = decision.choice;
-    glitchChance = decision.glitchChance;
-  }
-
-  const answerText = question.answers[answerChoice - 1]?.text ?? question.answers[0].text;
-  const suspicionAfter = updateSuspicion(suspicionBefore, answerChoice);
+  const answerChoice: AnswerChoice = question.answerIndex;
+  const answer = question.answers[answerChoice - 1] ?? question.answers[0];
+  const answerText = answer.text;
+  const suspicionAfter = addSuspicion(suspicionBefore, answer.suspicion);
+  const glitchChance = 0;
 
   const turn: TurnLog = {
     id: crypto.randomUUID(),
@@ -78,6 +67,7 @@ export async function POST(
   session.askedQuestionIds = [...session.askedQuestionIds, questionId];
   session.turns = [...session.turns, turn];
   session.suspicion = suspicionAfter;
+  session.isAlien = isAlienFromSuspicion(suspicionAfter);
 
   await memoryStore.updateSession(session);
 

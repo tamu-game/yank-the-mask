@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { memoryStore } from "@/store/memoryStore";
-import { createSeed, createSeededRng } from "@/lib/rng";
-import { gameConfig } from "@/lib/config";
+import { createSeed } from "@/lib/rng";
 import type { Session } from "@/types/game";
 
 export const runtime = "nodejs";
@@ -22,17 +21,15 @@ export async function POST(_: Request, { params }: { params: { sessionId: string
   }
 
   const seed = createSeed();
-  const rng = createSeededRng(seed);
-  const isAlien = rng() < gameConfig.alienChance;
-
   const newSession: Session = {
     id: crypto.randomUUID(),
     seed,
     characterId: session.characterId,
-    isAlien,
+    isAlien: false,
     askedQuestionIds: [],
     turns: [],
     suspicion: 0,
+    totalQuestions: session.totalQuestions,
     status: "in_progress",
     finalDecision: null,
     finalOutcome: null,

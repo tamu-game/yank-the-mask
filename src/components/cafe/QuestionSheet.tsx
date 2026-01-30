@@ -1,7 +1,6 @@
 "use client";
 
 import type { QuestionPrompt } from "@/types/game";
-import { gameConfig } from "@/lib/config";
 
 type QuestionSheetProps = {
   questions: QuestionPrompt[];
@@ -24,7 +23,7 @@ export const QuestionSheet = ({
   collapsed = false,
   onToggle
 }: QuestionSheetProps) => {
-  const questionsLeft = Math.max(0, gameConfig.totalQuestions - askedIds.length);
+  const questionsLeft = Math.max(0, questions.length - askedIds.length);
   const isCollapsed = collapsed;
 
   return (
