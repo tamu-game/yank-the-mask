@@ -1,19 +1,17 @@
-export type AnswerChoice = 1 | 2 | 3 | 4 | 5;
+export type AnswerChoice = 1 | 2 | 3 | 4;
 
-export type AnswerOption = {
-  text: string;
-  weight: number;
-};
+export type QuestionType = "choice";
 
 export type Question = {
   id: string;
-  prompt: string;
-  answers: AnswerOption[];
+  text: string;
+  type: QuestionType;
+  options: string[];
+  correctAnswer: string;
 };
 
-export type QuestionPrompt = {
-  id: string;
-  prompt: string;
+export type QuestionPublic = Omit<Question, "correctAnswer"> & {
+  prompt?: string;
 };
 
 export type CharacterProfile = {
@@ -46,7 +44,7 @@ export type CharacterPreview = {
 };
 
 export type CharacterPublic = CharacterPreview & {
-  questions: QuestionPrompt[];
+  questions: QuestionPublic[];
 };
 
 export type TurnLog = {

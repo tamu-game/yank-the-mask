@@ -11,7 +11,79 @@
       "shows": ["Harley Quinn", "Gotham"],
       "sports": ["gymnastics", "boxing"],
       "traits": ["impulsive", "flirty", "unpredictable"]
-    }
+    },
+    "questions": [
+      {
+        "id": "harley-quinn_q1",
+        "text": "What's my favorite kind of chaos on a date?",
+        "type": "choice",
+        "options": ["Playful banter", "Strict rules", "Silent treatment", "Formal etiquette"],
+        "correctAnswer": "Playful banter"
+      },
+      {
+        "id": "harley-quinn_q2",
+        "text": "Which accessory do I always keep close?",
+        "type": "choice",
+        "options": ["Baseball bat", "Tea set", "Law book", "Crystal tiara"],
+        "correctAnswer": "Baseball bat"
+      },
+      {
+        "id": "harley-quinn_q3",
+        "text": "My go-to soundtrack vibe?",
+        "type": "choice",
+        "options": ["Punk rock", "Classical", "Smooth jazz"],
+        "correctAnswer": "Punk rock"
+      },
+      {
+        "id": "harley-quinn_q4",
+        "text": "Pick my ideal late-night snack.",
+        "type": "choice",
+        "options": ["Tacos", "Cupcakes", "Sushi", "Salad"],
+        "correctAnswer": "Tacos"
+      },
+      {
+        "id": "harley-quinn_q5",
+        "text": "What would I rather do on a weekend?",
+        "type": "choice",
+        "options": ["Skate at the rink", "Meditate quietly", "Gardening"],
+        "correctAnswer": "Skate at the rink"
+      },
+      {
+        "id": "harley-quinn_q6",
+        "text": "My soft spot is for...",
+        "type": "choice",
+        "options": ["Stray animals", "Board games", "Fine wine", "Opera"],
+        "correctAnswer": "Stray animals"
+      },
+      {
+        "id": "harley-quinn_q7",
+        "text": "I trust someone who is...",
+        "type": "choice",
+        "options": ["Bold", "Always polite", "Never jokes"],
+        "correctAnswer": "Bold"
+      },
+      {
+        "id": "harley-quinn_q8",
+        "text": "Which city vibe fits me most?",
+        "type": "choice",
+        "options": ["Gotham nights", "Suburban calm", "Beach retreat"],
+        "correctAnswer": "Gotham nights"
+      },
+      {
+        "id": "harley-quinn_q9",
+        "text": "When I'm stressed, I...",
+        "type": "choice",
+        "options": ["Crack a joke", "Disappear quietly", "Write poetry"],
+        "correctAnswer": "Crack a joke"
+      },
+      {
+        "id": "harley-quinn_q10",
+        "text": "My guilty pleasure show?",
+        "type": "choice",
+        "options": ["Cartoons", "Finance news", "Cooking competitions"],
+        "correctAnswer": "Cartoons"
+      }
+    ]
   },
   {
     "id": "spider-man",
@@ -25,7 +97,79 @@
       "shows": ["What If...?"],
       "sports": ["parkour", "climbing"],
       "traits": ["kind", "self-sacrificing", "nerdy"]
-    }
+    },
+    "questions": [
+      {
+        "id": "spider-man_q1",
+        "text": "What do I never leave home without?",
+        "type": "choice",
+        "options": ["Camera", "Crown", "Sword", "Guitar"],
+        "correctAnswer": "Camera"
+      },
+      {
+        "id": "spider-man_q2",
+        "text": "My ideal date is...",
+        "type": "choice",
+        "options": ["Swinging across rooftops", "Luxury spa day", "Deep sea dive"],
+        "correctAnswer": "Swinging across rooftops"
+      },
+      {
+        "id": "spider-man_q3",
+        "text": "Which subject do I geek out about?",
+        "type": "choice",
+        "options": ["Physics", "Fashion", "Cooking", "History"],
+        "correctAnswer": "Physics"
+      },
+      {
+        "id": "spider-man_q4",
+        "text": "My favorite NYC snack?",
+        "type": "choice",
+        "options": ["Pizza slice", "Caviar", "Steak"],
+        "correctAnswer": "Pizza slice"
+      },
+      {
+        "id": "spider-man_q5",
+        "text": "If I'm late, it's because of...",
+        "type": "choice",
+        "options": ["Helping someone", "Traffic", "Oversleeping"],
+        "correctAnswer": "Helping someone"
+      },
+      {
+        "id": "spider-man_q6",
+        "text": "My biggest weakness?",
+        "type": "choice",
+        "options": ["Overthinking", "Hate of coffee", "Fear of music"],
+        "correctAnswer": "Overthinking"
+      },
+      {
+        "id": "spider-man_q7",
+        "text": "Which suit color would I pick?",
+        "type": "choice",
+        "options": ["Red and blue", "All white", "Neon green"],
+        "correctAnswer": "Red and blue"
+      },
+      {
+        "id": "spider-man_q8",
+        "text": "Weekend hobby?",
+        "type": "choice",
+        "options": ["Photography", "Golf", "Knitting"],
+        "correctAnswer": "Photography"
+      },
+      {
+        "id": "spider-man_q9",
+        "text": "What makes me smile most?",
+        "type": "choice",
+        "options": ["Bad jokes", "Gold jewelry", "Silence"],
+        "correctAnswer": "Bad jokes"
+      },
+      {
+        "id": "spider-man_q10",
+        "text": "My dream team-up is with...",
+        "type": "choice",
+        "options": ["Friendly neighbors", "Corporate executives", "Reality TV stars"],
+        "correctAnswer": "Friendly neighbors"
+      }
+    ]
   },
   {
     "id": "wanda-maximoff",
@@ -39,7 +183,79 @@
       "shows": ["WandaVision"],
       "sports": ["meditation", "yoga"],
       "traits": ["emotional", "powerful", "protective"]
-    }
+    },
+    "questions": [
+      {
+        "id": "wanda-maximoff_q1",
+        "text": "My comfort evening is...",
+        "type": "choice",
+        "options": ["Old sitcoms", "Loud parties", "Amusement parks"],
+        "correctAnswer": "Old sitcoms"
+      },
+      {
+        "id": "wanda-maximoff_q2",
+        "text": "When I'm focused, I prefer...",
+        "type": "choice",
+        "options": ["Silence", "Crowds", "Bright lights"],
+        "correctAnswer": "Silence"
+      },
+      {
+        "id": "wanda-maximoff_q3",
+        "text": "My power color?",
+        "type": "choice",
+        "options": ["Red", "Green", "Blue"],
+        "correctAnswer": "Red"
+      },
+      {
+        "id": "wanda-maximoff_q4",
+        "text": "I value most in a partner...",
+        "type": "choice",
+        "options": ["Loyalty", "Fame", "Money"],
+        "correctAnswer": "Loyalty"
+      },
+      {
+        "id": "wanda-maximoff_q5",
+        "text": "My favorite escape?",
+        "type": "choice",
+        "options": ["A quiet cabin", "Club hopping", "Shopping mall"],
+        "correctAnswer": "A quiet cabin"
+      },
+      {
+        "id": "wanda-maximoff_q6",
+        "text": "When I miss someone, I...",
+        "type": "choice",
+        "options": ["Rewatch memories", "Ignore it", "Travel abroad"],
+        "correctAnswer": "Rewatch memories"
+      },
+      {
+        "id": "wanda-maximoff_q7",
+        "text": "Which tea would I pick?",
+        "type": "choice",
+        "options": ["Chamomile", "Energy drink", "Espresso"],
+        "correctAnswer": "Chamomile"
+      },
+      {
+        "id": "wanda-maximoff_q8",
+        "text": "My ideal date activity?",
+        "type": "choice",
+        "options": ["Stargazing", "Arcade games", "Speed racing"],
+        "correctAnswer": "Stargazing"
+      },
+      {
+        "id": "wanda-maximoff_q9",
+        "text": "I feel safe when...",
+        "type": "choice",
+        "options": ["Home is calm", "It's chaotic", "Everyone is loud"],
+        "correctAnswer": "Home is calm"
+      },
+      {
+        "id": "wanda-maximoff_q10",
+        "text": "Which word fits me?",
+        "type": "choice",
+        "options": ["Protective", "Careless", "Greedy"],
+        "correctAnswer": "Protective"
+      }
+    ]
   },
   {
     "id": "john-wick",
@@ -53,7 +269,79 @@
       "shows": [],
       "sports": ["shooting", "martial arts"],
       "traits": ["stoic", "loyal", "dangerous"]
-    }
+    },
+    "questions": [
+      {
+        "id": "john-wick_q1",
+        "text": "My favorite companion?",
+        "type": "choice",
+        "options": ["Dog", "Parrot", "Snake"],
+        "correctAnswer": "Dog"
+      },
+      {
+        "id": "john-wick_q2",
+        "text": "On a date, I prefer...",
+        "type": "choice",
+        "options": ["Quiet conversation", "Karaoke", "Dancing"],
+        "correctAnswer": "Quiet conversation"
+      },
+      {
+        "id": "john-wick_q3",
+        "text": "What do I drive?",
+        "type": "choice",
+        "options": ["Classic car", "Motor scooter", "Bicycle"],
+        "correctAnswer": "Classic car"
+      },
+      {
+        "id": "john-wick_q4",
+        "text": "My guilty pleasure?",
+        "type": "choice",
+        "options": ["Piano music", "Reality TV", "Stand-up comedy"],
+        "correctAnswer": "Piano music"
+      },
+      {
+        "id": "john-wick_q5",
+        "text": "I show respect by...",
+        "type": "choice",
+        "options": ["Keeping my word", "Talking a lot", "Showing off"],
+        "correctAnswer": "Keeping my word"
+      },
+      {
+        "id": "john-wick_q6",
+        "text": "My patience is...",
+        "type": "choice",
+        "options": ["Short", "Endless", "Nonexistent"],
+        "correctAnswer": "Short"
+      },
+      {
+        "id": "john-wick_q7",
+        "text": "I train best with...",
+        "type": "choice",
+        "options": ["Discipline", "Distractions", "Crowds"],
+        "correctAnswer": "Discipline"
+      },
+      {
+        "id": "john-wick_q8",
+        "text": "My ideal weekend?",
+        "type": "choice",
+        "options": ["A quiet garage", "Busy festival", "Beach party"],
+        "correctAnswer": "A quiet garage"
+      },
+      {
+        "id": "john-wick_q9",
+        "text": "I never forgive...",
+        "type": "choice",
+        "options": ["Betrayal", "Bad jokes", "Spilled coffee"],
+        "correctAnswer": "Betrayal"
+      },
+      {
+        "id": "john-wick_q10",
+        "text": "My style is...",
+        "type": "choice",
+        "options": ["Minimal", "Flashy", "Colorful"],
+        "correctAnswer": "Minimal"
+      }
+    ]
   },
   {
     "id": "daenerys-targaryen",
@@ -67,7 +355,79 @@
       "shows": ["Game of Thrones"],
       "sports": ["horse riding"],
       "traits": ["ambitious", "charismatic", "intense"]
-    }
+    },
+    "questions": [
+      {
+        "id": "daenerys-targaryen_q1",
+        "text": "My greatest companion?",
+        "type": "choice",
+        "options": ["Dragons", "Horses", "Wolves"],
+        "correctAnswer": "Dragons"
+      },
+      {
+        "id": "daenerys-targaryen_q2",
+        "text": "I believe a leader should be...",
+        "type": "choice",
+        "options": ["Just", "Selfish", "Indifferent"],
+        "correctAnswer": "Just"
+      },
+      {
+        "id": "daenerys-targaryen_q3",
+        "text": "My dream is to...",
+        "type": "choice",
+        "options": ["Break the wheel", "Retire early", "Hide forever"],
+        "correctAnswer": "Break the wheel"
+      },
+      {
+        "id": "daenerys-targaryen_q4",
+        "text": "On a date, I prefer...",
+        "type": "choice",
+        "options": ["Honesty", "Games", "Silence"],
+        "correctAnswer": "Honesty"
+      },
+      {
+        "id": "daenerys-targaryen_q5",
+        "text": "Which place feels like home?",
+        "type": "choice",
+        "options": ["The open sky", "Small apartment", "Deep forest"],
+        "correctAnswer": "The open sky"
+      },
+      {
+        "id": "daenerys-targaryen_q6",
+        "text": "My biggest strength?",
+        "type": "choice",
+        "options": ["Determination", "Fear", "Doubt"],
+        "correctAnswer": "Determination"
+      },
+      {
+        "id": "daenerys-targaryen_q7",
+        "text": "I admire people who are...",
+        "type": "choice",
+        "options": ["Brave", "Lazy", "Cruel"],
+        "correctAnswer": "Brave"
+      },
+      {
+        "id": "daenerys-targaryen_q8",
+        "text": "My favorite ride?",
+        "type": "choice",
+        "options": ["Horse", "Train", "Bicycle"],
+        "correctAnswer": "Horse"
+      },
+      {
+        "id": "daenerys-targaryen_q9",
+        "text": "I trust someone who...",
+        "type": "choice",
+        "options": ["Keeps promises", "Lies often", "Avoids responsibility"],
+        "correctAnswer": "Keeps promises"
+      },
+      {
+        "id": "daenerys-targaryen_q10",
+        "text": "My symbol is...",
+        "type": "choice",
+        "options": ["Fire", "Ice", "Water"],
+        "correctAnswer": "Fire"
+      }
+    ]
   },
   {
     "id": "deadpool",
@@ -81,7 +441,79 @@
       "shows": [],
       "sports": ["parkour", "fencing"],
       "traits": ["chaotic", "funny", "self-aware"]
-    }
+    },
+    "questions": [
+      {
+        "id": "deadpool_q1",
+        "text": "My favorite food?",
+        "type": "choice",
+        "options": ["Tacos", "Salad", "Caviar"],
+        "correctAnswer": "Tacos"
+      },
+      {
+        "id": "deadpool_q2",
+        "text": "My humor style?",
+        "type": "choice",
+        "options": ["Fourth-wall jokes", "Formal speeches", "Silent mime"],
+        "correctAnswer": "Fourth-wall jokes"
+      },
+      {
+        "id": "deadpool_q3",
+        "text": "If I had a theme song, it'd be...",
+        "type": "choice",
+        "options": ["80s pop", "Classical", "Ambient"],
+        "correctAnswer": "80s pop"
+      },
+      {
+        "id": "deadpool_q4",
+        "text": "My ideal date?",
+        "type": "choice",
+        "options": ["Chaotic fun", "Silent museum", "Board meeting"],
+        "correctAnswer": "Chaotic fun"
+      },
+      {
+        "id": "deadpool_q5",
+        "text": "I can't resist...",
+        "type": "choice",
+        "options": ["Sarcasm", "Etiquette", "Small talk"],
+        "correctAnswer": "Sarcasm"
+      },
+      {
+        "id": "deadpool_q6",
+        "text": "My training style?",
+        "type": "choice",
+        "options": ["Improvised", "Strict routine", "No training"],
+        "correctAnswer": "Improvised"
+      },
+      {
+        "id": "deadpool_q7",
+        "text": "Pick my sidekick.",
+        "type": "choice",
+        "options": ["Cable", "Accountant", "Librarian"],
+        "correctAnswer": "Cable"
+      },
+      {
+        "id": "deadpool_q8",
+        "text": "My secret talent?",
+        "type": "choice",
+        "options": ["Swordplay", "Baking", "Origami"],
+        "correctAnswer": "Swordplay"
+      },
+      {
+        "id": "deadpool_q9",
+        "text": "I would break the rules to...",
+        "type": "choice",
+        "options": ["Save a friend", "Get a discount", "Win a trophy"],
+        "correctAnswer": "Save a friend"
+      },
+      {
+        "id": "deadpool_q10",
+        "text": "My favorite hangout?",
+        "type": "choice",
+        "options": ["Food truck", "Luxury lounge", "Yoga studio"],
+        "correctAnswer": "Food truck"
+      }
+    ]
   },
   {
     "id": "loki",
@@ -95,6 +527,78 @@
       "shows": ["Loki"],
       "sports": ["dagger throwing"],
       "traits": ["manipulative", "charming", "intelligent"]
-    }
+    },
+    "questions": [
+      {
+        "id": "loki_q1",
+        "text": "My favorite pastime?",
+        "type": "choice",
+        "options": ["Mischief", "Gardening", "Fishing"],
+        "correctAnswer": "Mischief"
+      },
+      {
+        "id": "loki_q2",
+        "text": "I prefer my plans to be...",
+        "type": "choice",
+        "options": ["Clever", "Simple", "Predictable"],
+        "correctAnswer": "Clever"
+      },
+      {
+        "id": "loki_q3",
+        "text": "My best weapon?",
+        "type": "choice",
+        "options": ["Illusions", "Hammer", "Bow"],
+        "correctAnswer": "Illusions"
+      },
+      {
+        "id": "loki_q4",
+        "text": "I value...",
+        "type": "choice",
+        "options": ["Freedom", "Obedience", "Silence"],
+        "correctAnswer": "Freedom"
+      },
+      {
+        "id": "loki_q5",
+        "text": "My ideal throne?",
+        "type": "choice",
+        "options": ["Any throne", "No throne", "Office chair"],
+        "correctAnswer": "Any throne"
+      },
+      {
+        "id": "loki_q6",
+        "text": "I trust...",
+        "type": "choice",
+        "options": ["Myself", "Everyone", "No one"],
+        "correctAnswer": "Myself"
+      },
+      {
+        "id": "loki_q7",
+        "text": "My favorite color?",
+        "type": "choice",
+        "options": ["Green", "Orange", "Pink"],
+        "correctAnswer": "Green"
+      },
+      {
+        "id": "loki_q8",
+        "text": "A good partner is...",
+        "type": "choice",
+        "options": ["Witty", "Boring", "Clueless"],
+        "correctAnswer": "Witty"
+      },
+      {
+        "id": "loki_q9",
+        "text": "I win by...",
+        "type": "choice",
+        "options": ["Outsmarting", "Brute force", "Running away"],
+        "correctAnswer": "Outsmarting"
+      },
+      {
+        "id": "loki_q10",
+        "text": "My mood when challenged?",
+        "type": "choice",
+        "options": ["Smirk", "Cry", "Freeze"],
+        "correctAnswer": "Smirk"
+      }
+    ]
   }
 ]

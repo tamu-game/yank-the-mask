@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { askQuestionSchema } from "@/validation/schemas";
-import { charactersById } from "@/data/characters";
+import { getCharacterById } from "@/data/characters";
 import { memoryStore } from "@/store/memoryStore";
 import { decideAlienAnswer, updateSuspicion } from "@/lib/alienBrain";
 import { nowIso } from "@/lib/time";
@@ -30,7 +30,7 @@ export async function POST(
     return jsonError("Session has ended.", 409, "conflict");
   }
 
-  const character = charactersById.get(session.characterId);
+  const character = getCharacterById(session.characterId);
   if (!character) {
     return jsonError("Character not found.", 404, "not_found");
   }
@@ -46,6 +46,11 @@ export async function POST(
   }
 
   const suspicionBefore = session.suspicion;
+  const answerOptions = [
+    question.correctAnswer,
+    ...question.options.filter((option) => option !== question.correctAnswer)
+  ].slice(0, 4);
+  const choicesCount = Math.max(2, answerOptions.length);
   let answerChoice: AnswerChoice = 1;
   let glitchChance = 0;
 
@@ -53,6 +58,7 @@ export async function POST(
     const decision = decideAlienAnswer({
       seed: session.seed,
       questionId,
+      choicesCount,
       previousTurns: session.turns,
       suspicion: session.suspicion
     });
@@ -60,13 +66,13 @@ export async function POST(
     glitchChance = decision.glitchChance;
   }
 
-  const answerText = question.answers[answerChoice - 1]?.text ?? question.answers[0].text;
+  const answerText = answerOptions[answerChoice - 1] ?? answerOptions[0];
   const suspicionAfter = updateSuspicion(suspicionBefore, answerChoice);
 
   const turn: TurnLog = {
     id: crypto.randomUUID(),
     questionId,
-    questionPrompt: question.prompt,
+    questionPrompt: question.text,
     answerChoice,
     answerText,
     suspicionBefore,

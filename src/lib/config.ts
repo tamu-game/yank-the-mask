@@ -8,8 +8,7 @@ export const gameConfig = {
     1: -0.2,
     2: 0.3,
     3: 0.7,
-    4: 1.2,
-    5: 2.0
+    4: 1.2
   },
   suspicionClamp: {
     min: 0,

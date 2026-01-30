@@ -5,6 +5,7 @@ import type { AnswerChoice, TurnLog } from "@/types/game";
 export type AlienDecisionInput = {
   seed: string;
   questionId: string;
+  choicesCount: number;
   previousTurns: TurnLog[];
   suspicion: number;
 };
@@ -16,12 +17,12 @@ export type AlienDecisionOutput = {
 
 const choiceWeightsByMood = (mood: "low" | "mid" | "high") => {
   if (mood === "high") {
-    return { 1: 0.45, 2: 0.35, 3: 0.15, 4: 0.05, 5: 0 } as const;
+    return { 1: 0.45, 2: 0.35, 3: 0.15, 4: 0.05 } as const;
   }
   if (mood === "low") {
-    return { 1: 0.1, 2: 0.2, 3: 0.35, 4: 0.25, 5: 0.1 } as const;
+    return { 1: 0.1, 2: 0.2, 3: 0.35, 4: 0.35 } as const;
   }
-  return { 1: 0.25, 2: 0.4, 3: 0.25, 4: 0.1, 5: 0 } as const;
+  return { 1: 0.25, 2: 0.4, 3: 0.25, 4: 0.1 } as const;
 };
 
 const clampSuspicion = (value: number) => {
@@ -50,9 +51,12 @@ const pickWeighted = (rng: () => number, options: Array<{ choice: AnswerChoice; 
 };
 
 export const decideAlienAnswer = (input: AlienDecisionInput): AlienDecisionOutput => {
-  const { seed, questionId, previousTurns, suspicion } = input;
+  const { seed, questionId, choicesCount, previousTurns, suspicion } = input;
   const askedCount = previousTurns.length;
   const remainingAfter = gameConfig.totalQuestions - (askedCount + 1);
+  const maxChoice = Math.max(2, Math.min(choicesCount, 4));
+  const possibleChoices = [1, 2, 3, 4].slice(0, maxChoice) as AnswerChoice[];
+  const obviousChoice = maxChoice as AnswerChoice;
 
   const lastStreak = (() => {
     let streak = 0;
@@ -66,18 +70,18 @@ export const decideAlienAnswer = (input: AlienDecisionInput): AlienDecisionOutpu
     return streak;
   })();
 
-  const usedObvious = previousTurns.filter((turn) => turn.answerChoice === 5).length;
+  const usedObvious = previousTurns.filter((turn) => turn.answerChoice === obviousChoice).length;
   const nonPerfectCount = previousTurns.filter((turn) => turn.answerChoice !== 1).length;
 
   const mustBeNonPerfect =
     nonPerfectCount + remainingAfter < gameConfig.minNonPerfectByEnd ||
     lastStreak >= gameConfig.streakLimit;
 
-  const allowedChoices: AnswerChoice[] = [1, 2, 3, 4, 5].filter((choice) => {
+  const allowedChoices: AnswerChoice[] = possibleChoices.filter((choice) => {
     if (choice === 1 && mustBeNonPerfect) {
       return false;
     }
-    if (choice === 5 && usedObvious >= gameConfig.maxObviousLies) {
+    if (choice === obviousChoice && usedObvious >= gameConfig.maxObviousLies) {
       return false;
     }
     return true;
@@ -91,7 +95,8 @@ export const decideAlienAnswer = (input: AlienDecisionInput): AlienDecisionOutpu
         : "mid";
 
   const weights = choiceWeightsByMood(mood);
-  const weightedChoices = allowedChoices.map((choice) => ({
+  const finalChoices = allowedChoices.length > 0 ? allowedChoices : possibleChoices;
+  const weightedChoices = finalChoices.map((choice) => ({
     choice,
     weight: weights[choice]
   }));

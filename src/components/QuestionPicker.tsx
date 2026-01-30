@@ -1,10 +1,10 @@
 "use client";
 
-import type { QuestionPrompt } from "@/types/game";
+import type { QuestionPublic } from "@/types/game";
 import { Button } from "@/components/Button";
 
 type QuestionPickerProps = {
-  questions: QuestionPrompt[];
+  questions: QuestionPublic[];
   askedIds: string[];
   pendingId?: string | null;
   onAsk: (questionId: string) => void;
@@ -34,7 +34,7 @@ export const QuestionPicker = ({
               onClick={() => onAsk(question.id)}
               disabled={disabled || isAsked || Boolean(pendingId)}
             >
-              {isPending ? "Sending..." : question.prompt}
+              {isPending ? "Sending..." : question.text ?? question.prompt}
             </Button>
           );
         })}

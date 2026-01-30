@@ -1,10 +1,10 @@
 "use client";
 
-import type { QuestionPrompt } from "@/types/game";
+import type { QuestionPublic } from "@/types/game";
 import { gameConfig } from "@/lib/config";
 
 type QuestionMenuProps = {
-  questions: QuestionPrompt[];
+  questions: QuestionPublic[];
   askedIds: string[];
   pendingId?: string | null;
   onAsk: (questionId: string) => void;
@@ -50,7 +50,7 @@ export const QuestionMenu = ({
               disabled={isDisabled}
             >
               <span className={`${isAsked ? "line-through text-slate-400" : ""}`}>
-                {isPending ? "Brewing..." : question.prompt}
+                {isPending ? "Brewing..." : question.text ?? question.prompt}
               </span>
               {isAsked ? (
                 <span className="absolute right-3 top-2 rotate-6 rounded-full border border-rose-300 bg-rose-100 px-2 py-0.5 text-[10px] font-bold text-rose-500">

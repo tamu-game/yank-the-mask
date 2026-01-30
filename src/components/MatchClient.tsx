@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
-import type { CharacterPreview, QuestionPrompt, SessionPublic } from "@/types/game";
+import type { CharacterPreview, QuestionPublic, SessionPublic } from "@/types/game";
 import { CafeScene } from "@/components/cafe/CafeScene";
 import { QuestionSheet } from "@/components/cafe/QuestionSheet";
 import { ChoiceBar } from "@/components/cafe/ChoiceBar";
+import { Button } from "@/components/Button";
 import { useRouter } from "next/navigation";
 
 const fetcher = async (url: string) => {
@@ -26,13 +27,49 @@ const stableGlitch = (id: string, chance: number) => {
   return normalized < chance;
 };
 
-type MatchClientProps = {
-  character: CharacterPreview;
-  questions: QuestionPrompt[];
-  sessionId: string | null;
+type ResultOverlay = {
+  decision: "accuse" | "trust";
+  outcome: "win" | "lose";
 };
 
-export const MatchClient = ({ character, questions, sessionId }: MatchClientProps) => {
+type RevealPhase = "idle" | "yank" | "alien";
+
+const resultCopy: Record<string, { title: string; line: string; status: string }> = {
+  "accuse-win": {
+    title: "Mask Pulled!",
+    line: "The alien froze mid-smile. The ship is already on its way.",
+    status: "You win"
+  },
+  "accuse-lose": {
+    title: "Wrong Mask",
+    line: "Awkward silence. A gentle slap. You deserved it.",
+    status: "You lose"
+  },
+  "trust-win": {
+    title: "Good Vibes",
+    line: "No abductions today. Just a warm, human connection.",
+    status: "You win"
+  },
+  "trust-lose": {
+    title: "Beam Me Up",
+    line: "You trusted the mask. A UFO trusted your address.",
+    status: "You lose"
+  }
+};
+
+type MatchClientProps = {
+  character: CharacterPreview;
+  questions: QuestionPublic[];
+  sessionId: string | null;
+  fallbackUsed?: boolean;
+};
+
+export const MatchClient = ({
+  character,
+  questions,
+  sessionId,
+  fallbackUsed
+}: MatchClientProps) => {
   const router = useRouter();
   const [pendingQuestionId, setPendingQuestionId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +78,12 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
   const [isSheetCollapsed, setIsSheetCollapsed] = useState(false);
   const [typingDelay, setTypingDelay] = useState(false);
   const [glitchActive, setGlitchActive] = useState(false);
+  const [revealPhase, setRevealPhase] = useState<RevealPhase>("idle");
+  const [resultOverlay, setResultOverlay] = useState<ResultOverlay | null>(null);
+  const [talkActive, setTalkActive] = useState(false);
   const lastTurnIdRef = useRef<string | null>(null);
+  const revealTimerRef = useRef<number | null>(null);
+  const talkTimerRef = useRef<number | null>(null);
 
   const { data: session, mutate } = useSWR(
     sessionId ? `/api/session/${sessionId}` : null,
@@ -56,7 +98,8 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
   const pendingQuestion = pendingQuestionId
     ? questions.find((item) => item.id === pendingQuestionId)
     : null;
-  const questionText = pendingQuestion?.prompt ?? lastTurn?.questionPrompt ?? null;
+  const questionText =
+    pendingQuestion?.text ?? pendingQuestion?.prompt ?? lastTurn?.questionPrompt ?? null;
   const glitch = lastTurn ? stableGlitch(lastTurn.id, lastTurn.glitchChance) : false;
 
   useEffect(() => {
@@ -89,6 +132,35 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
     const timer = window.setTimeout(() => setGlitchActive(false), 250);
     return () => window.clearTimeout(timer);
   }, [glitch, lastTurnId]);
+
+  useEffect(() => {
+    if (!fallbackUsed || process.env.NODE_ENV === "production") return;
+    console.warn(
+      "Character questions are missing; using fallback question pool for this session."
+    );
+  }, [fallbackUsed]);
+
+  useEffect(() => {
+    return () => {
+      if (revealTimerRef.current) {
+        window.clearTimeout(revealTimerRef.current);
+      }
+      if (talkTimerRef.current) {
+        window.clearTimeout(talkTimerRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!pendingQuestionId) return;
+    if (talkTimerRef.current) {
+      window.clearTimeout(talkTimerRef.current);
+    }
+    setTalkActive(true);
+    talkTimerRef.current = window.setTimeout(() => {
+      setTalkActive(false);
+    }, 1200);
+  }, [pendingQuestionId]);
 
   const handleAsk = async (questionId: string) => {
     if (!sessionId) return;
@@ -130,6 +202,7 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
     if (!sessionId || !decision) return;
     setError(null);
     try {
+      const chosenDecision = decision;
       const response = await fetch(`/api/session/${sessionId}/decide`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -139,7 +212,29 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
       if (!response.ok) {
         throw new Error(data?.error?.message ?? "Failed to decide.");
       }
-      router.push(`/result/${sessionId}`);
+      const outcome = data?.outcome as ResultOverlay["outcome"] | undefined;
+      if (!outcome) {
+        throw new Error("Failed to decide.");
+      }
+      const shouldPlayYank =
+        (chosenDecision === "accuse" && outcome === "win") ||
+        (chosenDecision === "trust" && outcome === "lose");
+      if (shouldPlayYank) {
+        setRevealPhase("yank");
+        setResultOverlay({ decision: chosenDecision, outcome });
+        if (revealTimerRef.current) {
+          window.clearTimeout(revealTimerRef.current);
+        }
+        revealTimerRef.current = window.setTimeout(() => {
+          setRevealPhase("alien");
+        }, 1500);
+        return;
+      }
+      if (revealTimerRef.current) {
+        window.clearTimeout(revealTimerRef.current);
+      }
+      setRevealPhase("idle");
+      setResultOverlay({ decision: chosenDecision, outcome });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
@@ -150,6 +245,27 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
   const isTyping = Boolean(pendingQuestionId) || typingDelay;
   const isQuestionTyping = isTyping && Boolean(questionText);
   const answerText = lastTurn?.answerText ?? null;
+  const resultKey = resultOverlay
+    ? `${resultOverlay.decision}-${resultOverlay.outcome}`
+    : null;
+  const story = resultKey ? resultCopy[resultKey] : null;
+  const showResultOverlay = Boolean(story);
+  const portraitOverrideSrc =
+    revealPhase === "yank"
+      ? "/characters/yank_mask.gif"
+      : revealPhase === "alien"
+        ? "/characters/alien.png"
+        : talkActive
+          ? "/characters/talk.gif"
+          : "/characters/character.gif";
+  const portraitOverrideAlt =
+    revealPhase === "alien"
+      ? "Alien revealed"
+      : revealPhase === "yank"
+        ? "Yank mask reveal"
+        : talkActive
+          ? "Character talking"
+          : "Character idle";
 
   if (!sessionId) {
     return (
@@ -160,6 +276,8 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
           questionText={null}
           answerText={null}
           answerKey={null}
+          portraitOverrideSrc={portraitOverrideSrc}
+          portraitOverrideAlt={portraitOverrideAlt}
           isTyping={false}
           glitch={false}
           suspicion={0}
@@ -180,15 +298,17 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
         className="absolute inset-0"
         character={character}
         questionText={null}
-        answerText={answerText}
+        answerText={showResultOverlay ? null : answerText}
         answerKey={lastTurnId}
-        isTyping={isTyping}
+        portraitOverrideSrc={portraitOverrideSrc}
+        portraitOverrideAlt={portraitOverrideAlt}
+        isTyping={showResultOverlay ? false : isTyping}
         glitch={glitchActive}
         suspicion={session?.suspicion ?? 0}
         onBack={() => setExitConfirm(true)}
       />
       <div className="absolute inset-x-0 bottom-0 z-30 flex flex-col items-center gap-3 px-4 pb-4">
-        {questionText ? (
+        {questionText && !showResultOverlay ? (
           <div
             className={`w-full max-w-xl transform-gpu will-change-[opacity,transform] motion-safe:transition-[opacity,transform] motion-safe:duration-300 motion-safe:ease-out ${
               isSheetCollapsed
@@ -219,22 +339,40 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
             </div>
           </div>
         ) : null}
-        <QuestionSheet
-          className="pointer-events-auto w-full max-w-xl"
-          questions={questions}
-          askedIds={askedIds}
-          pendingId={pendingQuestionId}
-          onAsk={handleAsk}
-          disabled={!session || session.status !== "in_progress"}
-          collapsed={isSheetCollapsed}
-          onToggle={() => setIsSheetCollapsed((prev) => !prev)}
-        />
-        <ChoiceBar
-          className="pointer-events-auto w-full max-w-xl"
-          canDecide={canDecide}
-          disabled={Boolean(pendingQuestionId) || session?.status !== "in_progress"}
-          onChoose={(value) => setDecision(value)}
-        />
+        {story ? (
+          <div className="pointer-events-auto w-full max-w-xl">
+            <div className="rounded-[24px] border border-white/70 bg-white/95 p-5 text-center shadow-2xl">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-rose-400">
+                {story.status}
+              </div>
+              <div className="text-base font-semibold text-slate-700">{story.title}</div>
+              <p className="mt-2 text-xs text-slate-500">{story.line}</p>
+              <Button className="mt-5 w-full" onClick={() => router.push("/feed")}>
+                Play again
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <QuestionSheet
+              className="pointer-events-auto w-full max-w-xl"
+              character={character}
+              questions={questions}
+              askedIds={askedIds}
+              pendingId={pendingQuestionId}
+              onAsk={handleAsk}
+              disabled={!session || session.status !== "in_progress"}
+              collapsed={isSheetCollapsed}
+              onToggle={() => setIsSheetCollapsed((prev) => !prev)}
+            />
+            <ChoiceBar
+              className="pointer-events-auto w-full max-w-xl"
+              canDecide={canDecide}
+              disabled={Boolean(pendingQuestionId) || session?.status !== "in_progress"}
+              onChoose={(value) => setDecision(value)}
+            />
+          </>
+        )}
         {error ? (
           <div className="pointer-events-auto rounded-full bg-rose-500/80 px-3 py-1 text-[11px] text-rose-50 shadow">
             {error}

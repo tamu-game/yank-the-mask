@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createSessionSchema } from "@/validation/schemas";
-import { charactersById } from "@/data/characters";
+import { getCharacterById } from "@/data/characters";
 import { memoryStore } from "@/store/memoryStore";
 import { createSeed, createSeededRng } from "@/lib/rng";
 import { gameConfig } from "@/lib/config";
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
   }
 
   const { characterId } = parsed.data;
-  const character = charactersById.get(characterId);
+  const character = getCharacterById(characterId);
   if (!character) {
     return jsonError("Character not found.", 404, "not_found");
   }

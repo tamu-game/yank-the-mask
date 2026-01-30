@@ -3,7 +3,9 @@
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/Button";
-import { TopBar } from "@/components/TopBar";
+import { CafeScene } from "@/components/cafe/CafeScene";
+import { charactersById } from "@/data/characters";
+import { getCharacterPreview } from "@/lib/sanitize";
 import type { SessionPublic } from "@/types/game";
 
 const fetcher = async (url: string) => {
@@ -15,22 +17,26 @@ const fetcher = async (url: string) => {
   return data as SessionPublic;
 };
 
-const storyCopy: Record<string, { title: string; line: string }> = {
+const storyCopy: Record<string, { title: string; line: string; status: string }> = {
   "accuse-win": {
     title: "Mask Pulled!",
-    line: "The alien froze mid-smile. The ship is already on its way."
+    line: "The alien froze mid-smile. The ship is already on its way.",
+    status: "You win"
   },
   "accuse-lose": {
     title: "Wrong Mask",
-    line: "Awkward silence. A gentle slap. You deserved it."
+    line: "Awkward silence. A gentle slap. You deserved it.",
+    status: "You lose"
   },
   "trust-win": {
     title: "Good Vibes",
-    line: "No abductions today. Just a warm, human connection."
+    line: "No abductions today. Just a warm, human connection.",
+    status: "You win"
   },
   "trust-lose": {
     title: "Beam Me Up",
-    line: "You trusted the mask. A UFO trusted your address."
+    line: "You trusted the mask. A UFO trusted your address.",
+    status: "You lose"
   }
 };
 
@@ -41,7 +47,6 @@ export default function ResultPage({ params }: { params: { sessionId: string } }
   if (error) {
     return (
       <main className="min-h-screen">
-        <TopBar title="Result" backHref="/feed" />
         <div className="px-6 py-10 text-center text-sm text-rose-500">{error.message}</div>
       </main>
     );
@@ -50,7 +55,6 @@ export default function ResultPage({ params }: { params: { sessionId: string } }
   if (!session) {
     return (
       <main className="min-h-screen">
-        <TopBar title="Result" backHref="/feed" />
         <div className="px-6 py-10 text-center text-sm text-slate-500">Loading result...</div>
       </main>
     );
@@ -59,7 +63,6 @@ export default function ResultPage({ params }: { params: { sessionId: string } }
   if (session.status !== "ended" || !session.finalDecision || !session.finalOutcome) {
     return (
       <main className="min-h-screen">
-        <TopBar title="Result" backHref="/feed" />
         <div className="px-6 py-10 text-center text-sm text-slate-500">
           This date is still in progress.
         </div>
@@ -70,46 +73,51 @@ export default function ResultPage({ params }: { params: { sessionId: string } }
   const key = `${session.finalDecision}-${session.finalOutcome}`;
   const story = storyCopy[key] ?? {
     title: "The date ends",
-    line: "Something happened out there in the stars."
+    line: "Something happened out there in the stars.",
+    status: "Result"
   };
+  const character = charactersById.get(session.characterId);
+  if (!character) {
+    return (
+      <main className="min-h-screen">
+        <div className="px-6 py-10 text-center text-sm text-slate-500">
+          Character not found.
+        </div>
+      </main>
+    );
+  }
+  const preview = getCharacterPreview(character);
+  const revealAlien = session.finalDecision === "accuse" && session.finalOutcome === "win";
+  const portraitOverrideSrc = revealAlien ? "/characters/alien.png" : "/characters/character.gif";
+  const portraitOverrideAlt = revealAlien ? "Alien revealed" : "Character idle";
 
   return (
-    <main className="min-h-screen">
-      <TopBar title="Result" backHref="/feed" />
-      <div className="mx-auto flex max-w-2xl flex-col gap-6 px-6 py-10">
-        <div className="rounded-3xl border-2 border-white/80 bg-white/80 p-6 text-center shadow-xl">
-          <div className="mx-auto mb-4 h-24 w-24 rounded-full bg-gradient-to-br from-rose-200 to-purple-200" />
-          <h1 className="text-2xl font-semibold text-slate-700">{story.title}</h1>
-          <p className="mt-2 text-sm text-slate-500">{story.line}</p>
-        </div>
-
-        <div className="rounded-3xl border-2 border-white/80 bg-white/80 p-6 shadow-xl">
-          <h2 className="text-lg font-semibold text-slate-700">Score</h2>
-          <div className="mt-4 space-y-2 text-sm text-slate-600">
-            <div className="flex justify-between">
-              <span>Base points</span>
-              <span>{session.scoreBreakdown?.base ?? 0}</span>
+    <main className="relative min-h-screen w-full overflow-hidden">
+      <CafeScene
+        className="absolute inset-0"
+        character={preview}
+        questionText={null}
+        answerText={null}
+        answerKey={null}
+        portraitOverrideSrc={portraitOverrideSrc}
+        portraitOverrideAlt={portraitOverrideAlt}
+        isTyping={false}
+        glitch={false}
+        suspicion={0}
+      />
+      <div className="absolute inset-x-0 bottom-0 z-30 flex flex-col items-center gap-3 px-4 pb-4">
+        <div className="pointer-events-auto w-full max-w-xl">
+          <div className="rounded-[24px] border border-white/70 bg-white/95 p-5 text-center shadow-2xl">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-rose-400">
+              {story.status}
             </div>
-            <div className="flex justify-between">
-              <span>Question bonus</span>
-              <span>{session.scoreBreakdown?.questionBonus ?? 0}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Alien read bonus</span>
-              <span>{session.scoreBreakdown?.suspicionBonus ?? 0}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Consolation</span>
-              <span>{session.scoreBreakdown?.consolation ?? 0}</span>
-            </div>
-            <div className="mt-4 flex justify-between text-base font-semibold text-slate-700">
-              <span>Total</span>
-              <span>{session.score}</span>
-            </div>
+            <div className="text-base font-semibold text-slate-700">{story.title}</div>
+            <p className="mt-2 text-xs text-slate-500">{story.line}</p>
+            <Button className="mt-5 w-full" onClick={() => router.push("/feed")}>
+              Play again
+            </Button>
           </div>
         </div>
-
-        <Button onClick={() => router.push("/feed")}>Play again</Button>
       </div>
     </main>
   );
