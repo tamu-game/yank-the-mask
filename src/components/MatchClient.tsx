@@ -173,19 +173,23 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
       <CafeScene
         className="absolute inset-0"
         character={character}
-        questionText={questionText}
+        questionText={null}
         answerText={answerText}
         isTyping={isTyping}
         glitch={glitchActive}
         suspicion={session?.suspicion ?? 0}
       />
       <div className="absolute inset-x-0 bottom-0 z-30 flex flex-col items-center gap-3 px-4 pb-4">
-        <ChoiceBar
-          className="pointer-events-auto w-full max-w-xl"
-          canDecide={canDecide}
-          disabled={Boolean(pendingQuestionId) || session?.status !== "in_progress"}
-          onChoose={(value) => setDecision(value)}
-        />
+        {questionText ? (
+          <div className="pointer-events-auto w-full max-w-xl">
+            <div className="animate-bubble-pop rounded-[18px] border border-white/70 bg-white/85 px-4 py-3 text-sm text-slate-700 shadow-[0_10px_20px_rgba(15,23,42,0.12)] backdrop-blur">
+              <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700/70">
+                Your note
+              </div>
+              <div className="mt-1 leading-relaxed">{questionText}</div>
+            </div>
+          </div>
+        ) : null}
         <QuestionSheet
           className="pointer-events-auto w-full max-w-xl"
           questions={questions}
@@ -193,6 +197,12 @@ export const MatchClient = ({ character, questions, sessionId }: MatchClientProp
           pendingId={pendingQuestionId}
           onAsk={handleAsk}
           disabled={!session || session.status !== "in_progress"}
+        />
+        <ChoiceBar
+          className="pointer-events-auto w-full max-w-xl"
+          canDecide={canDecide}
+          disabled={Boolean(pendingQuestionId) || session?.status !== "in_progress"}
+          onChoose={(value) => setDecision(value)}
         />
         {error ? (
           <div className="pointer-events-auto rounded-full bg-rose-500/80 px-3 py-1 text-[11px] text-rose-50 shadow">

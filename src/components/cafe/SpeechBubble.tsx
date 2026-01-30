@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 type SpeechBubbleProps = {
   text: string;
   isTyping?: boolean;
@@ -17,28 +19,41 @@ export const SpeechBubble = ({
 
   return (
     <div
-      className={`relative rounded-[22px] border border-white/70 bg-white/90 px-4 py-3 text-sm text-slate-700 shadow-lg ${
+      className={`relative text-sm text-slate-700 ${
         glitch ? "bubble-glitch" : ""
       } ${className} animate-bubble-pop`}
       role="status"
       aria-live="polite"
     >
-      {isTyping ? (
-        <div className="flex items-center gap-1">
-          <span className="typing-dot h-2 w-2 rounded-full bg-slate-400/70" />
-          <span
-            className="typing-dot h-2 w-2 rounded-full bg-slate-400/70"
-            style={{ animationDelay: "0.15s" }}
-          />
-          <span
-            className="typing-dot h-2 w-2 rounded-full bg-slate-400/70"
-            style={{ animationDelay: "0.3s" }}
+      <div className="relative w-full">
+        <div className="relative w-full aspect-[4/3]">
+          <Image
+            src="/bubble/bubble.png"
+            alt=""
+            fill
+            sizes="(max-width: 640px) 70vw, 320px"
+            className="object-contain"
+            priority
           />
         </div>
-      ) : (
-        <span className="block leading-relaxed">{text}</span>
-      )}
-      <span className="absolute -bottom-2 right-6 h-3 w-3 rotate-45 border-r border-b border-white/70 bg-white/90" />
+        <div className="absolute inset-0 flex items-center justify-center px-6 pb-6 text-center">
+          {isTyping ? (
+            <div className="flex items-center justify-center gap-1">
+              <span className="typing-dot h-2 w-2 rounded-full bg-slate-500/70" />
+              <span
+                className="typing-dot h-2 w-2 rounded-full bg-slate-500/70"
+                style={{ animationDelay: "0.15s" }}
+              />
+              <span
+                className="typing-dot h-2 w-2 rounded-full bg-slate-500/70"
+                style={{ animationDelay: "0.3s" }}
+              />
+            </div>
+          ) : (
+            <span className="block leading-relaxed">{text}</span>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

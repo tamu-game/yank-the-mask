@@ -83,7 +83,7 @@ export const CafeScene = ({
 
         <div className="relative flex-1">
           <div className="absolute inset-x-0 bottom-[40%] flex justify-center">
-            <div className="relative h-[80vh] w-[98vw] max-w-[680px]">
+            <div className="relative h-[80vh] w-[108%] max-w-[780px]">
               <CharacterSprite
                 src={character.portraitSrc}
                 alt={character.name}
@@ -91,12 +91,11 @@ export const CafeScene = ({
                 priority
               />
               {showBubble ? (
-                <div className="absolute right-2 top-[6%] w-[72%] max-w-[320px]">
+                <div className="absolute left-1/2 top-[22%] z-20 w-[120%] max-w-[600px] -translate-x-1/2">
                   <SpeechBubble
                     text={answerText ?? ""}
                     isTyping={isTyping}
                     glitch={glitch}
-                    className="shadow-[0_12px_24px_rgba(15,23,42,0.2)]"
                   />
                 </div>
               ) : null}

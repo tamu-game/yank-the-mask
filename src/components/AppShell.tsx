@@ -10,7 +10,9 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
         <div className="absolute right-16 top-32 h-14 w-14 -rotate-6 rounded-full border-2 border-amber-200/80 bg-white/60 shadow-sm" />
         <div className="absolute bottom-24 left-10 h-10 w-10 rounded-full border-2 border-teal-200/80 bg-white/60 shadow-sm" />
       </div>
-      {children}
+      <div className="relative mx-auto min-h-screen w-full sm:max-w-[430px]">
+        {children}
+      </div>
     </div>
   );
 };

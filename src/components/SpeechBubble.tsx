@@ -15,7 +15,7 @@ export const SpeechBubble = ({
 }: SpeechBubbleProps) => {
   return (
     <div
-      className={`bubble-pop relative max-w-[80vw] rounded-[28px] border-2 border-white/80 bg-white/90 px-4 py-3 text-sm text-slate-700 shadow-lg ${
+      className={`bubble-pop relative max-w-[80%] rounded-[28px] border-2 border-white/80 bg-white/90 px-4 py-3 text-sm text-slate-700 shadow-lg ${
         glitch ? "bubble-glitch" : ""
       } ${className}`}
       role="status"

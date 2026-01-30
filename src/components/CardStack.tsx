@@ -100,7 +100,7 @@ export const CardStack = ({ characters, onSwipeLeft, onSwipeRight }: CardStackPr
   }
 
   return (
-    <div className="relative w-full max-w-[92vw] sm:max-w-[520px] lg:max-w-[560px]">
+    <div className="relative w-full max-w-[92%] sm:max-w-[520px] lg:max-w-[560px]">
       <div className="relative h-[70vh] min-h-[480px] max-h-[560px]">
         {[...stackedCards].reverse().map((card, reverseIndex) => {
           const position = stackedCards.length - 1 - reverseIndex;
