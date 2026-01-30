@@ -9,6 +9,7 @@ export const FeedClient = ({ characters }: { characters: CharacterPreview[] }) =
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const handleSwipeRight = async (character: CharacterPreview) => {
     if (creating) return;
@@ -24,6 +25,8 @@ export const FeedClient = ({ characters }: { characters: CharacterPreview[] }) =
       if (!response.ok) {
         throw new Error(data?.error?.message ?? "Failed to start session.");
       }
+      setIsTransitioning(true);
+      await new Promise((resolve) => window.setTimeout(resolve, 240));
       router.push(`/match/${character.id}?sessionId=${data.sessionId}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
@@ -34,11 +37,17 @@ export const FeedClient = ({ characters }: { characters: CharacterPreview[] }) =
 
   return (
     <div className="flex w-full flex-col items-center gap-6">
-      <CardStack
-        characters={characters}
-        onSwipeLeft={() => null}
-        onSwipeRight={handleSwipeRight}
-      />
+      <div
+        className={`w-full transition-all duration-300 ease-out ${
+          isTransitioning ? "opacity-0 scale-[0.98]" : "opacity-100 scale-100"
+        }`}
+      >
+        <CardStack
+          characters={characters}
+          onSwipeLeft={() => null}
+          onSwipeRight={handleSwipeRight}
+        />
+      </div>
       {creating ? (
         <p className="text-xs text-rose-500">Setting up your cafe date...</p>
       ) : null}
