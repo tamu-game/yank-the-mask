@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { memoryStore } from "@/store/memoryStore";
 import { createSeed } from "@/lib/rng";
 import type { Session } from "@/types/game";
+import { determineRole } from "@/lib/answerPicker";
 
 export const runtime = "nodejs";
 
@@ -25,7 +26,7 @@ export async function POST(_: Request, { params }: { params: { sessionId: string
     id: crypto.randomUUID(),
     seed,
     characterId: session.characterId,
-    isAlien: false,
+    isAlien: determineRole(seed) === "alien",
     askedQuestionIds: [],
     turns: [],
     suspicion: 0,

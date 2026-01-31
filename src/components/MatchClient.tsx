@@ -31,6 +31,11 @@ import { useRouter } from "next/navigation";
 import { apiFetch, isApiError } from "@/lib/apiClient";
 import { GuessDistribution } from "@/components/GuessDistribution";
 import type { GuessDistributionData } from "@/types/stats";
+import {
+  getGifObjectUrl,
+  primeGifObjectUrl,
+  warmDecodeFirstWorking
+} from "@/lib/gifBlobCache";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -39,41 +44,6 @@ const fetcher = async (url: string) => {
     throw new Error(data?.error?.message ?? "Failed to load session.");
   }
   return data as SessionPublic;
-};
-
-const gifDurationCache = new Map<string, number>();
-
-const parseGifDuration = (buffer: ArrayBuffer) => {
-  const bytes = new Uint8Array(buffer);
-  let duration = 0;
-  for (let i = 0; i < bytes.length - 6; i += 1) {
-    if (bytes[i] === 0x21 && bytes[i + 1] === 0xf9 && bytes[i + 2] === 0x04) {
-      const delay = bytes[i + 4] | (bytes[i + 5] << 8);
-      duration += delay * 10;
-      i += 7;
-    }
-  }
-  return duration;
-};
-
-const resolveGifDuration = async (sources: string[], fallback: number) => {
-  for (const src of sources) {
-    if (!src) continue;
-    const cached = gifDurationCache.get(src);
-    if (cached) return cached;
-    try {
-      const res = await fetch(src);
-      if (!res.ok) continue;
-      const buffer = await res.arrayBuffer();
-      const duration = parseGifDuration(buffer);
-      const safeDuration = duration > 0 ? duration : fallback;
-      gifDurationCache.set(src, safeDuration);
-      return safeDuration;
-    } catch {
-      continue;
-    }
-  }
-  return fallback;
 };
 
 const stableGlitch = (id: string, chance: number) => {
@@ -85,7 +55,7 @@ const stableGlitch = (id: string, chance: number) => {
   return normalized < chance;
 };
 
-const MAX_QUESTIONS = 5;
+const MAX_QUESTIONS = gameConfig.questionsPerGame;
 
 type ResultOverlay = {
   decision: "accuse" | "trust";
@@ -121,12 +91,14 @@ type MatchClientProps = {
   character: CharacterPreview;
   questions: QuestionPublic[];
   sessionId: string | null;
+  fromFeed?: boolean;
 };
 
 export const MatchClient = ({
   character,
   questions,
-  sessionId
+  sessionId,
+  fromFeed = false
 }: MatchClientProps) => {
   const router = useRouter();
   const [pendingQuestionId, setPendingQuestionId] = useState<string | null>(null);
@@ -143,7 +115,8 @@ export const MatchClient = ({
   const [hideQuestionSheet, setHideQuestionSheet] = useState(false);
   const [yankLoseActive, setYankLoseActive] = useState(false);
   const [yankLoseSnapshot, setYankLoseSnapshot] = useState<string | null>(null);
-  const [yankLoseDurationMs, setYankLoseDurationMs] = useState<number | null>(null);
+  const [yankLoseBlobUrl, setYankLoseBlobUrl] = useState<string | null>(null);
+  const [portraitRestartKey, setPortraitRestartKey] = useState(0);
   const [persistentSummary, setPersistentSummary] = useState<{
     score: number;
     status: "COMPLETED" | "ABANDONED";
@@ -154,11 +127,19 @@ export const MatchClient = ({
   const [statsError, setStatsError] = useState<string | null>(null);
   const [statsLoading, setStatsLoading] = useState(false);
   const [resultReady, setResultReady] = useState(false);
+  const [showEntryLight, setShowEntryLight] = useState(fromFeed);
+  const [entryLightFading, setEntryLightFading] = useState(false);
   const lastTurnIdRef = useRef<string | null>(null);
   const revealTimerRef = useRef<number | null>(null);
   const talkTimerRef = useRef<number | null>(null);
   const yankLoseTimerRef = useRef<number | null>(null);
+  const previousRevealPhaseRef = useRef<RevealPhase>(revealPhase);
+  const alienCryReadyRef = useRef<Promise<void> | null>(null);
+  const alienCryWarmTriggeredRef = useRef(false);
+  const angryLoopReadyRef = useRef<Promise<void> | null>(null);
+  const angryLoopWarmTriggeredRef = useRef(false);
   const yankLoseImgRef = useRef<HTMLImageElement | null>(null);
+  const startedFreezeRef = useRef(false);
   const [yankLoseSrcIndex, setYankLoseSrcIndex] = useState(0);
   const startPromiseRef = useRef<Promise<boolean> | null>(null);
   const resultSoundRef = useRef<HTMLAudioElement | null>(null);
@@ -168,6 +149,22 @@ export const MatchClient = ({
     sessionId ? `/api/session/${sessionId}` : null,
     fetcher
   );
+
+  useEffect(() => {
+    if (!fromFeed) return;
+    setShowEntryLight(true);
+    setEntryLightFading(false);
+    const fadeTimeout = window.setTimeout(() => {
+      setEntryLightFading(true);
+    }, 2600);
+    const hideTimeout = window.setTimeout(() => {
+      setShowEntryLight(false);
+    }, 3000);
+    return () => {
+      window.clearTimeout(fadeTimeout);
+      window.clearTimeout(hideTimeout);
+    };
+  }, [fromFeed]);
 
   const askedIds = session?.askedQuestionIds ?? [];
   const askedCount = askedIds.length;
@@ -244,7 +241,7 @@ export const MatchClient = ({
         });
     }
     return startPromiseRef.current;
-  }, [sessionId]);
+  }, [character.id, sessionId]);
 
   const recordEvent = useCallback(
     async (type: "QUESTION_ASKED" | "CORRECT_GUESS" | "WRONG_GUESS") => {
@@ -296,8 +293,12 @@ export const MatchClient = ({
         if (isApiError(err) && err.status === 401) return;
       }
     },
-    [ensurePersistentSession, sessionId]
+    [askedCount, character.id, ensurePersistentSession, sessionId]
   );
+
+  const bumpPortrait = useCallback(() => {
+    setPortraitRestartKey((prev) => prev + 1);
+  }, []);
 
   useEffect(() => {
     if (!sessionId) return;
@@ -324,6 +325,12 @@ export const MatchClient = ({
   }, [character.id, resultOverlay]);
 
   useEffect(() => {
+    if (resultOverlay) {
+      bumpPortrait();
+    }
+  }, [resultOverlay, bumpPortrait]);
+
+  useEffect(() => {
     if (!pendingQuestionId) return;
     if (talkTimerRef.current) {
       window.clearTimeout(talkTimerRef.current);
@@ -333,6 +340,12 @@ export const MatchClient = ({
       setTalkActive(false);
     }, 1200);
   }, [pendingQuestionId]);
+
+  useEffect(() => {
+    if (talkActive) {
+      bumpPortrait();
+    }
+  }, [talkActive, bumpPortrait]);
 
   useEffect(() => {
     preloadTalkingSound();
@@ -346,7 +359,16 @@ export const MatchClient = ({
     stopTalkingSound();
   }, [talkActive]);
 
+  useEffect(() => {
+    if (previousRevealPhaseRef.current !== revealPhase) {
+      bumpPortrait();
+      previousRevealPhaseRef.current = revealPhase;
+    }
+  }, [revealPhase, bumpPortrait]);
+
   const startYankLoseFreeze = (durationMs: number) => {
+    if (startedFreezeRef.current) return;
+    startedFreezeRef.current = true;
     if (yankLoseTimerRef.current) {
       window.clearTimeout(yankLoseTimerRef.current);
     }
@@ -365,6 +387,12 @@ export const MatchClient = ({
       setYankLoseSnapshot(canvas.toDataURL("image/png"));
     }, Math.max(0, durationMs - 60));
   };
+
+  useEffect(() => {
+    if (!yankLoseActive) {
+      startedFreezeRef.current = false;
+    }
+  }, [yankLoseActive]);
 
   const handleAsk = async (questionId: string) => {
     if (!sessionId) return;
@@ -455,18 +483,13 @@ export const MatchClient = ({
       })();
       if (shouldPlayYankLose) {
         setYankLoseSnapshot(null);
+        startedFreezeRef.current = false;
         setYankLoseActive(true);
-        setYankLoseDurationMs(null);
         if (revealTimerRef.current) {
           window.clearTimeout(revealTimerRef.current);
         }
         setRevealPhase("idle");
         setResultOverlay({ decision: chosenDecision, outcome });
-        const duration = await resolveGifDuration(
-          getYankLoseSources(character.id),
-          gameConfig.yankMaskLoseDurationMs
-        );
-        setYankLoseDurationMs(duration);
         return;
       }
       setYankLoseActive(false);
@@ -476,12 +499,12 @@ export const MatchClient = ({
         if (revealTimerRef.current) {
           window.clearTimeout(revealTimerRef.current);
         }
-        const duration = await resolveGifDuration(
-          getYankWinSources(character.id),
-          gameConfig.yankMaskDurationMs
-        );
+        const duration = gameConfig.yankMaskDurationMs;
         revealTimerRef.current = window.setTimeout(() => {
-          setRevealPhase("alien");
+          void (async () => {
+            await waitForAlienReady();
+            setRevealPhase("alien");
+          })();
         }, duration);
         return;
       }
@@ -491,10 +514,7 @@ export const MatchClient = ({
         if (revealTimerRef.current) {
           window.clearTimeout(revealTimerRef.current);
         }
-        const duration = await resolveGifDuration(
-          getAngryInitSources(character.id),
-          gameConfig.angryInitDurationMs
-        );
+        const duration = gameConfig.angryInitDurationMs;
         revealTimerRef.current = window.setTimeout(() => {
           setRevealPhase("angry_loop");
         }, duration);
@@ -522,8 +542,13 @@ export const MatchClient = ({
   const story = resultKey ? resultCopy[resultKey] : null;
   const showResultOverlay = Boolean(story);
   const showInteractionUI = !showResultOverlay && !decision && !hideQuestionSheet;
-  const showQuestionSheet = showInteractionUI && canAskMore;
+  const showQuestionSheet = canAskMore;
   const showDecisionOnly = showInteractionUI && !canAskMore && session?.status === "in_progress";
+  const isQuestionSheetInteractive = showInteractionUI;
+  const isQuestionSheetCollapsed = isSheetCollapsed || !isQuestionSheetInteractive;
+  const questionSheetClasses = `w-full max-w-xl transition-opacity duration-200 ${
+    isQuestionSheetInteractive ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+  }`;
   const holdResultUntilYankLoseEnd = yankLoseActive && !yankLoseSnapshot;
   const canShowResultUI = showResultOverlay && resultReady && !holdResultUntilYankLoseEnd;
   const playerOutcome = resultOverlay
@@ -543,6 +568,8 @@ export const MatchClient = ({
     resultOverlay?.decision === "trust" && resultOverlay?.outcome === "lose" && showResultOverlay;
   const loveActive =
     resultOverlay?.decision === "trust" && resultOverlay?.outcome === "win" && showResultOverlay;
+  const needAlienWarm = revealPhase === "yank" && isAccuseWin;
+  const needAngryLoopWarm = revealPhase === "angry_init";
   const portraitSources =
     revealPhase === "yank"
       ? isAccuseWin
@@ -588,11 +615,84 @@ export const MatchClient = ({
             ? "Character talking"
             : "Character idle";
 
+  const waitForAlienReady = async () => {
+    const ready = alienCryReadyRef.current;
+    if (!ready) return;
+    await Promise.race([
+      ready,
+      new Promise<void>((resolve) => window.setTimeout(resolve, 120))
+    ]);
+  };
+
+  useEffect(() => {
+    if (!needAlienWarm) {
+      alienCryWarmTriggeredRef.current = false;
+      alienCryReadyRef.current = null;
+      return;
+    }
+    if (alienCryWarmTriggeredRef.current) return;
+    alienCryWarmTriggeredRef.current = true;
+    const sources = getAlienCrySources(character.id);
+    primeGifObjectUrl(sources);
+    alienCryReadyRef.current = (async () => {
+      await warmDecodeFirstWorking(sources);
+    })();
+  }, [needAlienWarm, character.id]);
+
+  useEffect(() => {
+    if (!needAngryLoopWarm) {
+      angryLoopWarmTriggeredRef.current = false;
+      angryLoopReadyRef.current = null;
+      return;
+    }
+    if (angryLoopWarmTriggeredRef.current) return;
+    angryLoopWarmTriggeredRef.current = true;
+    const sources = getAngryLoopSources(character.id);
+    primeGifObjectUrl(sources);
+    angryLoopReadyRef.current = (async () => {
+      await warmDecodeFirstWorking(sources);
+    })();
+  }, [needAngryLoopWarm, character.id]);
+
   const yankLoseSources = getYankLoseSources(character.id);
   const yankLoseSrc = yankLoseSources[Math.min(yankLoseSrcIndex, yankLoseSources.length - 1)];
+  useEffect(() => {
+    if (!yankLoseActive) {
+      setYankLoseBlobUrl(null);
+      return;
+    }
+    let cancelled = false;
+    setYankLoseBlobUrl(null);
+    void getGifObjectUrl(yankLoseSrc)
+      .then((blobUrl) => {
+        if (cancelled) return;
+        setYankLoseBlobUrl(blobUrl);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setYankLoseSrcIndex((prev) =>
+          Math.min(
+            prev < yankLoseSources.length - 1 ? prev + 1 : prev,
+            yankLoseSources.length - 1
+          )
+        );
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [yankLoseActive, yankLoseSrc, yankLoseSources.length]);
+  const entryLightOverlay = showEntryLight ? (
+    <div
+      className={`pointer-events-auto absolute inset-0 z-50 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.98),rgba(255,255,255,0.92)_55%,rgba(255,255,255,0.85)_100%)] transition-opacity duration-150 ${
+        entryLightFading ? "opacity-0" : "opacity-100"
+      }`}
+    />
+  ) : null;
 
   useEffect(() => {
     setYankLoseSrcIndex(0);
+    setPortraitRestartKey(0);
+    previousRevealPhaseRef.current = "idle";
   }, [character.id]);
 
   if (!sessionId) {
@@ -606,6 +706,7 @@ export const MatchClient = ({
           answerKey={null}
           portraitSources={portraitSources}
           portraitOverrideAlt={portraitOverrideAlt}
+          portraitRestartKey={portraitRestartKey}
           isTyping={false}
           glitch={false}
           suspicion={0}
@@ -630,6 +731,7 @@ export const MatchClient = ({
         answerKey={lastTurnId}
         portraitSources={portraitSources}
         portraitOverrideAlt={portraitOverrideAlt}
+        portraitRestartKey={portraitRestartKey}
         isTyping={showResultOverlay ? false : isTyping}
         glitch={glitchActive}
         suspicion={session?.suspicion ?? 0}
@@ -639,24 +741,26 @@ export const MatchClient = ({
         <div className="pointer-events-none absolute inset-0 z-[999]">
           {yankLoseSnapshot ? (
             <div className="absolute inset-0 bg-black" />
-          ) : (
-            <img
-              ref={yankLoseImgRef}
-              src={yankLoseSrc}
-              alt="Yank mask lose"
-              className="h-full w-full object-cover"
-              onLoad={() =>
-                startYankLoseFreeze(
-                  yankLoseDurationMs ?? gameConfig.yankMaskLoseDurationMs
-                )
-              }
-              onError={() => {
-                setYankLoseSrcIndex((prev) =>
-                  Math.min(prev + 1, yankLoseSources.length - 1)
-                );
-              }}
-            />
-          )}
+          ) : yankLoseBlobUrl ? (
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                key={`${yankLoseBlobUrl}:${yankLoseSrcIndex}`}
+                ref={yankLoseImgRef}
+                src={yankLoseBlobUrl}
+                alt="Yank mask lose"
+                className="h-full w-full object-cover"
+                onLoad={() =>
+                  startYankLoseFreeze(gameConfig.yankMaskLoseDurationMs)
+                }
+                onError={() => {
+                  setYankLoseSrcIndex((prev) =>
+                    Math.min(prev + 1, yankLoseSources.length - 1)
+                  );
+                }}
+              />
+            </>
+          ) : null}
         </div>
       ) : null}
       {canShowResultUI && story ? (
@@ -801,7 +905,7 @@ export const MatchClient = ({
           <>
             {showQuestionSheet ? (
               <QuestionSheet
-                className="pointer-events-auto w-full max-w-xl"
+                className={questionSheetClasses}
                 character={character}
                 questions={questions}
                 askedIds={askedIds}
@@ -809,8 +913,11 @@ export const MatchClient = ({
                 pendingId={pendingQuestionId}
                 onAsk={handleAsk}
                 disabled={!session || session.status !== "in_progress"}
-                collapsed={isSheetCollapsed}
-                onToggle={() => setIsSheetCollapsed((prev) => !prev)}
+                collapsed={isQuestionSheetCollapsed}
+                onToggle={() => {
+                  if (!isQuestionSheetInteractive) return;
+                  setIsSheetCollapsed((prev) => !prev);
+                }}
                 footer={
                   <ChoiceBar
                     className="w-full"

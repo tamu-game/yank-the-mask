@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { askQuestionSchema } from "@/validation/schemas";
 import { getCharacterById } from "@/data/characters";
 import { memoryStore } from "@/store/memoryStore";
-import { addSuspicion, isAlienFromAverageSuspicion } from "@/lib/suspicion";
+import { addSuspicion } from "@/lib/suspicion";
 import { nowIso } from "@/lib/time";
+import { createSeededRng } from "@/lib/rng";
+import { pickAnswer } from "@/lib/answerPicker";
 import type { AnswerChoice, TurnLog } from "@/types/game";
 
 export const runtime = "nodejs";
@@ -50,9 +52,15 @@ export async function POST(
   }
 
   const suspicionBefore = session.suspicion;
-  const randomIndex = Math.floor(Math.random() * question.answers.length);
-  const answerChoice = (randomIndex + 1) as AnswerChoice;
-  const answer = question.answers[randomIndex];
+  const stats = {
+    answeredCount: session.askedQuestionIds.length,
+    totalSuspicion: session.suspicion
+  };
+  const role = session.isAlien ? "alien" : "human";
+  const rng = createSeededRng(`${session.seed}-${questionId}`);
+  const selection = pickAnswer({ question, role, stats, rng });
+  const answerChoice = selection.choice;
+  const answer = selection.option;
   const answerText = answer?.text ?? "";
   const suspicionAfter = addSuspicion(suspicionBefore, answer?.suspicion ?? 0);
   const glitchChance = 0;
@@ -70,11 +78,9 @@ export async function POST(
   };
 
   const askedQuestionIds = [...session.askedQuestionIds, questionId];
-  const answeredCount = askedQuestionIds.length;
   session.askedQuestionIds = askedQuestionIds;
   session.turns = [...session.turns, turn];
   session.suspicion = suspicionAfter;
-  session.isAlien = isAlienFromAverageSuspicion(suspicionAfter, answeredCount);
 
   await memoryStore.updateSession(session);
 

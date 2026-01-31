@@ -74,7 +74,7 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
       </div>
 
       {/* ✅ Frame container */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 flex items-start justify-center md:items-center">
         <div
           className="
             relative

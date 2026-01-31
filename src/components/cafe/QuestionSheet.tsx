@@ -69,9 +69,9 @@ export const QuestionSheet = ({
   const likes = character.likes;
   const dislikes = character.dislikes;
   const quirks = character.quirks;
-  const personality = Array.from(new Set([...character.tags, ...character.traits])).slice(0, 5);
-  const shortDescriptor = character.tags[0] ?? "New face";
+  const personality = Array.from(new Set([...character.tags, ...character.traits]));
   const observation = character.observation;
+  const bio = character.bio;
   const portraitSources = getProfilePortraitSources(character.id);
   const whispers = character.whispers;
   const isProfileOpen = profileState === "open";
@@ -203,34 +203,37 @@ export const QuestionSheet = ({
                 : "pointer-events-none max-h-0 scale-[0.98] opacity-0"
             }`}
           >
-            <div className="mx-auto w-full max-w-[520px] overflow-hidden rounded-[28px] border-2 border-amber-200/80 bg-gradient-to-b from-[#fff4de]/92 via-[#fff0d6]/88 to-[#fff7ea]/85 shadow-[0_18px_36px_rgba(197,139,79,0.2)]">
-              <div className="relative border-b border-amber-200/70 px-5 pb-4 pt-5">
-                <div className="absolute inset-0" style={{ background: gradient }} />
-                <div className="relative flex items-center gap-4">
-                  <div className="relative h-20 w-20 overflow-hidden rounded-full border-2 border-white/80 shadow-lg">
-                    <FallbackImage
-                      sources={portraitSources}
-                      alt={`${character.name} portrait`}
-                      fill
-                      sizes="96px"
-                      className="object-cover object-center"
-                    />
-                  </div>
-                  <div className="flex-1 text-amber-950">
-                    <div className="text-2xl font-semibold">
-                      {character.name}, {character.age}
-                    </div>
-                    <div className="mt-1 text-sm text-amber-800/90">{observation}</div>
-                  </div>
-                  <StickerTag
-                    label={shortDescriptor}
-                    className="rotate-[-1deg] ring-2 ring-amber-200/70"
-                  />
-                </div>
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-amber-200/50 via-transparent to-transparent" />
-              </div>
-              <div className="max-h-[50vh] overflow-y-auto px-5 pb-6 pt-4 text-amber-900">
+            <div className="mx-auto w-full max-w-[520px]">
+              <div className="max-h-[52vh] overflow-y-auto px-2 pb-6 pt-2 text-amber-900 sm:px-4 sm:pt-4">
                 <div className="flex flex-col gap-5">
+                  <div className="flex items-start gap-3">
+                    <div className="relative h-12 w-12 rounded-full">
+                      <div className="absolute inset-0 rounded-full" style={{ background: gradient }} />
+                      <div className="absolute inset-[2px] overflow-hidden rounded-full border-2 border-white/90 bg-white shadow-md">
+                        <FallbackImage
+                          sources={portraitSources}
+                          alt={`${character.name} portrait`}
+                          fill
+                          sizes="48px"
+                          className="object-cover object-center"
+                        />
+                      </div>
+                    </div>
+                    <div className="min-w-0 flex-1 text-amber-950">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <div className="text-lg font-semibold">{character.name}</div>
+                      </div>
+                      <div className="mt-1 text-sm text-amber-800/90">{observation}</div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-amber-700/70">
+                      About
+                    </div>
+                    <p className="mt-2 text-sm text-amber-800/90">{bio}</p>
+                  </div>
+
                   <div>
                     <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-amber-700/70">
                       Signals
@@ -274,6 +277,17 @@ export const QuestionSheet = ({
                         ))}
                       </ul>
                     </div>
+                  </div>
+
+                  <div>
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-amber-700/70">
+                      Quirks
+                    </div>
+                    <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-amber-800/90">
+                      {quirks.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
               </div>

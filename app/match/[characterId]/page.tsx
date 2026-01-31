@@ -8,7 +8,7 @@ export default function MatchPage({
   searchParams
 }: {
   params: { characterId: string };
-  searchParams: { sessionId?: string };
+  searchParams: { sessionId?: string; from?: string };
 }) {
   const character = getCharacterById(params.characterId);
   if (!character) {
@@ -22,6 +22,7 @@ export default function MatchPage({
         character={publicCharacter}
         questions={publicCharacter.questions}
         sessionId={searchParams.sessionId ?? null}
+        fromFeed={searchParams.from === "feed"}
       />
     </main>
   );
