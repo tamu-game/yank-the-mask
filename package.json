@@ -6,8 +6,11 @@
     "node": ">=18.17.0 <23"
   },
   "scripts": {
+    "predev": "node scripts/generate-precache.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/generate-precache.mjs",
     "build": "next build",
+    "prestart": "node scripts/generate-precache.mjs",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
@@ -32,6 +35,7 @@
     "autoprefixer": "^10.4.17",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.5",
+    "eslint-config-prettier": "^9.1.0",
     "postcss": "^8.4.38",
     "prettier": "^3.3.3",
     "prisma": "^6.19.2",
