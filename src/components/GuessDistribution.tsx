@@ -50,7 +50,7 @@ export const GuessDistribution = ({
       {totalWins === 0 ? (
         <div className="mt-3 text-xs text-slate-500">Henüz yeterli veri yok.</div>
       ) : null}
-      <div className="mt-4 space-y-2">
+      <div className="mt-4 max-h-52 space-y-2 overflow-y-auto pr-1">
         {data.distribution.map((entry) => {
           const isHighlight = highlightQuestion === entry.question;
           const isMostCommon = entry.question === mostCommon.question && mostCommon.winCount > 0;

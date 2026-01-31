@@ -104,6 +104,15 @@ export const CafeScene = ({
         <div className="relative flex-1">
           <div className="absolute inset-x-0 bottom-[40%] flex justify-center">
             <div className="relative h-[80vh] w-[108%] max-w-[880px]">
+              <div className="absolute inset-x-0 bottom-[-35vh] z-0 h-[80vh] w-full">
+                <Image
+                  src="/backgrounds/chair.png"
+                  alt="Chair"
+                  fill
+                  className="object-contain object-bottom"
+                  sizes="100vw"
+                />
+              </div>
               <CharacterSprite
                 src={portraitSrc}
                 alt={portraitAlt}

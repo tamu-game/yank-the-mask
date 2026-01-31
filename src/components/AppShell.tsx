@@ -1,9 +1,31 @@
+"use client";
+
 import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
 import { BackgroundAudio } from "@/components/BackgroundAudio";
 
+const BASE_WIDTH = 390;
+const BASE_HEIGHT = 844;
+
 export const AppShell = ({ children }: { children: ReactNode }) => {
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const updateScale = () => {
+      const nextScale = Math.min(
+        window.innerWidth / BASE_WIDTH,
+        window.innerHeight / BASE_HEIGHT
+      );
+      setScale(nextScale);
+    };
+
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    return () => window.removeEventListener("resize", updateScale);
+  }, []);
+
   return (
-    <div className="min-h-screen text-slate-900">
+    <div className="fixed inset-0 overflow-hidden text-slate-900">
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute -left-24 top-6 h-72 w-72 rounded-full bg-rose-200/60 blur-[120px]" />
         <div className="absolute right-0 top-1/2 h-80 w-80 rounded-full bg-purple-200/50 blur-[140px]" />
@@ -11,9 +33,20 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
         <div className="absolute right-16 top-32 h-14 w-14 -rotate-6 rounded-full border-2 border-amber-200/80 bg-white/60 shadow-sm" />
         <div className="absolute bottom-24 left-10 h-10 w-10 rounded-full border-2 border-teal-200/80 bg-white/60 shadow-sm" />
       </div>
-      <div className="relative mx-auto h-screen max-h-[844px] w-full sm:max-w-[490px]">
-        <BackgroundAudio />
-        {children}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div
+          className="relative"
+          data-game-root
+          style={{
+            width: `${BASE_WIDTH}px`,
+            height: `${BASE_HEIGHT}px`,
+            transform: `scale(${scale})`,
+            transformOrigin: "center center"
+          }}
+        >
+          <BackgroundAudio />
+          {children}
+        </div>
       </div>
     </div>
   );

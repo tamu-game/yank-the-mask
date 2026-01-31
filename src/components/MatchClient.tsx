@@ -36,7 +36,7 @@ type ResultOverlay = {
   outcome: "win" | "lose";
 };
 
-type RevealPhase = "idle" | "yank" | "alien";
+type RevealPhase = "idle" | "yank" | "alien" | "angry_init" | "angry_loop";
 
 const resultCopy: Record<string, { title: string; line: string; status: string }> = {
   "accuse-win": {
@@ -315,6 +315,7 @@ export const MatchClient = ({
       const shouldPlayYank =
         (chosenDecision === "accuse" && outcome === "win") ||
         (chosenDecision === "trust" && outcome === "lose");
+      const shouldPlayAngry = chosenDecision === "accuse" && outcome === "lose";
       void (async () => {
         const eventType = outcome === "win" ? "CORRECT_GUESS" : "WRONG_GUESS";
         const finalOutcome = outcome === "win" ? "WIN" : "LOSE";
@@ -330,6 +331,17 @@ export const MatchClient = ({
         revealTimerRef.current = window.setTimeout(() => {
           setRevealPhase("alien");
         }, gameConfig.yankMaskDurationMs);
+        return;
+      }
+      if (shouldPlayAngry) {
+        setRevealPhase("angry_init");
+        setResultOverlay({ decision: chosenDecision, outcome });
+        if (revealTimerRef.current) {
+          window.clearTimeout(revealTimerRef.current);
+        }
+        revealTimerRef.current = window.setTimeout(() => {
+          setRevealPhase("angry_loop");
+        }, gameConfig.angryInitDurationMs);
         return;
       }
       if (revealTimerRef.current) {
@@ -363,6 +375,8 @@ export const MatchClient = ({
       : null;
   const isAccuseWin =
     resultOverlay?.decision === "accuse" && resultOverlay?.outcome === "win" && showResultOverlay;
+  const isAccuseLose =
+    resultOverlay?.decision === "accuse" && resultOverlay?.outcome === "lose" && showResultOverlay;
   const isTrustLose =
     resultOverlay?.decision === "trust" && resultOverlay?.outcome === "lose" && showResultOverlay;
   const loveActive =
@@ -374,7 +388,11 @@ export const MatchClient = ({
         : isTrustLose
           ? "/characters/yank_mask_lose.gif"
           : "/characters/yank_mask.gif"
-      : revealPhase === "alien"
+      : revealPhase === "angry_init"
+        ? "/characters/angry_init.gif"
+        : revealPhase === "angry_loop"
+          ? "/characters/angry_loop.gif"
+          : revealPhase === "alien"
         ? isAccuseWin
           ? "/characters/alien_cry.gif"
           : isTrustLose
@@ -386,7 +404,11 @@ export const MatchClient = ({
             ? "/characters/talk.gif"
             : "/characters/character.gif";
   const portraitOverrideAlt =
-    revealPhase === "alien"
+    revealPhase === "angry_init"
+      ? "Angry reveal"
+      : revealPhase === "angry_loop"
+        ? "Angry loop"
+        : revealPhase === "alien"
       ? isAccuseWin
         ? "Alien crying"
         : isTrustLose
@@ -395,7 +417,7 @@ export const MatchClient = ({
       : revealPhase === "yank"
         ? isAccuseWin
           ? "Yank mask win"
-          : isTrustLose
+          : isTrustLose || isAccuseLose
             ? "Yank mask lose"
             : "Yank mask reveal"
         : loveActive
@@ -491,10 +513,10 @@ export const MatchClient = ({
         {story ? (
           <div className="pointer-events-auto w-full max-w-xl">
             <div
-              className={`rounded-[24px] border border-white/70 bg-white/95 text-center shadow-2xl transition-all duration-300 ease-out ${
+              className={`flex flex-col rounded-[24px] border border-white/70 bg-white/95 text-center shadow-2xl transition-all duration-300 ease-out ${
                 isResultCollapsed
                   ? "cursor-pointer px-4 py-3 max-h-[140px] overflow-hidden"
-                  : "cursor-pointer p-5 max-h-[520px]"
+                  : "cursor-pointer p-5 max-h-[60vh] overflow-y-auto"
               }`}
               role="button"
               tabIndex={0}
@@ -508,9 +530,7 @@ export const MatchClient = ({
             >
               <div
                 className={`transition-all duration-300 ease-out ${
-                  isResultCollapsed
-                    ? "max-h-0 opacity-0 pointer-events-none"
-                    : "max-h-[420px] opacity-100"
+                  isResultCollapsed ? "max-h-0 opacity-0 pointer-events-none" : "opacity-100"
                 }`}
               >
                 {persistentSummary ? (
