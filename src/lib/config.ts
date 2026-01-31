@@ -31,5 +31,6 @@ export const gameConfig = {
     consolationPerQuestion: 2,
     maxConsolation: 16
   },
-  minQuestionsToDecide: 1
+  minQuestionsToDecide: 1,
+  yankMaskDurationMs: 1740
 } as const;

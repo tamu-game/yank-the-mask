@@ -1,4 +1,6 @@
 import { Button } from "@/components/Button";
+import { AuthPanel } from "@/components/auth/AuthPanel";
+import { AuthProvider } from "@/components/auth/AuthProvider";
 
 export default function LandingPage() {
   return (
@@ -26,6 +28,11 @@ export default function LandingPage() {
           "Dating is hard. Dating someone wearing your crush's mask? Harder." 
           <span className="text-rose-400">- The Maskle Team</span>
         </p>
+      </div>
+      <div className="mt-8 w-full max-w-xl">
+        <AuthProvider>
+          <AuthPanel />
+        </AuthProvider>
       </div>
     </main>
   );

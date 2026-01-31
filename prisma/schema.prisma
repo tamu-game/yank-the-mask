@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum GameSessionStatus {
+  IN_PROGRESS
+  COMPLETED
+  ABANDONED
+}
+
+enum GameSessionOutcome {
+  WIN
+  LOSE
+}
+
+enum ScoreEventType {
+  QUESTION_ASKED
+  CORRECT_GUESS
+  WRONG_GUESS
+  TIME_BONUS
+  OTHER
+}
+
+model User {
+  id           String        @id @default(uuid())
+  firstName    String
+  lastName     String
+  email        String        @unique
+  passwordHash String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  sessions     GameSession[]
+}
+
+model GameSession {
+  id            String            @id @default(uuid())
+  userId        String
+  characterId   String?
+  user          User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  startedAt     DateTime          @default(now())
+  endedAt       DateTime?
+  status        GameSessionStatus @default(IN_PROGRESS)
+  outcome       GameSessionOutcome?
+  guessedAtQuestion Int?
+  questionCount Int               @default(0)
+  correctCount  Int               @default(0)
+  wrongCount    Int               @default(0)
+  score         Int               @default(0)
+  summary       Json?
+  scoreEvents   ScoreEvent[]
+}
+
+model ScoreEvent {
+  id        String         @id @default(uuid())
+  sessionId String
+  session   GameSession    @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  type      ScoreEventType
+  delta     Int
+  createdAt DateTime       @default(now())
+}

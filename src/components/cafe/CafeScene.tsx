@@ -107,7 +107,7 @@ export const CafeScene = ({
               <CharacterSprite
                 src={portraitSrc}
                 alt={portraitAlt}
-                className="absolute inset-x-0 bottom-0 h-full w-full"
+                className="absolute inset-x-0 bottom-0 h-full w-full z-10"
                 priority
               />
               {showBubble ? (
@@ -121,6 +121,16 @@ export const CafeScene = ({
                 </div>
               ) : null}
             </div>
+          </div>
+          <div className="absolute inset-x-0 bottom-0 z-20 w-full">
+            <Image
+              src="/backgrounds/table.png"
+              alt="Cafe table"
+              width={2048}
+              height={4096}
+              className="h-auto w-full"
+              sizes="100vw"
+            />
           </div>
 
           {questionText ? (
