@@ -1,24 +1,24 @@
 "use client";
 
-import Image from "next/image";
+import { FallbackImage } from "@/components/FallbackImage";
 
 type CharacterSpriteProps = {
-  src: string;
+  sources: string[];
   alt: string;
   className?: string;
   priority?: boolean;
 };
 
 export const CharacterSprite = ({
-  src,
+  sources,
   alt,
   className = "",
   priority = false
 }: CharacterSpriteProps) => {
   return (
     <div className={`relative ${className}`}>
-      <Image
-        src={src}
+      <FallbackImage
+        sources={sources}
         alt={alt}
         fill
         priority={priority}

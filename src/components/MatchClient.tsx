@@ -4,6 +4,24 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import type { CharacterPreview, QuestionPublic, SessionPublic } from "@/types/game";
 import { gameConfig } from "@/lib/config";
+import {
+  getAlienCrySources,
+  getAlienIdleSources,
+  getAlienLaughSources,
+  getAngryInitSources,
+  getAngryLoopSources,
+  getCafeIdleSources,
+  getLoveSources,
+  getTalkSources,
+  getYankLoseSources,
+  getYankSources,
+  getYankWinSources
+} from "@/lib/characterAssets";
+import {
+  preloadTalkingSound,
+  startTalkingSound,
+  stopTalkingSound
+} from "@/lib/talkingSound";
 import { CafeScene } from "@/components/cafe/CafeScene";
 import { QuestionSheet } from "@/components/cafe/QuestionSheet";
 import { ChoiceBar } from "@/components/cafe/ChoiceBar";
@@ -84,6 +102,8 @@ export const MatchClient = ({
   const [resultOverlay, setResultOverlay] = useState<ResultOverlay | null>(null);
   const [talkActive, setTalkActive] = useState(false);
   const [isResultCollapsed, setIsResultCollapsed] = useState(false);
+  const [yankLoseActive, setYankLoseActive] = useState(false);
+  const [yankLoseSnapshot, setYankLoseSnapshot] = useState<string | null>(null);
   const [persistentSummary, setPersistentSummary] = useState<{
     score: number;
     status: "COMPLETED" | "ABANDONED";
@@ -96,6 +116,9 @@ export const MatchClient = ({
   const lastTurnIdRef = useRef<string | null>(null);
   const revealTimerRef = useRef<number | null>(null);
   const talkTimerRef = useRef<number | null>(null);
+  const yankLoseTimerRef = useRef<number | null>(null);
+  const yankLoseImgRef = useRef<HTMLImageElement | null>(null);
+  const [yankLoseSrcIndex, setYankLoseSrcIndex] = useState(0);
   const startPromiseRef = useRef<Promise<boolean> | null>(null);
 
   const { data: session, mutate } = useSWR(
@@ -153,6 +176,9 @@ export const MatchClient = ({
       }
       if (talkTimerRef.current) {
         window.clearTimeout(talkTimerRef.current);
+      }
+      if (yankLoseTimerRef.current) {
+        window.clearTimeout(yankLoseTimerRef.current);
       }
     };
   }, []);
@@ -257,6 +283,38 @@ export const MatchClient = ({
     }, 1200);
   }, [pendingQuestionId]);
 
+  useEffect(() => {
+    preloadTalkingSound();
+  }, []);
+
+  useEffect(() => {
+    if (talkActive) {
+      startTalkingSound();
+      return;
+    }
+    stopTalkingSound();
+  }, [talkActive]);
+
+  const startYankLoseFreeze = () => {
+    if (yankLoseTimerRef.current) {
+      window.clearTimeout(yankLoseTimerRef.current);
+    }
+    yankLoseTimerRef.current = window.setTimeout(() => {
+      const img = yankLoseImgRef.current;
+      if (!img) return;
+      const width = img.naturalWidth || img.width;
+      const height = img.naturalHeight || img.height;
+      if (!width || !height) return;
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      ctx.drawImage(img, 0, 0, width, height);
+      setYankLoseSnapshot(canvas.toDataURL("image/png"));
+    }, Math.max(0, gameConfig.yankMaskLoseDurationMs - 60));
+  };
+
   const handleAsk = async (questionId: string) => {
     if (!sessionId) return;
     if (pendingQuestionId) return;
@@ -312,9 +370,8 @@ export const MatchClient = ({
       if (!outcome) {
         throw new Error("Failed to decide.");
       }
-      const shouldPlayYank =
-        (chosenDecision === "accuse" && outcome === "win") ||
-        (chosenDecision === "trust" && outcome === "lose");
+      const shouldPlayYankWin = chosenDecision === "accuse" && outcome === "win";
+      const shouldPlayYankLose = chosenDecision === "trust" && outcome === "lose";
       const shouldPlayAngry = chosenDecision === "accuse" && outcome === "lose";
       void (async () => {
         const eventType = outcome === "win" ? "CORRECT_GUESS" : "WRONG_GUESS";
@@ -322,7 +379,18 @@ export const MatchClient = ({
         await recordEvent(eventType);
         await finishSession("COMPLETED", finalOutcome);
       })();
-      if (shouldPlayYank) {
+      if (shouldPlayYankLose) {
+        setYankLoseSnapshot(null);
+        setYankLoseActive(true);
+        if (revealTimerRef.current) {
+          window.clearTimeout(revealTimerRef.current);
+        }
+        setRevealPhase("idle");
+        setResultOverlay({ decision: chosenDecision, outcome });
+        return;
+      }
+      setYankLoseActive(false);
+      if (shouldPlayYankWin) {
         setRevealPhase("yank");
         setResultOverlay({ decision: chosenDecision, outcome });
         if (revealTimerRef.current) {
@@ -364,6 +432,8 @@ export const MatchClient = ({
     : null;
   const story = resultKey ? resultCopy[resultKey] : null;
   const showResultOverlay = Boolean(story);
+  const holdResultUntilYankLoseEnd = yankLoseActive && !yankLoseSnapshot;
+  const canShowResultUI = showResultOverlay && !holdResultUntilYankLoseEnd;
   const playerOutcome = resultOverlay
     ? resultOverlay.outcome === "win"
       ? "WIN"
@@ -381,28 +451,28 @@ export const MatchClient = ({
     resultOverlay?.decision === "trust" && resultOverlay?.outcome === "lose" && showResultOverlay;
   const loveActive =
     resultOverlay?.decision === "trust" && resultOverlay?.outcome === "win" && showResultOverlay;
-  const portraitOverrideSrc =
+  const portraitSources =
     revealPhase === "yank"
       ? isAccuseWin
-        ? "/characters/yank_mask_win.gif"
+        ? getYankWinSources(character.id)
         : isTrustLose
-          ? "/characters/yank_mask_lose.gif"
-          : "/characters/yank_mask.gif"
+          ? getYankLoseSources(character.id)
+          : getYankSources(character.id)
       : revealPhase === "angry_init"
-        ? "/characters/angry_init.gif"
+        ? getAngryInitSources(character.id)
         : revealPhase === "angry_loop"
-          ? "/characters/angry_loop.gif"
+          ? getAngryLoopSources(character.id)
           : revealPhase === "alien"
         ? isAccuseWin
-          ? "/characters/alien_cry.gif"
+          ? getAlienCrySources()
           : isTrustLose
-            ? "/characters/alien_laugh.gif"
-          : "/characters/alien.png"
+            ? getAlienLaughSources()
+          : getAlienIdleSources()
         : loveActive
-          ? "/characters/love.gif"
+          ? getLoveSources(character.id)
           : talkActive
-            ? "/characters/talk.gif"
-            : "/characters/character.gif";
+            ? getTalkSources(character.id)
+            : getCafeIdleSources(character.id);
   const portraitOverrideAlt =
     revealPhase === "angry_init"
       ? "Angry reveal"
@@ -426,6 +496,13 @@ export const MatchClient = ({
             ? "Character talking"
             : "Character idle";
 
+  const yankLoseSources = getYankLoseSources(character.id);
+  const yankLoseSrc = yankLoseSources[Math.min(yankLoseSrcIndex, yankLoseSources.length - 1)];
+
+  useEffect(() => {
+    setYankLoseSrcIndex(0);
+  }, [character.id]);
+
   if (!sessionId) {
     return (
       <div className="relative min-h-screen w-full overflow-hidden">
@@ -435,7 +512,7 @@ export const MatchClient = ({
           questionText={null}
           answerText={null}
           answerKey={null}
-          portraitOverrideSrc={portraitOverrideSrc}
+          portraitSources={portraitSources}
           portraitOverrideAlt={portraitOverrideAlt}
           isTyping={false}
           glitch={false}
@@ -459,15 +536,39 @@ export const MatchClient = ({
         questionText={null}
         answerText={showResultOverlay ? null : answerText}
         answerKey={lastTurnId}
-        portraitOverrideSrc={portraitOverrideSrc}
+        portraitSources={portraitSources}
         portraitOverrideAlt={portraitOverrideAlt}
         isTyping={showResultOverlay ? false : isTyping}
         glitch={glitchActive}
         suspicion={session?.suspicion ?? 0}
         onBack={() => setExitConfirm(true)}
       />
-      {story ? (
-        <div className="pointer-events-none absolute inset-x-0 top-[10%] z-30 flex justify-center px-6 text-center">
+      {yankLoseActive ? (
+        <div className="pointer-events-none absolute inset-0 z-[999]">
+          {yankLoseSnapshot ? (
+            <div className="absolute inset-0 bg-black" />
+          ) : (
+            <img
+              ref={yankLoseImgRef}
+              src={yankLoseSrc}
+              alt="Yank mask lose"
+              className="h-full w-full object-cover"
+              onLoad={startYankLoseFreeze}
+              onError={() => {
+                setYankLoseSrcIndex((prev) =>
+                  Math.min(prev + 1, yankLoseSources.length - 1)
+                );
+              }}
+            />
+          )}
+        </div>
+      ) : null}
+      {canShowResultUI ? (
+        <div
+          className={`pointer-events-none absolute inset-x-0 top-[10%] flex justify-center px-6 text-center ${
+            yankLoseSnapshot ? "z-[1000]" : "z-30"
+          }`}
+        >
           <div className="relative max-w-md text-slate-700">
             <div className="pointer-events-none absolute left-1/2 top-4 h-40 w-80 -translate-x-1/2 rounded-full bg-rose-200/70 blur-[110px]" />
             <div className="relative text-base font-semibold uppercase tracking-[0.4em] text-rose-400">
@@ -478,7 +579,11 @@ export const MatchClient = ({
           </div>
         </div>
       ) : null}
-      <div className="absolute inset-x-0 bottom-0 z-30 flex flex-col items-center gap-3 px-4 pb-4">
+      <div
+        className={`absolute inset-x-0 bottom-0 flex flex-col items-center px-4 ${
+          canShowResultUI && yankLoseActive ? "z-[1000]" : "z-30"
+        } ${canShowResultUI ? "gap-3 pb-4" : "gap-0 pb-0"}`}
+      >
         {questionText && !showResultOverlay ? (
           <div
             className={`w-full max-w-xl transform-gpu will-change-[opacity,transform] motion-safe:transition-[opacity,transform] motion-safe:duration-300 motion-safe:ease-out ${
@@ -510,7 +615,7 @@ export const MatchClient = ({
             </div>
           </div>
         ) : null}
-        {story ? (
+        {canShowResultUI ? (
           <div className="pointer-events-auto w-full max-w-xl">
             <div
               className={`flex flex-col rounded-[24px] border border-white/70 bg-white/95 text-center shadow-2xl transition-all duration-300 ease-out ${
@@ -604,13 +709,15 @@ export const MatchClient = ({
               disabled={!session || session.status !== "in_progress"}
               collapsed={isSheetCollapsed}
               onToggle={() => setIsSheetCollapsed((prev) => !prev)}
-            />
-            <ChoiceBar
-              className="pointer-events-auto w-full max-w-xl"
-              canDecide={canDecide}
-              minQuestionsToDecide={minQuestionsToDecide}
-              disabled={Boolean(pendingQuestionId) || session?.status !== "in_progress"}
-              onChoose={(value) => setDecision(value)}
+              footer={
+                <ChoiceBar
+                  className="w-full"
+                  canDecide={canDecide}
+                  minQuestionsToDecide={minQuestionsToDecide}
+                  disabled={Boolean(pendingQuestionId) || session?.status !== "in_progress"}
+                  onChoose={(value) => setDecision(value)}
+                />
+              }
             />
           </>
         )}

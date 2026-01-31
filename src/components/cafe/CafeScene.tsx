@@ -11,7 +11,7 @@ type CafeSceneProps = {
   questionText: string | null;
   answerText: string | null;
   answerKey?: string | null;
-  portraitOverrideSrc?: string | null;
+  portraitSources?: string[] | null;
   portraitOverrideAlt?: string | null;
   isTyping: boolean;
   glitch: boolean;
@@ -25,7 +25,7 @@ export const CafeScene = ({
   questionText,
   answerText,
   answerKey = null,
-  portraitOverrideSrc = null,
+  portraitSources = null,
   portraitOverrideAlt = null,
   isTyping,
   glitch,
@@ -34,7 +34,9 @@ export const CafeScene = ({
   onBack
 }: CafeSceneProps) => {
   const showBubble = isTyping || Boolean(answerText);
-  const portraitSrc = portraitOverrideSrc ?? character.portraitSrc;
+  const portraitImageSources = portraitSources?.length
+    ? portraitSources
+    : [character.portraitSrc];
   const portraitAlt = portraitOverrideAlt ?? character.name;
 
   return (
@@ -89,13 +91,13 @@ export const CafeScene = ({
                 />
               </div>
               <CharacterSprite
-                src={portraitSrc}
+                sources={portraitImageSources}
                 alt={portraitAlt}
                 className="absolute inset-x-0 bottom-0 h-full w-full z-10"
                 priority
               />
               {showBubble ? (
-                <div className="absolute left-1/2 bottom-[calc(55%+8px)] z-20 w-[78%] max-w-[420px] -translate-x-1/2">
+                <div className="absolute left-1/2 bottom-[calc(55%-40px)] sm:bottom-[calc(55%-120px)] lg:bottom-[calc(55%-160px)] z-20 w-[78%] max-w-[420px] -translate-x-1/2">
                   <SpeechBubble
                     text={answerText ?? ""}
                     isTyping={isTyping}

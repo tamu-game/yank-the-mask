@@ -1,9 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { useRef, useState } from "react";
 import type { CharacterPreview } from "@/types/game";
 import { StickerTag } from "@/components/StickerTag";
+import { FallbackImage } from "@/components/FallbackImage";
+import { getProfilePortraitSources } from "@/lib/characterAssets";
 
 const hashToHue = (seed: string) => {
   let hash = 0;
@@ -43,13 +44,14 @@ export const ProfileCard = ({ character }: { character: CharacterPreview }) => {
   const personality = [...character.traits, ...character.tags];
   const shortDescriptor = character.tags[0] ?? "New face";
   const observation = character.observation;
+  const portraitSources = getProfilePortraitSources(character.id);
 
   return (
     <div className="group flex h-full flex-col overflow-hidden rounded-[32px] border-2 border-white/80 bg-white/90 shadow-[0_22px_40px_rgba(124,58,237,0.18)] backdrop-blur-xl active:shadow-[0_26px_52px_rgba(94,234,212,0.22)] active:ring-2 active:ring-emerald-200/60">
       <div className="relative h-[74%] min-h-[360px] w-full">
         <div className="absolute inset-0" style={{ background: gradient }} />
-        <Image
-          src={character.portraitSrc}
+        <FallbackImage
+          sources={portraitSources}
           alt={`${character.name} portrait`}
           fill
           sizes="(max-width: 640px) 90vw, (max-width: 1024px) 520px, 560px"

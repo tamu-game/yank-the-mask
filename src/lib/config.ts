@@ -33,5 +33,6 @@ export const gameConfig = {
   },
   minQuestionsToDecide: 1,
   yankMaskDurationMs: 1740,
+  yankMaskLoseDurationMs: 4000,
   angryInitDurationMs: 1440
 } as const;

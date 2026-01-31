@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { CharacterPreview } from "@/types/game";
 import { ProfileCard } from "@/components/ProfileCard";
 import { StickerTag } from "@/components/StickerTag";
 import { Button } from "@/components/Button";
+import { playCardSwapSound, preloadCardSwapSound } from "@/lib/cardSwapSound";
 
 type CardStackProps = {
   characters: CharacterPreview[];
@@ -24,6 +25,10 @@ export const CardStack = ({ characters, onSwipeLeft, onSwipeRight }: CardStackPr
   const startRef = useRef<{ x: number; y: number } | null>(null);
 
   const activeCard = characters[index];
+
+  useEffect(() => {
+    preloadCardSwapSound();
+  }, []);
 
   const stackedCards = useMemo(() => {
     return characters.slice(index, index + STACK_DEPTH);
@@ -48,6 +53,7 @@ export const CardStack = ({ characters, onSwipeLeft, onSwipeRight }: CardStackPr
 
   const triggerSwipe = (direction: "left" | "right") => {
     if (!activeCard || swipeOutDir) return;
+    playCardSwapSound();
     const offscreen = typeof window !== "undefined" ? window.innerWidth * 1.2 : 1000;
     setSwipeOutDir(direction);
     setDragX(direction === "right" ? offscreen : -offscreen);

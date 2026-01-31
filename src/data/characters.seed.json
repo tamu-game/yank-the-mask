@@ -234,144 +234,145 @@
     ]
   },
   {
-    "id": "spider-man",
-    "name": "Peter Parker",
-    "age": 23,
-    "avatarSeed": "PP",
+    "id": "walter-white",
+    "name": "Walter White",
+    "age": 50,
+    "avatarSeed": "WW",
     "tags": [
-      "Photography",
-      "Science",
-      "Awkward jokes"
+      "Chemistry",
+      "Control",
+      "Pride"
     ],
     "traits": [
-      "kind",
-      "self-sacrificing",
-      "nerdy"
+      "calculated",
+      "ego-driven",
+      "intimidating"
     ],
     "likes": [
-      "sunrise web swings",
-      "photo walks",
-      "cheap dumplings"
+      "precision",
+      "being underestimated",
+      "order"
     ],
     "dislikes": [
-      "ripped backpacks",
-      "missed calls"
+      "chaos",
+      "disrespect",
+      "losing control"
     ],
     "quirks": [
-      "apologizes to inanimate objects",
-      "labels his film canisters"
+      "adjusts his glasses when annoyed",
+      "pauses before answering to assert dominance"
     ],
-    "hangout": "the cafe window with a view",
-    "observation": "Carries a nervous kindness like a backpack.",
-    "whispers": "Rumor says he never leaves a photo undeveloped and always splits the last dumpling.",
-    "bio": "Friendly neighborhood overthinker.",
+    "hangout": "a quiet booth far from distractions",
+    "observation": "Speaks softly, as if volume itself is a choice.",
+    "whispers": "Rumor says he never raises his voice — because he never needs to.",
+    "bio": "I am not in danger. I am the danger.",
     "questions": [
       {
-        "id": "spider-man_q1",
-        "prompt": "When a web line snaps over Queens, you...",
+        "id": "walter-white_q1",
+        "prompt": "What do you think separates amateurs from professionals?",
         "answers": [
           {
-            "text": "Apologize to the building.",
+            "text": "Attention to detail. Most people are sloppy.",
             "suspicion": 0
           },
           {
-            "text": "Improvise another swing. Keep smiling.",
+            "text": "Discipline. Knowing when not to act.",
             "suspicion": 1
           },
           {
-            "text": "Calculate wind drift mid-air.",
+            "text": "Power. Professionals decide the rules.",
             "suspicion": 2
           },
           {
-            "text": "Land on a drone. Perfectly.",
+            "text": "Fear. The willingness to use it.",
             "suspicion": 3
           }
         ]
       },
       {
-        "id": "spider-man_q2",
-        "prompt": "Your camera of choice?",
+        "id": "walter-white_q2",
+        "prompt": "You seem calm under pressure. How?",
         "answers": [
           {
-            "text": "A beat-up DSLR with character.",
+            "text": "Pressure clarifies things. I actually enjoy it.",
             "suspicion": 0
           },
           {
-            "text": "My phone. Quick and clean.",
+            "text": "I plan ahead. Panic is for the unprepared.",
             "suspicion": 1
           },
           {
-            "text": "A lab prototype with silent shutter.",
+            "text": "I don't feel pressure when I'm in control.",
             "suspicion": 2
           },
           {
-            "text": "No camera. I see in HD.",
+            "text": "Because I'm always ten steps ahead.",
             "suspicion": 3
           }
         ]
       },
       {
-        "id": "spider-man_q3",
-        "prompt": "MJ's ideal coffee order is...",
+        "id": "walter-white_q3",
+        "prompt": "If someone underestimates you, what do you do?",
         "answers": [
           {
-            "text": "Black, with a sarcastic comment.",
+            "text": "Let them. It's useful.",
             "suspicion": 0
           },
           {
-            "text": "Iced latte, extra shot.",
+            "text": "Correct them quietly.",
             "suspicion": 1
           },
           {
-            "text": "Whatever keeps her on her feet.",
+            "text": "Prove them wrong when it matters.",
             "suspicion": 2
           },
           {
-            "text": "A web-shaped foam art thing.",
+            "text": "Make sure they regret it.",
             "suspicion": 3
           }
         ]
       },
       {
-        "id": "spider-man_q4",
-        "prompt": "Where do you hide a suit on a date?",
+        "id": "walter-white_q4",
+        "prompt": "Do you believe the end justifies the means?",
         "answers": [
           {
-            "text": "Locker at ESU.",
+            "text": "Sometimes. If the goal is important enough.",
             "suspicion": 0
           },
           {
-            "text": "Backpack. It still fits.",
+            "text": "Yes — but only when you're the one deciding.",
             "suspicion": 1
           },
           {
-            "text": "In the ceiling, obviously.",
+            "text": "Morality is flexible under necessity.",
             "suspicion": 2
           },
           {
-            "text": "I don't. It's under my skin.",
+            "text": "Ends are all that matter.",
             "suspicion": 3
           }
         ]
       },
       {
-        "id": "spider-man_q5",
-        "prompt": "Pick a science fair topic.",
+        "id": "walter-white_q5",
+        "prompt": "How do you handle betrayal?",
         "answers": [
           {
-            "text": "Advanced adhesives that don't hurt.",
+            "text": "I take note. Nothing more.",
             "suspicion": 0
           },
           {
-            "text": "Bio-mechanics of wall-crawling.",
+            "text": "I distance myself permanently.",
             "suspicion": 1
           },
           {
-            "text": "Quantum web fluid stabilization.",
+            "text": "I make sure it never happens again.",
             "suspicion": 2
           },
           {
-            "text": "Alien DNA compatibility testing.",
+            "text": "I eliminate the variable.",
             "suspicion": 3
           }
         ]

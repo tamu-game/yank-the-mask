@@ -1,9 +1,11 @@
 "use client";
 
-import Image from "next/image";
+import { FallbackImage } from "@/components/FallbackImage";
+import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import type { CharacterPreview, QuestionPublic } from "@/types/game";
 import { StickerTag } from "@/components/StickerTag";
+import { getProfilePortraitSources } from "@/lib/characterAssets";
 
 const hashToHue = (seed: string) => {
   let hash = 0;
@@ -38,6 +40,7 @@ type QuestionSheetProps = {
   pendingId?: string | null;
   onAsk: (questionId: string) => void;
   disabled?: boolean;
+  footer?: ReactNode;
   className?: string;
   collapsed?: boolean;
   onToggle?: () => void;
@@ -50,6 +53,7 @@ export const QuestionSheet = ({
   pendingId,
   onAsk,
   disabled,
+  footer,
   className = "",
   collapsed = false,
   onToggle
@@ -66,6 +70,7 @@ export const QuestionSheet = ({
   const personality = Array.from(new Set([...character.tags, ...character.traits])).slice(0, 5);
   const shortDescriptor = character.tags[0] ?? "New face";
   const observation = character.observation;
+  const portraitSources = getProfilePortraitSources(character.id);
   const whispers = character.whispers;
   const isProfileOpen = profileState === "open";
   const isProfileVisible = profileState !== "closed";
@@ -117,13 +122,13 @@ export const QuestionSheet = ({
 
   return (
     <div className={`w-full ${className}`}>
-      <div
-        className={`relative overflow-hidden rounded-t-[30px] border border-amber-200/70 bg-gradient-to-b from-amber-50/95 via-amber-50/90 to-white/90 px-4 pb-4 pt-4 shadow-[0_-12px_30px_rgba(15,23,42,0.18)] backdrop-blur transform-gpu will-change-[max-height,transform] motion-safe:transition-[max-height,transform] motion-safe:duration-300 motion-safe:ease-out ${
+        <div
+          className={`relative overflow-hidden rounded-t-[30px] border border-amber-200/70 bg-gradient-to-b from-amber-50/95 via-amber-50/90 to-white/90 px-4 pb-6 pt-4 shadow-[0_-12px_30px_rgba(15,23,42,0.18)] backdrop-blur transform-gpu will-change-[max-height,transform] motion-safe:transition-[max-height,transform] motion-safe:duration-300 motion-safe:ease-out ${
           isCollapsed
             ? "max-h-[78px] min-h-[78px] translate-y-2"
             : isProfileOpen
               ? "max-h-[82vh] min-h-[520px] translate-y-0"
-              : "max-h-[40vh] min-h-[240px] translate-y-0"
+              : "max-h-[42vh] min-h-[250px] translate-y-0"
         }`}
       >
         <div className="pointer-events-none absolute inset-0 opacity-70">
@@ -201,8 +206,8 @@ export const QuestionSheet = ({
                 <div className="absolute inset-0" style={{ background: gradient }} />
                 <div className="relative flex items-center gap-4">
                   <div className="relative h-20 w-20 overflow-hidden rounded-full border-2 border-white/80 shadow-lg">
-                    <Image
-                      src={character.portraitSrc}
+                    <FallbackImage
+                      sources={portraitSources}
                       alt={`${character.name} portrait`}
                       fill
                       sizes="96px"
@@ -273,13 +278,13 @@ export const QuestionSheet = ({
             </div>
           </div>
         ) : (
-          <div
-            className={`relative mt-3 space-y-2 overflow-y-auto pr-1 transform-gpu will-change-[max-height,opacity,transform] motion-safe:transition-[max-height,opacity,transform] motion-safe:duration-250 motion-safe:ease-out ${
-              isCollapsed
-                ? "max-h-0 opacity-0 -translate-y-1 pointer-events-none"
-                : "max-h-[24vh] opacity-100 translate-y-0"
-            }`}
-          >
+        <div
+          className={`relative mt-3 space-y-2 overflow-y-auto pr-1 transform-gpu will-change-[max-height,opacity,transform] motion-safe:transition-[max-height,opacity,transform] motion-safe:duration-250 motion-safe:ease-out ${
+            isCollapsed
+              ? "max-h-0 opacity-0 -translate-y-1 pointer-events-none"
+              : "max-h-[20vh] sm:max-h-[24vh] opacity-100 translate-y-0"
+          }`}
+        >
             {questions.map((question) => {
               const isAsked = askedIds.includes(question.id);
               const isPending = pendingId === question.id;
@@ -313,6 +318,7 @@ export const QuestionSheet = ({
             })}
           </div>
         )}
+        {footer ? <div className="relative mt-4">{footer}</div> : null}
       </div>
     </div>
   );

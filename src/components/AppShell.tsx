@@ -3,6 +3,10 @@
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { BackgroundAudio } from "@/components/BackgroundAudio";
+import {
+  playButtonClickSound,
+  preloadButtonClickSound
+} from "@/lib/buttonClickSound";
 
 const BASE_WIDTH = 390;
 const BASE_HEIGHT = 844;
@@ -12,16 +16,25 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const updateScale = () => {
-      const nextScale = Math.min(
-        window.innerWidth / BASE_WIDTH,
-        window.innerHeight / BASE_HEIGHT
-      );
+      const nextScale = Math.min(1, window.innerWidth / BASE_WIDTH);
       setScale(nextScale);
     };
 
     updateScale();
     window.addEventListener("resize", updateScale);
     return () => window.removeEventListener("resize", updateScale);
+  }, []);
+
+  useEffect(() => {
+    preloadButtonClickSound();
+    const handlePointerDown = () => {
+      playButtonClickSound();
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown, true);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown, true);
+    };
   }, []);
 
   return (
@@ -32,6 +45,13 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
         <div className="absolute left-10 top-20 h-12 w-12 rotate-12 rounded-2xl border-2 border-rose-200/80 bg-white/60 shadow-sm" />
         <div className="absolute right-16 top-32 h-14 w-14 -rotate-6 rounded-full border-2 border-amber-200/80 bg-white/60 shadow-sm" />
         <div className="absolute bottom-24 left-10 h-10 w-10 rounded-full border-2 border-teal-200/80 bg-white/60 shadow-sm" />
+        <div className="absolute left-1/3 top-10 h-8 w-8 -rotate-12 rounded-full border-2 border-amber-100/70 bg-white/70 shadow-sm" />
+        <div className="absolute right-10 top-1/4 h-16 w-16 rotate-6 rounded-3xl border-2 border-rose-100/80 bg-white/60 shadow-sm" />
+        <div className="absolute left-6 bottom-1/3 h-14 w-14 -rotate-12 rounded-2xl border-2 border-violet-100/70 bg-white/60 shadow-sm" />
+        <div className="absolute right-1/4 bottom-20 h-9 w-9 rotate-12 rounded-full border-2 border-teal-100/80 bg-white/70 shadow-sm" />
+        <div className="absolute left-1/2 bottom-12 h-12 w-12 -rotate-6 rounded-3xl border-2 border-amber-200/70 bg-white/60 shadow-sm" />
+        <div className="absolute right-6 bottom-1/3 h-7 w-7 rotate-6 rounded-full border-2 border-sky-100/80 bg-white/70 shadow-sm" />
+        <div className="absolute left-20 top-1/2 h-10 w-10 rotate-3 rounded-2xl border-2 border-fuchsia-100/70 bg-white/60 shadow-sm" />
       </div>
       <div className="absolute inset-0 flex items-center justify-center">
         <div

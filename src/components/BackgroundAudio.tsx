@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
+const MUSIC_VOLUME = 0.25;
+
 export const BackgroundAudio = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isMuted, setIsMuted] = useState(false);
@@ -22,6 +24,12 @@ export const BackgroundAudio = () => {
     if (isMuted) return;
     void attemptPlay();
   }, [attemptPlay, isMuted]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.volume = MUSIC_VOLUME;
+  }, []);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -77,7 +85,7 @@ export const BackgroundAudio = () => {
       </button>
       <audio
         ref={audioRef}
-        src="/music/cw.mid"
+        src="/music/cw.mp3"
         preload="auto"
         loop
         autoPlay
