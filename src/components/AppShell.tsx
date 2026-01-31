@@ -42,12 +42,12 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
       </div>
 
       {/* ✅ Frame container */}
-      <div className="absolute inset-0 flex items-center justify-center p-3">
+      <div className="absolute inset-0">
         <div
           className="
             relative
-            w-[min(390px,100vw)]
-            h-[min(844px,100dvh)]
+            w-full
+            h-full
             min-h-0
             flex flex-col
             overflow-x-hidden overflow-y-auto
