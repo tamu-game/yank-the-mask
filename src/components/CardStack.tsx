@@ -211,11 +211,9 @@ export const CardStack = ({ characters, onSwipeLeft, onSwipeRight }: CardStackPr
           const position = stackedCards.length - 1 - reverseIndex;
           const depth = position;
           const isTop = depth === 0;
-
-          const scale = 1 - depth * 0.04;
-          const translateY = depth * 14;
-          const opacity = 1 - depth * 0.25;
-
+          const scale = 1;
+          const translateY = 1;
+          const opacity = 1;
           const transitionClass = isTop
             ? isDragging
               ? ""

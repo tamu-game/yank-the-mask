@@ -122,6 +122,8 @@ export const MatchClient = ({
   const yankLoseImgRef = useRef<HTMLImageElement | null>(null);
   const [yankLoseSrcIndex, setYankLoseSrcIndex] = useState(0);
   const startPromiseRef = useRef<Promise<boolean> | null>(null);
+  const resultSoundRef = useRef<HTMLAudioElement | null>(null);
+  const playedSoundSessionRef = useRef<string | null>(null);
 
   const { data: session, mutate } = useSWR(
     sessionId ? `/api/session/${sessionId}` : null,
@@ -380,6 +382,25 @@ export const MatchClient = ({
       const outcome = data?.outcome as ResultOverlay["outcome"] | undefined;
       if (!outcome) {
         throw new Error("Failed to decide.");
+      }
+      // Final outcome resolved here; trigger the single end-of-date sound effect.
+      if (playedSoundSessionRef.current !== sessionId) {
+        const outcomeKey = `${chosenDecision}-${outcome}`;
+        const soundSrc =
+          outcomeKey === "trust-lose"
+            ? "/music/alien_happy.mp3"
+            : outcomeKey === "accuse-win"
+              ? "/music/alien_sad.mp3"
+              : "/music/talking_male_final.mp3";
+        if (resultSoundRef.current) {
+          resultSoundRef.current.pause();
+          resultSoundRef.current.currentTime = 0;
+        }
+        const audio = new Audio(soundSrc);
+        audio.volume = 0.6;
+        resultSoundRef.current = audio;
+        playedSoundSessionRef.current = sessionId;
+        void audio.play();
       }
       const shouldPlayYankWin = chosenDecision === "accuse" && outcome === "win";
       const shouldPlayYankLose = chosenDecision === "trust" && outcome === "lose";
