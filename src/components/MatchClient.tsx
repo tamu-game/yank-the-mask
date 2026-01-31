@@ -102,6 +102,7 @@ export const MatchClient = ({
   const [resultOverlay, setResultOverlay] = useState<ResultOverlay | null>(null);
   const [talkActive, setTalkActive] = useState(false);
   const [isResultCollapsed, setIsResultCollapsed] = useState(false);
+  const [hideQuestionSheet, setHideQuestionSheet] = useState(false);
   const [yankLoseActive, setYankLoseActive] = useState(false);
   const [yankLoseSnapshot, setYankLoseSnapshot] = useState<string | null>(null);
   const [persistentSummary, setPersistentSummary] = useState<{
@@ -113,6 +114,7 @@ export const MatchClient = ({
   const [statsData, setStatsData] = useState<GuessDistributionData | null>(null);
   const [statsError, setStatsError] = useState<string | null>(null);
   const [statsLoading, setStatsLoading] = useState(false);
+  const [resultReady, setResultReady] = useState(false);
   const lastTurnIdRef = useRef<string | null>(null);
   const revealTimerRef = useRef<number | null>(null);
   const talkTimerRef = useRef<number | null>(null);
@@ -261,6 +263,11 @@ export const MatchClient = ({
 
   useEffect(() => {
     if (!resultOverlay) return;
+    setHideQuestionSheet(true);
+    setIsSheetCollapsed(true);
+    setIsResultCollapsed(true);
+    setResultReady(false);
+    const delayTimer = window.setTimeout(() => setResultReady(true), 2000);
     setStatsLoading(true);
     setStatsError(null);
     setStatsData(null);
@@ -270,6 +277,7 @@ export const MatchClient = ({
       .then((data) => setStatsData(data))
       .catch(() => setStatsError("İstatistikler alınamadı."))
       .finally(() => setStatsLoading(false));
+    return () => window.clearTimeout(delayTimer);
   }, [character.id, resultOverlay]);
 
   useEffect(() => {
@@ -354,6 +362,9 @@ export const MatchClient = ({
 
   const confirmDecision = async () => {
     if (!sessionId || !decision) return;
+    setIsSheetCollapsed(true);
+    setIsResultCollapsed(true);
+    setHideQuestionSheet(true);
     setError(null);
     try {
       const chosenDecision = decision;
@@ -419,6 +430,7 @@ export const MatchClient = ({
       setResultOverlay({ decision: chosenDecision, outcome });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
+      setHideQuestionSheet(false);
     } finally {
       setDecision(null);
     }
@@ -432,8 +444,9 @@ export const MatchClient = ({
     : null;
   const story = resultKey ? resultCopy[resultKey] : null;
   const showResultOverlay = Boolean(story);
+  const showInteractionUI = !showResultOverlay && !decision && !hideQuestionSheet;
   const holdResultUntilYankLoseEnd = yankLoseActive && !yankLoseSnapshot;
-  const canShowResultUI = showResultOverlay && !holdResultUntilYankLoseEnd;
+  const canShowResultUI = showResultOverlay && resultReady && !holdResultUntilYankLoseEnd;
   const playerOutcome = resultOverlay
     ? resultOverlay.outcome === "win"
       ? "WIN"
@@ -464,7 +477,7 @@ export const MatchClient = ({
           ? getAngryLoopSources(character.id)
           : revealPhase === "alien"
         ? isAccuseWin
-          ? getAlienCrySources()
+          ? getAlienCrySources(character.id)
           : isTrustLose
             ? getAlienLaughSources()
           : getAlienIdleSources()
@@ -697,7 +710,7 @@ export const MatchClient = ({
               </Button>
             </div>
           </div>
-        ) : (
+        ) : showInteractionUI ? (
           <>
             <QuestionSheet
               className="pointer-events-auto w-full max-w-xl"
@@ -715,12 +728,17 @@ export const MatchClient = ({
                   canDecide={canDecide}
                   minQuestionsToDecide={minQuestionsToDecide}
                   disabled={Boolean(pendingQuestionId) || session?.status !== "in_progress"}
-                  onChoose={(value) => setDecision(value)}
+                  onChoose={(value) => {
+                    setHideQuestionSheet(true);
+                    setIsSheetCollapsed(true);
+                    setIsResultCollapsed(true);
+                    setDecision(value);
+                  }}
                 />
               }
             />
           </>
-        )}
+        ) : null}
         {error ? (
           <div className="pointer-events-auto rounded-full bg-rose-500/80 px-3 py-1 text-[11px] text-rose-50 shadow">
             {error}
@@ -742,7 +760,11 @@ export const MatchClient = ({
               <button
                 type="button"
                 className="rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-xs font-semibold text-slate-600 shadow-sm transition hover:-translate-y-0.5"
-                onClick={() => setDecision(null)}
+                onClick={() => {
+                  setDecision(null);
+                  setHideQuestionSheet(false);
+                  setIsSheetCollapsed(false);
+                }}
               >
                 Not yet
               </button>

@@ -4,7 +4,7 @@ import { AuthProvider } from "@/components/auth/AuthProvider";
 
 export default function LandingPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-6 py-16 text-center">
+    <main className="flex min-h-full w-full flex-col items-center justify-start px-6 pb-16 pt-10 text-center">
       <div className="max-w-xl space-y-6">
         <p className="text-xs uppercase tracking-[0.3em] text-rose-400">Maskle</p>
         <h1 className="text-4xl font-semibold text-slate-700 sm:text-5xl">

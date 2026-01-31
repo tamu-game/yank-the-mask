@@ -13,8 +13,10 @@ type CardStackProps = {
   onSwipeRight: (character: CharacterPreview) => void;
 };
 
-const SWIPE_THRESHOLD = 120;
 const STACK_DEPTH = 3;
+const SLOP = 8;
+const HORIZONTAL_LOCK_RATIO = 1.2;
+const SWIPE_THRESHOLD = 120;
 
 export const CardStack = ({ characters, onSwipeLeft, onSwipeRight }: CardStackProps) => {
   const [index, setIndex] = useState(0);
@@ -22,19 +24,35 @@ export const CardStack = ({ characters, onSwipeLeft, onSwipeRight }: CardStackPr
   const [dragY, setDragY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [swipeOutDir, setSwipeOutDir] = useState<"left" | "right" | null>(null);
+
   const startRef = useRef<{ x: number; y: number } | null>(null);
+  const pointerIdRef = useRef<number | null>(null);
+  const gestureStateRef = useRef<"idle" | "maybe" | "dragging">("idle");
+  const latestDeltaRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const rafRef = useRef<number | null>(null);
+  const capturedRef = useRef(false);
 
   const activeCard = characters[index];
 
   useEffect(() => {
     preloadCardSwapSound();
+    return () => {
+      if (rafRef.current !== null) {
+        window.cancelAnimationFrame(rafRef.current);
+      }
+    };
   }, []);
 
   const stackedCards = useMemo(() => {
     return characters.slice(index, index + STACK_DEPTH);
   }, [characters, index]);
 
-  const resetPosition = () => {
+  const resetDrag = () => {
+    if (rafRef.current !== null) {
+      window.cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    latestDeltaRef.current = { x: 0, y: 0 };
     setDragX(0);
     setDragY(0);
     setSwipeOutDir(null);
@@ -42,46 +60,120 @@ export const CardStack = ({ characters, onSwipeLeft, onSwipeRight }: CardStackPr
 
   const advanceCard = (direction: "left" | "right") => {
     if (!activeCard) return;
-    if (direction === "left") {
-      onSwipeLeft(activeCard);
-    } else {
-      onSwipeRight(activeCard);
-    }
+
+    if (direction === "left") onSwipeLeft(activeCard);
+    else onSwipeRight(activeCard);
+
     setIndex((prev) => prev + 1);
-    resetPosition();
+    resetDrag();
   };
 
   const triggerSwipe = (direction: "left" | "right") => {
     if (!activeCard || swipeOutDir) return;
+
     playCardSwapSound();
+    setIsDragging(false);
+
     const offscreen = typeof window !== "undefined" ? window.innerWidth * 1.2 : 1000;
     setSwipeOutDir(direction);
     setDragX(direction === "right" ? offscreen : -offscreen);
     setDragY(-20);
+
     window.setTimeout(() => advanceCard(direction), 280);
+  };
+
+  const scheduleDragUpdate = () => {
+    if (rafRef.current !== null || typeof window === "undefined") return;
+    rafRef.current = window.requestAnimationFrame(() => {
+      rafRef.current = null;
+      setDragX(latestDeltaRef.current.x);
+      setDragY(latestDeltaRef.current.y);
+    });
+  };
+
+  const cancelGesture = () => {
+    gestureStateRef.current = "idle";
+    startRef.current = null;
+    pointerIdRef.current = null;
+    capturedRef.current = false;
+    setIsDragging(false);
+    setDragX(0);
+    setDragY(0);
   };
 
   const handlePointerDown = (event: React.PointerEvent) => {
     if (!activeCard || swipeOutDir) return;
-    setIsDragging(true);
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+
+    const target = event.target as HTMLElement;
+    const isHandle = !!target.closest("[data-swipe-handle]");
+    if (!isHandle) return;
+
     startRef.current = { x: event.clientX, y: event.clientY };
-    (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+    pointerIdRef.current = event.pointerId;
+    gestureStateRef.current = "maybe";
+    capturedRef.current = false;
+    latestDeltaRef.current = { x: 0, y: 0 };
   };
 
   const handlePointerMove = (event: React.PointerEvent) => {
-    if (!isDragging || !startRef.current) return;
+    if (gestureStateRef.current === "idle") return;
+    if (pointerIdRef.current !== event.pointerId) return;
+    if (!startRef.current) return;
+
     const dx = event.clientX - startRef.current.x;
     const dy = event.clientY - startRef.current.y;
-    setDragX(dx);
-    setDragY(dy);
+    const absX = Math.abs(dx);
+    const absY = Math.abs(dy);
+
+    if (gestureStateRef.current === "maybe") {
+      if (absX < SLOP && absY < SLOP) return;
+
+      if (absX > absY * HORIZONTAL_LOCK_RATIO) {
+        gestureStateRef.current = "dragging";
+        setIsDragging(true);
+        (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+        capturedRef.current = true;
+      } else {
+        cancelGesture();
+        return;
+      }
+    }
+
+    if (gestureStateRef.current !== "dragging") return;
+
+    latestDeltaRef.current = { x: dx, y: dy };
+    scheduleDragUpdate();
+
+    if (capturedRef.current) {
+      event.preventDefault();
+    }
   };
 
-  const handlePointerUp = () => {
-    if (!isDragging) return;
+  const handlePointerEnd = (event: React.PointerEvent) => {
+    if (pointerIdRef.current !== event.pointerId) return;
+
+    const wasDragging = gestureStateRef.current === "dragging";
+    const start = startRef.current;
+    const dx = start ? event.clientX - start.x : 0;
+
+    gestureStateRef.current = "idle";
+    startRef.current = null;
+    pointerIdRef.current = null;
+
+    if (capturedRef.current) {
+      try {
+        (event.currentTarget as HTMLElement).releasePointerCapture(event.pointerId);
+      } catch {
+        // ignore if capture was lost
+      }
+    }
+
+    capturedRef.current = false;
     setIsDragging(false);
 
-    if (Math.abs(dragX) > SWIPE_THRESHOLD) {
-      triggerSwipe(dragX > 0 ? "right" : "left");
+    if (wasDragging && Math.abs(dx) > SWIPE_THRESHOLD) {
+      triggerSwipe(dx > 0 ? "right" : "left");
       return;
     }
 
@@ -106,15 +198,24 @@ export const CardStack = ({ characters, onSwipeLeft, onSwipeRight }: CardStackPr
   }
 
   return (
-    <div className="relative w-full max-w-[92%] sm:max-w-[520px] lg:max-w-[560px]">
-      <div className="relative h-[78vh] min-h-[520px] max-h-[720px]">
+    <div
+      className="
+        relative w-full
+        max-w-full sm:max-w-[520px] lg:max-w-[560px]
+        h-[min(78dvh,720px)]
+        min-h-[520px]
+      "
+    >
+      <div className="relative h-full">
         {[...stackedCards].reverse().map((card, reverseIndex) => {
           const position = stackedCards.length - 1 - reverseIndex;
           const depth = position;
           const isTop = depth === 0;
+
           const scale = 1 - depth * 0.04;
           const translateY = depth * 14;
           const opacity = 1 - depth * 0.25;
+
           const transitionClass = isTop
             ? isDragging
               ? ""
@@ -124,40 +225,29 @@ export const CardStack = ({ characters, onSwipeLeft, onSwipeRight }: CardStackPr
             : "transition-all duration-300 ease-out";
 
           const style = isTop
-            ? {
-                transform: `translate(${dragX}px, ${dragY}px) rotate(${rotation}deg)`
-              }
-            : {
-                transform: `translate(0px, ${translateY}px) scale(${scale})`
-              };
+            ? { transform: `translate(${dragX}px, ${dragY}px) rotate(${rotation}deg)` }
+            : { transform: `translate(0px, ${translateY}px) scale(${scale})` };
 
           return (
             <div
               key={card.id}
-              className={`absolute inset-0 ${transitionClass} ${
-                isTop ? "pointer-events-auto touch-pan-y select-none" : "pointer-events-none"
-              }`}
+              className={`absolute inset-0 ${transitionClass} ${isTop ? "pointer-events-auto" : "pointer-events-none"}`}
               style={{ ...style, opacity, zIndex: STACK_DEPTH - depth }}
               onPointerDown={isTop ? handlePointerDown : undefined}
               onPointerMove={isTop ? handlePointerMove : undefined}
-              onPointerUp={isTop ? handlePointerUp : undefined}
-              onPointerCancel={isTop ? handlePointerUp : undefined}
+              onPointerUp={isTop ? handlePointerEnd : undefined}
+              onPointerCancel={isTop ? handlePointerEnd : undefined}
             >
               <div className={isTop ? "" : "blur-[1px]"}>
                 <ProfileCard character={card} />
               </div>
+
               {isTop ? (
                 <>
-                  <div
-                    className="pointer-events-none absolute left-6 top-6"
-                    style={{ opacity: matchOpacity }}
-                  >
+                  <div className="pointer-events-none absolute left-6 top-6" style={{ opacity: matchOpacity }}>
                     <StickerTag label="VIBE!" className="rotate-[-6deg]" />
                   </div>
-                  <div
-                    className="pointer-events-none absolute right-6 top-6"
-                    style={{ opacity: nopeOpacity }}
-                  >
+                  <div className="pointer-events-none absolute right-6 top-6" style={{ opacity: nopeOpacity }}>
                     <StickerTag label="NOPE!" className="rotate-[6deg]" />
                   </div>
                 </>
@@ -166,7 +256,6 @@ export const CardStack = ({ characters, onSwipeLeft, onSwipeRight }: CardStackPr
           );
         })}
       </div>
-
     </div>
   );
 };

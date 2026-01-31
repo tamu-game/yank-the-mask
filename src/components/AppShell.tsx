@@ -1,44 +1,31 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BackgroundAudio } from "@/components/BackgroundAudio";
-import {
-  playButtonClickSound,
-  preloadButtonClickSound
-} from "@/lib/buttonClickSound";
+import { playButtonClickSound, preloadButtonClickSound } from "@/lib/buttonClickSound";
 
 const BASE_WIDTH = 390;
 const BASE_HEIGHT = 844;
 
 export const AppShell = ({ children }: { children: ReactNode }) => {
-  const [scale, setScale] = useState(1);
-
-  useEffect(() => {
-    const updateScale = () => {
-      const nextScale = Math.min(1, window.innerWidth / BASE_WIDTH);
-      setScale(nextScale);
-    };
-
-    updateScale();
-    window.addEventListener("resize", updateScale);
-    return () => window.removeEventListener("resize", updateScale);
-  }, []);
-
   useEffect(() => {
     preloadButtonClickSound();
+
+    // ✅ passive + capture: scroll/swipe davranışını bozmaz
     const handlePointerDown = () => {
       playButtonClickSound();
     };
 
-    document.addEventListener("pointerdown", handlePointerDown, true);
+    document.addEventListener("pointerdown", handlePointerDown, { capture: true, passive: true } as any);
     return () => {
-      document.removeEventListener("pointerdown", handlePointerDown, true);
+      document.removeEventListener("pointerdown", handlePointerDown, { capture: true } as any);
     };
   }, []);
 
   return (
     <div className="fixed inset-0 overflow-hidden text-slate-900">
+      {/* Background */}
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute -left-24 top-6 h-72 w-72 rounded-full bg-rose-200/60 blur-[120px]" />
         <div className="absolute right-0 top-1/2 h-80 w-80 rounded-full bg-purple-200/50 blur-[140px]" />
@@ -53,15 +40,26 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
         <div className="absolute right-6 bottom-1/3 h-7 w-7 rotate-6 rounded-full border-2 border-sky-100/80 bg-white/70 shadow-sm" />
         <div className="absolute left-20 top-1/2 h-10 w-10 rotate-3 rounded-2xl border-2 border-fuchsia-100/70 bg-white/60 shadow-sm" />
       </div>
-      <div className="absolute inset-0 flex items-center justify-center">
+
+      {/* ✅ Frame container */}
+      <div className="absolute inset-0 flex items-center justify-center p-3">
         <div
-          className="relative"
+          className="
+            relative
+            w-[min(390px,100vw)]
+            h-[min(844px,100dvh)]
+            min-h-0
+            flex flex-col
+            overflow-x-hidden overflow-y-auto
+            overscroll-contain
+            touch-pan-y
+            [webkit-overflow-scrolling:touch]
+          "
           data-game-root
           style={{
-            width: `${BASE_WIDTH}px`,
-            height: `${BASE_HEIGHT}px`,
-            transform: `scale(${scale})`,
-            transformOrigin: "center center"
+            // ✅ iOS safe area için (özellikle notch)
+            paddingTop: "env(safe-area-inset-top)",
+            paddingBottom: "env(safe-area-inset-bottom)"
           }}
         >
           <BackgroundAudio />

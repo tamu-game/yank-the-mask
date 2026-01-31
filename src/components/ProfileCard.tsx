@@ -1,6 +1,5 @@
 "use client";
 
-import { useRef, useState } from "react";
 import type { CharacterPreview } from "@/types/game";
 import { StickerTag } from "@/components/StickerTag";
 import { FallbackImage } from "@/components/FallbackImage";
@@ -31,24 +30,32 @@ const hashToIndex = (value: string, modulo: number) => {
 };
 
 export const ProfileCard = ({ character }: { character: CharacterPreview }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
-  const mouseStartRef = useRef<{ x: number; y: number } | null>(null);
-  const isMouseDownRef = useRef(false);
   const hue = hashToHue(character.avatarSeed);
   const gradient = `linear-gradient(135deg, hsl(${hue} 85% 75%), hsl(${(hue + 60) % 360} 85% 65%))`;
-  const likes = character.likes;
-  const dislikes = character.dislikes;
-  const quirks = character.quirks;
-  const hangout = character.hangout;
-  const personality = [...character.traits, ...character.tags];
-  const shortDescriptor = character.tags[0] ?? "New face";
-  const observation = character.observation;
+
+  const likes = character.likes ?? [];
+  const dislikes = character.dislikes ?? [];
+  const quirks = character.quirks ?? [];
+  const hangout = character.hangout ?? "the cafe";
+  const personality = [...(character.traits ?? []), ...(character.tags ?? [])];
+  const shortDescriptor = character.tags?.[0] ?? "New face";
+  const observation = character.observation ?? "";
   const portraitSources = getProfilePortraitSources(character.id);
 
   return (
-    <div className="group flex h-full flex-col overflow-hidden rounded-[32px] border-2 border-white/80 bg-white/90 shadow-[0_22px_40px_rgba(124,58,237,0.18)] backdrop-blur-xl active:shadow-[0_26px_52px_rgba(94,234,212,0.22)] active:ring-2 active:ring-emerald-200/60">
-      <div className="relative h-[74%] min-h-[360px] w-full">
+    <div
+      className="
+        group flex h-full min-h-0 flex-col overflow-hidden
+        rounded-[32px] border-2 border-white/80 bg-white/90
+        shadow-[0_22px_40px_rgba(124,58,237,0.18)] backdrop-blur-xl
+        active:shadow-[0_26px_52px_rgba(94,234,212,0.22)]
+        active:ring-2 active:ring-emerald-200/60
+      "
+    >
+      <div
+        data-swipe-handle
+        className="relative h-[clamp(240px,42vh,360px)] w-full shrink-0 touch-none select-none"
+      >
         <div className="absolute inset-0" style={{ background: gradient }} />
         <FallbackImage
           sources={portraitSources}
@@ -64,78 +71,22 @@ export const ProfileCard = ({ character }: { character: CharacterPreview }) => {
       </div>
 
       <div
-        className={`flex ${
-          isExpanded ? "flex-1 overflow-y-auto" : "h-[26%] overflow-hidden"
-        } flex-col px-5 pb-6 pt-4 text-slate-700`}
-        onWheel={(event) => {
-          if (!isExpanded && event.deltaY < -6) {
-            setIsExpanded(true);
-          }
-        }}
-        onTouchStart={(event) => {
-          const touch = event.touches[0];
-          if (touch) {
-            touchStartRef.current = { x: touch.clientX, y: touch.clientY };
-          }
-        }}
-        onTouchMove={(event) => {
-          if (isExpanded) return;
-          const touch = event.touches[0];
-          const start = touchStartRef.current;
-          if (!touch || !start) return;
-          const dx = touch.clientX - start.x;
-          const dy = touch.clientY - start.y;
-          if (dy < -12 && Math.abs(dy) > Math.abs(dx)) {
-            setIsExpanded(true);
-          }
-        }}
-        onMouseDown={(event) => {
-          if (isExpanded) return;
-          isMouseDownRef.current = true;
-          mouseStartRef.current = { x: event.clientX, y: event.clientY };
-        }}
-        onMouseMove={(event) => {
-          if (isExpanded) return;
-          if (!isMouseDownRef.current) return;
-          const start = mouseStartRef.current;
-          if (!start) return;
-          const dx = event.clientX - start.x;
-          const dy = event.clientY - start.y;
-          if (dy < -12 && Math.abs(dy) > Math.abs(dx)) {
-            setIsExpanded(true);
-            isMouseDownRef.current = false;
-          }
-        }}
-        onMouseUp={() => {
-          isMouseDownRef.current = false;
-        }}
-        onMouseLeave={() => {
-          isMouseDownRef.current = false;
-        }}
+        data-scroll-area
+        className="
+          min-h-0 flex-1 overflow-y-auto touch-pan-y
+          px-5 pb-6 pt-4 text-slate-700
+          [webkit-overflow-scrolling:touch]
+        "
       >
-        <div className="min-h-full">
-          <div className="flex items-center justify-between gap-3">
-            <div className="text-2xl font-semibold text-slate-800">
-              {character.name}, {character.age}
-            </div>
-            <StickerTag label={shortDescriptor} className="rotate-[-1deg] ring-2 ring-amber-200/70" />
+        <div className="flex items-center justify-between gap-3">
+          <div className="text-2xl font-semibold text-slate-800">
+            {character.name}, {character.age}
           </div>
-          <div className="mt-2 text-sm text-slate-600">{observation}</div>
-          {!isExpanded ? (
-            <div className="mt-4 text-center text-[10px] font-semibold uppercase tracking-[0.3em] text-slate-400">
-              Swipe for more
-            </div>
-          ) : null}
+          <StickerTag label={shortDescriptor} className="rotate-[-1deg] ring-2 ring-amber-200/70" />
         </div>
+        <div className="mt-2 text-sm text-slate-600">{observation}</div>
 
-        <div
-          className={`flex flex-col gap-5 pt-2 transition-all duration-300 ${
-            isExpanded
-              ? "max-h-[2000px] opacity-100"
-              : "pointer-events-none max-h-0 opacity-0"
-          } overflow-hidden`}
-          aria-hidden={!isExpanded}
-        >
+        <div className="flex flex-col gap-5 pt-4">
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">
               Signals
@@ -156,7 +107,8 @@ export const ProfileCard = ({ character }: { character: CharacterPreview }) => {
               Whispers
             </div>
             <p className="mt-2 text-sm text-slate-600">
-              Rumor says {quirks[0]} and a soft spot for {likes[0]}. Lingers near {hangout}.
+              Rumor says {quirks[0] ?? "they keep a secret list"} and a soft spot for{" "}
+              {likes[0] ?? "quiet moments"}. Lingers near {hangout}.
             </p>
           </div>
 

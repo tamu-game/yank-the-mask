@@ -80,8 +80,12 @@ export const getAlienIdleSources = () => {
   return [...alienStaticSources];
 };
 
-export const getAlienCrySources = () => {
-  return uniqueSources([`${ALIEN_ROOT}/alien_cry.gif`, ...alienAnimatedSources]);
+export const getAlienCrySources = (characterId: string) => {
+  return uniqueSources([
+    `/characters/${characterId}/alien_cry.gif`,
+    `${ALIEN_ROOT}/alien_cry.gif`,
+    ...alienAnimatedSources
+  ]);
 };
 
 export const getAlienLaughSources = () => {
