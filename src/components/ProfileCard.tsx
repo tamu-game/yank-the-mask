@@ -32,13 +32,15 @@ const hashToIndex = (value: string, modulo: number) => {
 export const ProfileCard = ({ character }: { character: CharacterPreview }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const mouseStartRef = useRef<{ x: number; y: number } | null>(null);
+  const isMouseDownRef = useRef(false);
   const hue = hashToHue(character.avatarSeed);
   const gradient = `linear-gradient(135deg, hsl(${hue} 85% 75%), hsl(${(hue + 60) % 360} 85% 65%))`;
   const likes = character.likes;
   const dislikes = character.dislikes;
   const quirks = character.quirks;
   const hangout = character.hangout;
-  const personality = character.traits.slice(0, 5);
+  const personality = [...character.traits, ...character.tags];
   const shortDescriptor = character.tags[0] ?? "New face";
   const observation = character.observation;
 
@@ -84,6 +86,29 @@ export const ProfileCard = ({ character }: { character: CharacterPreview }) => {
           if (dy < -12 && Math.abs(dy) > Math.abs(dx)) {
             setIsExpanded(true);
           }
+        }}
+        onMouseDown={(event) => {
+          if (isExpanded) return;
+          isMouseDownRef.current = true;
+          mouseStartRef.current = { x: event.clientX, y: event.clientY };
+        }}
+        onMouseMove={(event) => {
+          if (isExpanded) return;
+          if (!isMouseDownRef.current) return;
+          const start = mouseStartRef.current;
+          if (!start) return;
+          const dx = event.clientX - start.x;
+          const dy = event.clientY - start.y;
+          if (dy < -12 && Math.abs(dy) > Math.abs(dx)) {
+            setIsExpanded(true);
+            isMouseDownRef.current = false;
+          }
+        }}
+        onMouseUp={() => {
+          isMouseDownRef.current = false;
+        }}
+        onMouseLeave={() => {
+          isMouseDownRef.current = false;
         }}
       >
         <div className="min-h-full">
