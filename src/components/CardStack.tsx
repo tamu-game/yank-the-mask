@@ -90,7 +90,7 @@ export const CardStack = ({ characters, onSwipeLeft, onSwipeRight }: CardStackPr
   if (!activeCard) {
     return (
       <div className="flex flex-col items-center justify-center gap-4 rounded-[28px] border-2 border-dashed border-rose-200 bg-white/70 p-10 text-center shadow-lg">
-        <div className="text-lg font-semibold text-slate-700">No more vibes right now</div>
+        <div className="text-lg font-semibold text-slate-700">No more dates right now</div>
         <p className="text-sm text-slate-500">Refresh to reshuffle the cafe crowd.</p>
         <Button variant="secondary" onClick={() => setIndex(0)}>
           Shuffle again
