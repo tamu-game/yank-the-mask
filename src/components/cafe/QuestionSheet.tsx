@@ -13,70 +13,7 @@ const hashToHue = (seed: string) => {
   return Math.abs(hash) % 360;
 };
 
-const pickFrom = (pool: string[], count: number, seed: number) => {
-  const picks: string[] = [];
-  for (let i = 0; i < pool.length && picks.length < count; i += 1) {
-    const item = pool[(seed + i * 7) % pool.length];
-    if (!picks.includes(item)) {
-      picks.push(item);
-    }
-  }
-  return picks;
-};
 
-const EXTRA_TRAITS = [
-  "warm",
-  "clever",
-  "independent",
-  "romantic",
-  "grounded",
-  "bold",
-  "dreamy",
-  "thoughtful"
-];
-
-const LIKE_POOL = [
-  "late-night cafes",
-  "street food",
-  "rainy walks",
-  "cozy bookstores",
-  "sunrise hikes",
-  "vinyl playlists",
-  "board game nights",
-  "spicy noodles",
-  "museum dates",
-  "night drives",
-  "polaroid photos"
-];
-
-const DISLIKE_POOL = [
-  "ghosting",
-  "cold coffee",
-  "awkward silences",
-  "spoilers",
-  "rush-hour crowds",
-  "flaky plans",
-  "loud chewing",
-  "dull small talk"
-];
-
-const QUIRK_POOL = [
-  "collects matchbooks from cafes",
-  "sends voice notes instead of texts",
-  "names every plant in sight",
-  "always orders dessert first",
-  "keeps a lucky charm in their pocket",
-  "makes playlists for friends",
-  "writes tiny notes in the margins of books"
-];
-
-const HANGOUT_POOL = [
-  "the corner booth",
-  "a rooftop garden",
-  "the record shop",
-  "the midnight diner",
-  "the art museum cafe"
-];
 
 const TRAIT_STYLES = [
   "rotate-[-2deg] shadow-md ring-2 ring-amber-200/70",
@@ -123,18 +60,13 @@ export const QuestionSheet = ({
   const profileTimerRef = useRef<number | null>(null);
   const hue = hashToHue(character.avatarSeed);
   const gradient = `linear-gradient(135deg, hsl(${hue} 85% 75%), hsl(${(hue + 60) % 360} 85% 65%))`;
-  const detailSeed = hashToHue(`${character.id}-${character.avatarSeed}`);
-  const likes = pickFrom(LIKE_POOL, 3, detailSeed + 2);
-  const dislikes = pickFrom(DISLIKE_POOL, 2, detailSeed + 6);
-  const quirks = pickFrom(QUIRK_POOL, 2, detailSeed + 11);
-  const hangout = pickFrom(HANGOUT_POOL, 1, detailSeed + 9)[0];
-  const personality = Array.from(
-    new Set([...character.tags, ...pickFrom(EXTRA_TRAITS, 2, detailSeed + 4)])
-  ).slice(0, 5);
+  const likes = character.likes;
+  const dislikes = character.dislikes;
+  const quirks = character.quirks;
+  const personality = Array.from(new Set([...character.tags, ...character.traits])).slice(0, 5);
   const shortDescriptor = character.tags[0] ?? "New face";
-  const observation = character.tags[1]
-    ? `Moves like a ${character.tags[1]} rumor.`
-    : "Moves like a quiet rumor.";
+  const observation = character.observation;
+  const whispers = character.whispers;
   const isProfileOpen = profileState === "open";
   const isProfileVisible = profileState !== "closed";
 
@@ -311,9 +243,7 @@ export const QuestionSheet = ({
                     <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">
                       Whispers
                     </div>
-                    <p className="mt-2 text-sm text-slate-600">
-                      Rumor says {quirks[0]} and a soft spot for {likes[0]}. Lingers near {hangout}.
-                    </p>
+                    <p className="mt-2 text-sm text-slate-600">{whispers}</p>
                   </div>
 
                   <div className="grid gap-5 sm:grid-cols-2">

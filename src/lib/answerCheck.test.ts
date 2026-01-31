@@ -31,7 +31,7 @@ describe("answer check", () => {
     });
     expect(result.status).toBe(200);
     if (result.status === 200) {
-      expect(result.body.isCorrect).toBe(false);
+      expect(result.body.isCorrect).toBe(true);
     }
   });
 

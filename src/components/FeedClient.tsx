@@ -38,7 +38,7 @@ export const FeedClient = ({ characters }: { characters: CharacterPreview[] }) =
   return (
     <div className="flex w-full flex-col items-center gap-6">
       <div
-        className={`w-full transition-all duration-300 ease-out ${
+        className={`flex w-full justify-center transition-all duration-300 ease-out ${
           isTransitioning ? "opacity-0 scale-[0.98]" : "opacity-100 scale-100"
         }`}
       >

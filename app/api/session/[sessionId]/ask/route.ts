@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { askQuestionSchema } from "@/validation/schemas";
 import { getCharacterById } from "@/data/characters";
 import { memoryStore } from "@/store/memoryStore";
-import { addSuspicion, isAlienFromSuspicion } from "@/lib/suspicion";
+import { addSuspicion, isAlienFromAverageSuspicion } from "@/lib/suspicion";
 import { nowIso } from "@/lib/time";
 import type { AnswerChoice, TurnLog } from "@/types/game";
 
@@ -45,9 +45,14 @@ export async function POST(
     return jsonError("Question already asked.", 409, "conflict");
   }
 
+  if (!Array.isArray(question.answers) || question.answers.length === 0) {
+    return jsonError("Question has no answers configured.", 500, "server_error");
+  }
+
   const suspicionBefore = session.suspicion;
-  const answerChoice: AnswerChoice = question.answerIndex;
-  const answer = question.answers[answerChoice - 1] ?? question.answers[0];
+  const randomIndex = Math.floor(Math.random() * question.answers.length);
+  const answerChoice = (randomIndex + 1) as AnswerChoice;
+  const answer = question.answers[randomIndex];
   const answerText = answer?.text ?? "";
   const suspicionAfter = addSuspicion(suspicionBefore, answer?.suspicion ?? 0);
   const glitchChance = 0;
@@ -64,10 +69,12 @@ export async function POST(
     timestamp: nowIso()
   };
 
-  session.askedQuestionIds = [...session.askedQuestionIds, questionId];
+  const askedQuestionIds = [...session.askedQuestionIds, questionId];
+  const answeredCount = askedQuestionIds.length;
+  session.askedQuestionIds = askedQuestionIds;
   session.turns = [...session.turns, turn];
   session.suspicion = suspicionAfter;
-  session.isAlien = isAlienFromSuspicion(suspicionAfter);
+  session.isAlien = isAlienFromAverageSuspicion(suspicionAfter, answeredCount);
 
   await memoryStore.updateSession(session);
 

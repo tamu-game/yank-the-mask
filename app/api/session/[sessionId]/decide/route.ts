@@ -3,7 +3,7 @@ import { decideSchema } from "@/validation/schemas";
 import { memoryStore } from "@/store/memoryStore";
 import { gameConfig } from "@/lib/config";
 import { calculateScore } from "@/lib/scoring";
-import { isAlienFromSuspicion } from "@/lib/suspicion";
+import { isAlienFromAverageSuspicion } from "@/lib/suspicion";
 import { getCharacterById } from "@/data/characters";
 
 export const runtime = "nodejs";
@@ -40,7 +40,8 @@ export async function POST(
   }
 
   const { decision } = parsed.data;
-  const isAlien = isAlienFromSuspicion(session.suspicion);
+  const answeredCount = session.askedQuestionIds.length;
+  const isAlien = isAlienFromAverageSuspicion(session.suspicion, answeredCount);
   const isWin =
     (decision === "accuse" && isAlien) || (decision === "trust" && !isAlien);
 
