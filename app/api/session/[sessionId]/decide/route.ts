@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { decideSchema } from "@/validation/schemas";
 import { memoryStore } from "@/store/memoryStore";
+import { gameConfig } from "@/lib/config";
 import { calculateScore } from "@/lib/scoring";
 import { isAlienFromSuspicion } from "@/lib/suspicion";
 import { getCharacterById } from "@/data/characters";
@@ -29,8 +30,13 @@ export async function POST(
     return jsonError("Session has ended.", 409, "conflict");
   }
 
-  if (session.askedQuestionIds.length < 3) {
-    return jsonError("Ask at least 3 questions before deciding.", 409, "conflict");
+  if (session.askedQuestionIds.length < gameConfig.minQuestionsToDecide) {
+    const questionLabel = gameConfig.minQuestionsToDecide === 1 ? "question" : "questions";
+    return jsonError(
+      `Ask at least ${gameConfig.minQuestionsToDecide} ${questionLabel} before deciding.`,
+      409,
+      "conflict"
+    );
   }
 
   const { decision } = parsed.data;

@@ -199,38 +199,54 @@ export const QuestionSheet = ({
           <div className="absolute right-6 top-6 h-10 w-10 rounded-full bg-amber-200/40 blur-2xl" />
           <div className="absolute bottom-10 left-10 h-10 w-10 rounded-full bg-white/40 blur-xl" />
         </div>
-        <div className="relative mx-auto h-1.5 w-12 rounded-full bg-amber-200/90" />
-        <button
-          type="button"
+        <div
+          role="button"
+          tabIndex={0}
           onClick={onToggle}
-          className="relative mt-3 flex w-full items-center justify-between gap-3 text-left"
-          aria-expanded={!isCollapsed}
-        >
-          <div className="flex items-center gap-2">
+          onKeyDown={(event) => {
+            if (!onToggle) return;
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              onToggle();
+            }
+          }}
+          className="relative mx-auto h-1.5 w-12 rounded-full bg-amber-200/90 cursor-pointer"
+          aria-label="Toggle menu"
+        />
+        <div className="relative mt-3 flex w-full items-center justify-between gap-3">
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={onToggle}
+            onKeyDown={(event) => {
+              if (!onToggle) return;
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                onToggle();
+              }
+            }}
+            className="flex flex-1 items-center gap-2 text-left cursor-pointer"
+            aria-expanded={!isCollapsed}
+          >
             <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-sm">
               🍵
             </span>
             <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-amber-700/80">
               Menu
             </div>
-          </div>
-          <div className="flex items-center gap-2">
             <div className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-amber-700/90 shadow-sm">
               Questions left: {questionsLeft}
             </div>
-            <button
-              type="button"
-              onClick={(event) => {
-                event.stopPropagation();
-                handleProfileToggle();
-              }}
-              className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-amber-200/70 bg-white/90 text-xs font-semibold text-amber-700/90 shadow-sm transition hover:-translate-y-[1px]"
-              aria-label={isProfileOpen ? "Close date card" : "Open date card"}
-            >
-              i
-            </button>
           </div>
-        </button>
+          <button
+            type="button"
+            onClick={handleProfileToggle}
+            className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-amber-200/70 bg-white/90 text-xs font-semibold text-amber-700/90 shadow-sm transition hover:-translate-y-[1px]"
+            aria-label={isProfileOpen ? "Close date card" : "Open date card"}
+          >
+            {isProfileOpen ? "×" : "i"}
+          </button>
+        </div>
         <button
           type="button"
           onClick={onToggle}
@@ -248,40 +264,34 @@ export const QuestionSheet = ({
                 : "pointer-events-none max-h-0 scale-[0.98] opacity-0"
             }`}
           >
-            <button
-              type="button"
-              onClick={closeProfile}
-              className="absolute right-2 top-2 z-10 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-sm font-semibold text-slate-600 shadow transition hover:-translate-y-[1px]"
-              aria-label="Close date card"
-            >
-              ×
-            </button>
             <div className="mx-auto w-full max-w-[520px] overflow-hidden rounded-[28px] border border-amber-200/70 bg-gradient-to-b from-amber-50/90 via-amber-50/85 to-white/80 shadow-[0_18px_36px_rgba(124,58,237,0.12)]">
-              <div className="relative h-[32vh] min-h-[220px]">
+              <div className="relative border-b border-amber-200/60 px-5 pb-4 pt-5">
                 <div className="absolute inset-0" style={{ background: gradient }} />
-                <Image
-                  src={character.portraitSrc}
-                  alt={`${character.name} portrait`}
-                  fill
-                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 520px, 560px"
-                  className="object-cover object-center"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent" />
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_25%,rgba(255,255,255,0.06),rgba(15,23,42,0.35))] mix-blend-multiply opacity-80" />
-                <div className="pointer-events-none absolute inset-0 opacity-20 mix-blend-soft-light bg-[radial-gradient(rgba(255,255,255,0.12)_1px,transparent_1px)] bg-[length:3px_3px]" />
-              </div>
-              <div className="max-h-[42vh] overflow-y-auto px-5 pb-6 pt-4 text-slate-700">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="text-2xl font-semibold text-slate-800">
-                    {character.name}, {character.age}
+                <div className="relative flex items-center gap-4">
+                  <div className="relative h-20 w-20 overflow-hidden rounded-full border-2 border-white/80 shadow-lg">
+                    <Image
+                      src={character.portraitSrc}
+                      alt={`${character.name} portrait`}
+                      fill
+                      sizes="96px"
+                      className="object-cover object-center"
+                    />
+                  </div>
+                  <div className="flex-1 text-slate-800">
+                    <div className="text-2xl font-semibold">
+                      {character.name}, {character.age}
+                    </div>
+                    <div className="mt-1 text-sm text-slate-600">{observation}</div>
                   </div>
                   <StickerTag
                     label={shortDescriptor}
                     className="rotate-[-1deg] ring-2 ring-amber-200/70"
                   />
                 </div>
-                <div className="mt-2 text-sm text-slate-600">{observation}</div>
-                <div className="mt-5 flex flex-col gap-5">
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-amber-100/50 via-transparent to-transparent" />
+              </div>
+              <div className="max-h-[50vh] overflow-y-auto px-5 pb-6 pt-4 text-slate-700">
+                <div className="flex flex-col gap-5">
                   <div>
                     <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">
                       Signals

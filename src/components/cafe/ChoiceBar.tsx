@@ -2,6 +2,7 @@
 
 type ChoiceBarProps = {
   canDecide: boolean;
+  minQuestionsToDecide: number;
   disabled?: boolean;
   onChoose: (decision: "accuse" | "trust") => void;
   className?: string;
@@ -9,11 +10,13 @@ type ChoiceBarProps = {
 
 export const ChoiceBar = ({
   canDecide,
+  minQuestionsToDecide,
   disabled = false,
   onChoose,
   className = ""
 }: ChoiceBarProps) => {
   const isDisabled = disabled || !canDecide;
+  const questionLabel = minQuestionsToDecide === 1 ? "question" : "questions";
 
   return (
     <div className={`flex w-full flex-col items-center gap-2 ${className}`}>
@@ -48,7 +51,7 @@ export const ChoiceBar = ({
         </div>
       ) : (
         <div className="text-[11px] font-semibold text-white/80">
-          Ask at least 3 questions first.
+          Ask at least {minQuestionsToDecide} {questionLabel} first.
         </div>
       )}
     </div>

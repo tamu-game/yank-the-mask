@@ -14,7 +14,7 @@ export default function HowToPlayPage() {
           answer perfectly. Aliens try to blend in with the occasional slip.
         </p>
         <p>3) Watch the Vibe Meter. It reacts to how believable the answers feel.</p>
-        <p>4) After at least 3 questions, choose to Yank the Mask or Trust Them.</p>
+        <p>4) After at least 1 question, choose to Yank the Mask or Trust Them.</p>
         <p>5) Fewer questions means more points if you guess correctly.</p>
       </div>
       <Button href="/feed" className="w-40">

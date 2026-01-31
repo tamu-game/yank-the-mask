@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import type { CharacterPreview, QuestionPublic, SessionPublic } from "@/types/game";
+import { gameConfig } from "@/lib/config";
 import { CafeScene } from "@/components/cafe/CafeScene";
 import { QuestionSheet } from "@/components/cafe/QuestionSheet";
 import { ChoiceBar } from "@/components/cafe/ChoiceBar";
@@ -90,7 +91,8 @@ export const MatchClient = ({
 
   const askedIds = session?.askedQuestionIds ?? [];
   const askedCount = askedIds.length;
-  const canDecide = askedCount >= 3 && session?.status === "in_progress";
+  const minQuestionsToDecide = gameConfig.minQuestionsToDecide;
+  const canDecide = askedCount >= minQuestionsToDecide && session?.status === "in_progress";
   const lastTurn = session?.turns?.[session.turns.length - 1] ?? null;
   const lastTurnId = lastTurn?.id ?? null;
   const pendingQuestion = pendingQuestionId
@@ -240,22 +242,28 @@ export const MatchClient = ({
     : null;
   const story = resultKey ? resultCopy[resultKey] : null;
   const showResultOverlay = Boolean(story);
+  const loveActive =
+    resultOverlay?.decision === "trust" && resultOverlay?.outcome === "win" && showResultOverlay;
   const portraitOverrideSrc =
     revealPhase === "yank"
       ? "/characters/yank_mask.gif"
       : revealPhase === "alien"
         ? "/characters/alien.png"
-        : talkActive
-          ? "/characters/talk.gif"
-          : "/characters/character.gif";
+        : loveActive
+          ? "/characters/love.gif"
+          : talkActive
+            ? "/characters/talk.gif"
+            : "/characters/character.gif";
   const portraitOverrideAlt =
     revealPhase === "alien"
       ? "Alien revealed"
       : revealPhase === "yank"
         ? "Yank mask reveal"
-        : talkActive
-          ? "Character talking"
-          : "Character idle";
+        : loveActive
+          ? "Love reveal"
+          : talkActive
+            ? "Character talking"
+            : "Character idle";
 
   if (!sessionId) {
     return (
@@ -358,6 +366,7 @@ export const MatchClient = ({
             <ChoiceBar
               className="pointer-events-auto w-full max-w-xl"
               canDecide={canDecide}
+              minQuestionsToDecide={minQuestionsToDecide}
               disabled={Boolean(pendingQuestionId) || session?.status !== "in_progress"}
               onChoose={(value) => setDecision(value)}
             />

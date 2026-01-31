@@ -30,5 +30,6 @@ export const gameConfig = {
     suspicionBonusMultiplier: 5,
     consolationPerQuestion: 2,
     maxConsolation: 16
-  }
+  },
+  minQuestionsToDecide: 1
 } as const;
