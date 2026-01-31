@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { useEffect } from "react";
 import { BackgroundAudio } from "@/components/BackgroundAudio";
+import { warmupUrls } from "@/generated/warmupUrls";
 import { playButtonClickSound, preloadButtonClickSound } from "@/lib/buttonClickSound";
 
 const BASE_WIDTH = 390;
@@ -20,6 +21,37 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
     document.addEventListener("pointerdown", handlePointerDown, { capture: true, passive: true } as any);
     return () => {
       document.removeEventListener("pointerdown", handlePointerDown, { capture: true } as any);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!("serviceWorker" in navigator)) {
+      return;
+    }
+
+    const handleLoad = () => {
+      navigator.serviceWorker.register("/sw.js").catch(() => {});
+    };
+
+    window.addEventListener("load", handleLoad);
+    return () => {
+      window.removeEventListener("load", handleLoad);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (warmupUrls.length === 0) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      warmupUrls.forEach((url) => {
+        fetch(url, { credentials: "same-origin" }).catch(() => {});
+      });
+    }, 1200);
+
+    return () => {
+      window.clearTimeout(timeoutId);
     };
   }, []);
 

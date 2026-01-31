@@ -73,6 +73,20 @@ export default function ResultPage({ params }: { params: { sessionId: string } }
   const [statsError, setStatsError] = useState<string | null>(null);
   const [statsLoading, setStatsLoading] = useState(false);
 
+  useEffect(() => {
+    if (!session?.characterId) {
+      return;
+    }
+    setStatsLoading(true);
+    setStatsError(null);
+    apiFetch<GuessDistributionData>(
+      `/api/stats/guess-distribution?characterId=${session.characterId}`
+    )
+      .then((data) => setStatsData(data))
+      .catch(() => setStatsError("İstatistikler alınamadı."))
+      .finally(() => setStatsLoading(false));
+  }, [session?.characterId]);
+
   if (error) {
     return (
       <main className="min-h-screen">
@@ -117,22 +131,11 @@ export default function ResultPage({ params }: { params: { sessionId: string } }
   }
   const preview = getCharacterPreview(character);
   const revealAlien = session.finalDecision === "accuse" && session.finalOutcome === "win";
-  const portraitOverrideSrc = revealAlien ? "/characters/alien.png" : "/characters/character.gif";
-  const portraitOverrideAlt = revealAlien ? "Alien revealed" : "Character idle";
+  const portraitOverrideSources = revealAlien ? ["/characters/alien/alien.png"] : null;
+  const portraitOverrideAlt = revealAlien ? "Alien revealed" : null;
   const playerOutcome = session.finalOutcome === "win" ? "WIN" : "LOSE";
   const playerGuessedAtQuestion =
     playerOutcome === "WIN" ? session.askedQuestionIds.length : null;
-
-  useEffect(() => {
-    setStatsLoading(true);
-    setStatsError(null);
-    apiFetch<GuessDistributionData>(
-      `/api/stats/guess-distribution?characterId=${session.characterId}`
-    )
-      .then((data) => setStatsData(data))
-      .catch(() => setStatsError("İstatistikler alınamadı."))
-      .finally(() => setStatsLoading(false));
-  }, [session.characterId]);
 
   return (
     <main className="relative min-h-screen w-full overflow-hidden">
@@ -142,7 +145,7 @@ export default function ResultPage({ params }: { params: { sessionId: string } }
         questionText={null}
         answerText={null}
         answerKey={null}
-        portraitOverrideSrc={portraitOverrideSrc}
+        portraitSources={portraitOverrideSources}
         portraitOverrideAlt={portraitOverrideAlt}
         isTyping={false}
         glitch={false}

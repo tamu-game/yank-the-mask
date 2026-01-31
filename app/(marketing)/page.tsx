@@ -25,7 +25,7 @@ export default function LandingPage() {
       </div>
       <div className="mt-12 rounded-3xl border-2 border-white/80 bg-white/80 p-6 text-left shadow-xl">
         <p className="text-sm text-slate-600">
-          "Dating is hard. Dating someone wearing your crush's mask? Harder." 
+          &ldquo;Dating is hard. Dating someone wearing your crush&apos;s mask? Harder.&rdquo;{" "}
           <span className="text-rose-400">- The Maskle Team</span>
         </p>
       </div>

@@ -1,4 +1,8 @@
 const ALIEN_ROOT = "/characters/alien";
+const uppercasePortraitIds = new Set(["aylin-sakar"]);
+const loveIds = new Set(["aylin-sakar", "walter-white"]);
+const yankMaskIds = new Set(["aylin-sakar"]);
+const yankMaskLoseIds = new Set(["aylin-sakar"]);
 
 const uniqueSources = (sources: string[]) => {
   const seen = new Set<string>();
@@ -12,13 +16,17 @@ const uniqueSources = (sources: string[]) => {
 const alienStaticSources = [`${ALIEN_ROOT}/alien.png`, `${ALIEN_ROOT}/alien.gif`];
 const alienAnimatedSources = [`${ALIEN_ROOT}/alien.gif`, `${ALIEN_ROOT}/alien.png`];
 
-const basePortraitSources = (characterId: string) =>
-  uniqueSources([
-    `/characters/${characterId}/character.png`,
-    `/characters/${characterId}/character.PNG`,
+const basePortraitSources = (characterId: string) => {
+  const portraitBase = uppercasePortraitIds.has(characterId)
+    ? [`/characters/${characterId}/character.PNG`, `/characters/${characterId}/character.png`]
+    : [`/characters/${characterId}/character.png`, `/characters/${characterId}/character.PNG`];
+
+  return uniqueSources([
+    ...portraitBase,
     `/characters/${characterId}/character.gif`,
     ...alienStaticSources
   ]);
+};
 
 const baseAnimatedSources = (characterId: string) =>
   uniqueSources([
@@ -41,7 +49,11 @@ export const getTalkSources = (characterId: string) => {
 };
 
 export const getLoveSources = (characterId: string) => {
-  return uniqueSources([`/characters/${characterId}/love.gif`, ...baseAnimatedSources(characterId)]);
+  const loveSources = loveIds.has(characterId)
+    ? [`/characters/${characterId}/love.gif`]
+    : [];
+
+  return uniqueSources([...loveSources, ...baseAnimatedSources(characterId)]);
 };
 
 export const getAngryInitSources = (characterId: string) => {
@@ -59,7 +71,11 @@ export const getAngryLoopSources = (characterId: string) => {
 };
 
 export const getYankSources = (characterId: string) => {
-  return uniqueSources([`/characters/${characterId}/yank_mask.gif`, ...baseAnimatedSources(characterId)]);
+  const yankSources = yankMaskIds.has(characterId)
+    ? [`/characters/${characterId}/yank_mask.gif`]
+    : [];
+
+  return uniqueSources([...yankSources, ...baseAnimatedSources(characterId)]);
 };
 
 export const getYankWinSources = (characterId: string) => {
@@ -70,10 +86,11 @@ export const getYankWinSources = (characterId: string) => {
 };
 
 export const getYankLoseSources = (characterId: string) => {
-  return uniqueSources([
-    `/characters/${characterId}/yank_mask_lose.gif`,
-    ...baseAnimatedSources(characterId)
-  ]);
+  const yankLoseSources = yankMaskLoseIds.has(characterId)
+    ? [`/characters/${characterId}/yank_mask_lose.gif`]
+    : [];
+
+  return uniqueSources([...yankLoseSources, ...baseAnimatedSources(characterId)]);
 };
 
 export const getAlienIdleSources = () => {

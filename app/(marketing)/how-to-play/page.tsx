@@ -10,7 +10,7 @@ export default function HowToPlayPage() {
       <div className="space-y-4 text-sm text-slate-600">
         <p>1) Swipe right to match with a character. Left to skip.</p>
         <p>
-          2) At the cafe table, ask from that character's curated question list. Humans always
+          2) At the cafe table, ask from that character&apos;s curated question list. Humans always
           answer perfectly. Aliens try to blend in with the occasional slip.
         </p>
         <p>3) Read the answers carefully and decide for yourself.</p>

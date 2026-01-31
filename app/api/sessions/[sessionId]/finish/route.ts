@@ -67,6 +67,7 @@ export async function POST(
     status: nextStatus
   });
   const delta = nextScore - (session?.score ?? 0);
+  const resolvedSessionId = session?.id ?? params.sessionId;
 
   if (!session) {
     await prisma.$transaction([
@@ -120,7 +121,7 @@ export async function POST(
   }
 
   return NextResponse.json({
-    sessionId: session.id,
+    sessionId: resolvedSessionId,
     score: nextScore,
     status: nextStatus,
     outcome: nextOutcome,

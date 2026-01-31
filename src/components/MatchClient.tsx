@@ -40,6 +40,41 @@ const fetcher = async (url: string) => {
   return data as SessionPublic;
 };
 
+const gifDurationCache = new Map<string, number>();
+
+const parseGifDuration = (buffer: ArrayBuffer) => {
+  const bytes = new Uint8Array(buffer);
+  let duration = 0;
+  for (let i = 0; i < bytes.length - 6; i += 1) {
+    if (bytes[i] === 0x21 && bytes[i + 1] === 0xf9 && bytes[i + 2] === 0x04) {
+      const delay = bytes[i + 4] | (bytes[i + 5] << 8);
+      duration += delay * 10;
+      i += 7;
+    }
+  }
+  return duration;
+};
+
+const resolveGifDuration = async (sources: string[], fallback: number) => {
+  for (const src of sources) {
+    if (!src) continue;
+    const cached = gifDurationCache.get(src);
+    if (cached) return cached;
+    try {
+      const res = await fetch(src);
+      if (!res.ok) continue;
+      const buffer = await res.arrayBuffer();
+      const duration = parseGifDuration(buffer);
+      const safeDuration = duration > 0 ? duration : fallback;
+      gifDurationCache.set(src, safeDuration);
+      return safeDuration;
+    } catch {
+      continue;
+    }
+  }
+  return fallback;
+};
+
 const stableGlitch = (id: string, chance: number) => {
   let hash = 0;
   for (let i = 0; i < id.length; i += 1) {
@@ -107,6 +142,7 @@ export const MatchClient = ({
   const [hideQuestionSheet, setHideQuestionSheet] = useState(false);
   const [yankLoseActive, setYankLoseActive] = useState(false);
   const [yankLoseSnapshot, setYankLoseSnapshot] = useState<string | null>(null);
+  const [yankLoseDurationMs, setYankLoseDurationMs] = useState<number | null>(null);
   const [persistentSummary, setPersistentSummary] = useState<{
     score: number;
     status: "COMPLETED" | "ABANDONED";
@@ -310,7 +346,7 @@ export const MatchClient = ({
     stopTalkingSound();
   }, [talkActive]);
 
-  const startYankLoseFreeze = () => {
+  const startYankLoseFreeze = (durationMs: number) => {
     if (yankLoseTimerRef.current) {
       window.clearTimeout(yankLoseTimerRef.current);
     }
@@ -327,7 +363,7 @@ export const MatchClient = ({
       if (!ctx) return;
       ctx.drawImage(img, 0, 0, width, height);
       setYankLoseSnapshot(canvas.toDataURL("image/png"));
-    }, Math.max(0, gameConfig.yankMaskLoseDurationMs - 60));
+    }, Math.max(0, durationMs - 60));
   };
 
   const handleAsk = async (questionId: string) => {
@@ -420,11 +456,17 @@ export const MatchClient = ({
       if (shouldPlayYankLose) {
         setYankLoseSnapshot(null);
         setYankLoseActive(true);
+        setYankLoseDurationMs(null);
         if (revealTimerRef.current) {
           window.clearTimeout(revealTimerRef.current);
         }
         setRevealPhase("idle");
         setResultOverlay({ decision: chosenDecision, outcome });
+        const duration = await resolveGifDuration(
+          getYankLoseSources(character.id),
+          gameConfig.yankMaskLoseDurationMs
+        );
+        setYankLoseDurationMs(duration);
         return;
       }
       setYankLoseActive(false);
@@ -434,9 +476,13 @@ export const MatchClient = ({
         if (revealTimerRef.current) {
           window.clearTimeout(revealTimerRef.current);
         }
+        const duration = await resolveGifDuration(
+          getYankWinSources(character.id),
+          gameConfig.yankMaskDurationMs
+        );
         revealTimerRef.current = window.setTimeout(() => {
           setRevealPhase("alien");
-        }, gameConfig.yankMaskDurationMs);
+        }, duration);
         return;
       }
       if (shouldPlayAngry) {
@@ -445,9 +491,13 @@ export const MatchClient = ({
         if (revealTimerRef.current) {
           window.clearTimeout(revealTimerRef.current);
         }
+        const duration = await resolveGifDuration(
+          getAngryInitSources(character.id),
+          gameConfig.angryInitDurationMs
+        );
         revealTimerRef.current = window.setTimeout(() => {
           setRevealPhase("angry_loop");
-        }, gameConfig.angryInitDurationMs);
+        }, duration);
         return;
       }
       if (revealTimerRef.current) {
@@ -595,7 +645,11 @@ export const MatchClient = ({
               src={yankLoseSrc}
               alt="Yank mask lose"
               className="h-full w-full object-cover"
-              onLoad={startYankLoseFreeze}
+              onLoad={() =>
+                startYankLoseFreeze(
+                  yankLoseDurationMs ?? gameConfig.yankMaskLoseDurationMs
+                )
+              }
               onError={() => {
                 setYankLoseSrcIndex((prev) =>
                   Math.min(prev + 1, yankLoseSources.length - 1)
@@ -605,7 +659,7 @@ export const MatchClient = ({
           )}
         </div>
       ) : null}
-      {canShowResultUI ? (
+      {canShowResultUI && story ? (
         <div
           className={`pointer-events-none absolute inset-x-0 top-[10%] flex justify-center px-6 text-center ${
             yankLoseSnapshot ? "z-[1000]" : "z-30"
