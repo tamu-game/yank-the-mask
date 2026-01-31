@@ -4,11 +4,20 @@
 
 :root {
   color-scheme: light;
+  --ink: #5b4636;
+  --paper: #fff4df;
+  --paper-deep: #f6e5c8;
+  --butter: #ffe3a3;
+  --caramel: #c58b4f;
 }
 
 body {
-  @apply text-slate-900 antialiased;
-  background: linear-gradient(180deg, #fff6ec 0%, #fdf2ff 45%, #fff7ed 100%);
+  @apply antialiased;
+  color: var(--ink);
+  background:
+    radial-gradient(1200px 800px at 20% 0%, #fff1cf 0%, rgba(255, 241, 207, 0) 60%),
+    radial-gradient(900px 700px at 90% 10%, #ffe2c8 0%, rgba(255, 226, 200, 0) 55%),
+    linear-gradient(180deg, #fff2dc 0%, #ffe9d1 55%, #fff3e2 100%);
   min-height: 100%;
 }
 
@@ -50,12 +59,14 @@ body {
 
 
 .sticker-tag {
-  @apply inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold tracking-wide ring-1 shadow-sm;
+  @apply inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold tracking-wide ring-2 shadow-sm;
+  border: 2px solid rgba(197, 139, 79, 0.25);
+  box-shadow: 0 2px 0 rgba(197, 139, 79, 0.25);
 }
 
 .note-card {
-  @apply rounded-2xl border-2 border-white/80 bg-white/90 px-4 py-3 shadow-lg;
-  box-shadow: 0 14px 30px rgba(251, 113, 133, 0.18);
+  @apply rounded-2xl border-2 border-amber-200/80 bg-[#fff6e6]/95 px-4 py-3 shadow-lg;
+  box-shadow: 0 14px 30px rgba(197, 139, 79, 0.2);
 }
 
 .notebook-panel {

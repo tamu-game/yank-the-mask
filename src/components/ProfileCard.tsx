@@ -46,10 +46,10 @@ export const ProfileCard = ({ character }: { character: CharacterPreview }) => {
     <div
       className="
         group flex h-full min-h-0 flex-col overflow-hidden
-        rounded-[32px] border-2 border-white/80 bg-white/90
-        shadow-[0_22px_40px_rgba(124,58,237,0.18)] backdrop-blur-xl
-        active:shadow-[0_26px_52px_rgba(94,234,212,0.22)]
-        active:ring-2 active:ring-emerald-200/60
+        rounded-[32px] border-2 border-amber-200/80 bg-[#fff6e6]/95
+        shadow-[0_18px_36px_rgba(197,139,79,0.28)] backdrop-blur-xl
+        active:shadow-[0_22px_44px_rgba(197,139,79,0.32)]
+        active:ring-2 active:ring-amber-200/70
       "
     >
       <div
@@ -65,7 +65,7 @@ export const ProfileCard = ({ character }: { character: CharacterPreview }) => {
           className="object-cover object-center"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent group-active:opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-amber-900/35 via-transparent to-transparent group-active:opacity-80" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_25%,rgba(255,255,255,0.06),rgba(15,23,42,0.35))] mix-blend-multiply opacity-80" />
         <div className="pointer-events-none absolute inset-0 opacity-20 mix-blend-soft-light bg-[radial-gradient(rgba(255,255,255,0.12)_1px,transparent_1px)] bg-[length:3px_3px]" />
       </div>
@@ -74,21 +74,21 @@ export const ProfileCard = ({ character }: { character: CharacterPreview }) => {
         data-scroll-area
         className="
           min-h-0 flex-1 overflow-y-auto touch-pan-y
-          px-5 pb-6 pt-4 text-slate-700
+          px-5 pb-6 pt-4 text-amber-900
           [webkit-overflow-scrolling:touch]
         "
       >
         <div className="flex items-center justify-between gap-3">
-          <div className="text-2xl font-semibold text-slate-800">
+          <div className="text-2xl font-semibold text-amber-950">
             {character.name}, {character.age}
           </div>
-          <StickerTag label={shortDescriptor} className="rotate-[-1deg] ring-2 ring-amber-200/70" />
+          <StickerTag label={shortDescriptor} className="rotate-[-1deg] ring-2 ring-amber-200/80" />
         </div>
-        <div className="mt-2 text-sm text-slate-600">{observation}</div>
+        <div className="mt-2 text-sm text-amber-800/90">{observation}</div>
 
         <div className="flex flex-col gap-5 pt-4">
           <div>
-            <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-amber-700/70">
               Signals
             </div>
             <div className="mt-3 flex flex-wrap gap-2">
@@ -103,10 +103,10 @@ export const ProfileCard = ({ character }: { character: CharacterPreview }) => {
           </div>
 
           <div>
-            <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-amber-700/70">
               Whispers
             </div>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-sm text-amber-800/90">
               Rumor says {quirks[0] ?? "they keep a secret list"} and a soft spot for{" "}
               {likes[0] ?? "quiet moments"}. Lingers near {hangout}.
             </p>
@@ -114,20 +114,20 @@ export const ProfileCard = ({ character }: { character: CharacterPreview }) => {
 
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
-              <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-amber-700/70">
                 Drawn to
               </div>
-              <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-600">
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-amber-800/90">
                 {likes.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
             </div>
             <div>
-              <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-amber-700/70">
                 Avoids
               </div>
-              <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-600">
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-amber-800/90">
                 {dislikes.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
@@ -136,10 +136,10 @@ export const ProfileCard = ({ character }: { character: CharacterPreview }) => {
           </div>
 
           <div>
-            <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-amber-700/70">
               Tells
             </div>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-600">
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-amber-800/90">
               {quirks.map((item) => (
                 <li key={item}>{item}</li>
               ))}

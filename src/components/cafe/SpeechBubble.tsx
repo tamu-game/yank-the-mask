@@ -19,33 +19,33 @@ export const SpeechBubble = ({
 
   return (
     <div
-      className={`relative text-sm text-slate-700 ${
+      className={`relative text-sm text-amber-900 ${
         glitch ? "bubble-glitch" : ""
       } ${className} animate-bubble-pop`}
       role="status"
       aria-live="polite"
     >
-      <div className="rounded-[18px] border border-white/70 bg-white/85 px-4 py-3 text-sm text-slate-700 shadow-[0_10px_20px_rgba(15,23,42,0.12)] backdrop-blur">
+      <div className="rounded-[18px] border-2 border-amber-200/80 bg-[#fff6e6]/95 px-4 py-3 text-sm text-amber-900 shadow-[0_10px_20px_rgba(197,139,79,0.18)] backdrop-blur">
         <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700/70">
           Answer
         </div>
         <div className="mt-1 translate-y-[-2px]">
           {isTyping ? (
             <div className="flex items-center justify-center gap-1">
-              <span className="typing-dot h-2 w-2 rounded-full bg-slate-500/70" />
+              <span className="typing-dot h-2 w-2 rounded-full bg-amber-700/70" />
               <span
-                className="typing-dot h-2 w-2 rounded-full bg-slate-500/70"
+                className="typing-dot h-2 w-2 rounded-full bg-amber-700/70"
                 style={{ animationDelay: "0.15s" }}
               />
               <span
-                className="typing-dot h-2 w-2 rounded-full bg-slate-500/70"
+                className="typing-dot h-2 w-2 rounded-full bg-amber-700/70"
                 style={{ animationDelay: "0.3s" }}
               />
             </div>
           ) : (
             <span
               key={animateKey ?? text}
-              className="typing-reveal block leading-relaxed text-slate-600"
+              className="typing-reveal block leading-relaxed text-amber-800/90"
             >
               {text}
             </span>

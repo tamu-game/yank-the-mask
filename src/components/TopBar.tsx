@@ -9,15 +9,15 @@ export const TopBar = ({ title, backHref }: { title: string; backHref?: string }
         {backHref ? (
           <Link
             href={backHref}
-            className="rounded-full border-2 border-white/80 bg-white/70 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm"
+            className="rounded-full border-2 border-amber-200/80 bg-[#fff6e6]/95 px-3 py-1 text-xs font-semibold text-amber-900 shadow-[0_3px_0_rgba(197,139,79,0.2)]"
           >
             Back
           </Link>
         ) : null}
-        <span className="text-sm font-semibold text-slate-700">{title}</span>
+        <span className="text-sm font-semibold text-amber-900">{title}</span>
       </div>
-      <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-rose-400">
-        <span className="h-2 w-2 rounded-full bg-rose-400 shadow-sm" />
+      <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-amber-700/80">
+        <span className="h-2 w-2 rounded-full bg-amber-400 shadow-sm" />
         Maskle
       </span>
     </div>

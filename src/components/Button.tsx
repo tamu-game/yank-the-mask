@@ -4,20 +4,20 @@ import Link from "next/link";
 import type { ButtonHTMLAttributes } from "react";
 
 const base =
-  "inline-flex items-center justify-center rounded-2xl px-4 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-300/70 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex items-center justify-center rounded-2xl px-4 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/70 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50";
 
 const variants = {
   primary:
-    "bg-rose-500 text-white shadow-[0_10px_20px_rgba(244,63,94,0.25)] hover:bg-rose-400",
+    "border-2 border-amber-200 bg-gradient-to-b from-amber-300 via-amber-400 to-amber-500 text-amber-950 shadow-[0_6px_0_rgba(197,139,79,0.35),0_14px_24px_rgba(197,139,79,0.25)] hover:from-amber-200 hover:to-amber-400",
   secondary:
-    "bg-white/80 text-slate-700 shadow-sm ring-1 ring-white/80 hover:bg-white",
+    "border-2 border-amber-200/70 bg-white/90 text-amber-900 shadow-[0_3px_0_rgba(197,139,79,0.2)] hover:bg-[#fff7ea]",
   outline:
-    "border-2 border-rose-300 text-rose-600 shadow-sm hover:bg-rose-50",
+    "border-2 border-amber-300 text-amber-800 shadow-[0_3px_0_rgba(197,139,79,0.18)] hover:bg-amber-50",
   ghost: "text-slate-600 hover:bg-rose-50",
   danger:
-    "border-2 border-rose-300 bg-white/80 text-rose-600 shadow-sm hover:bg-rose-50",
+    "border-2 border-rose-300 bg-white/90 text-rose-700 shadow-[0_3px_0_rgba(214,94,107,0.18)] hover:bg-rose-50",
   success:
-    "border-2 border-emerald-200 bg-white/80 text-emerald-600 shadow-sm hover:bg-emerald-50"
+    "border-2 border-emerald-200 bg-white/90 text-emerald-700 shadow-[0_3px_0_rgba(56,161,105,0.2)] hover:bg-emerald-50"
 };
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {

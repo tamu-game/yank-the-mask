@@ -64,14 +64,14 @@ export const CafeScene = ({
             <button
               type="button"
               onClick={onBack}
-              className="relative z-40 rounded-full bg-black/35 px-3 py-1 text-xs font-semibold text-white/90 backdrop-blur transition hover:bg-black/45"
+              className="relative z-40 rounded-full border-2 border-amber-200/70 bg-[#fff6e6]/90 px-3 py-1 text-xs font-semibold text-amber-900 shadow-[0_3px_0_rgba(197,139,79,0.2)] backdrop-blur transition hover:bg-[#fff0d6]"
             >
               ← Back
             </button>
           ) : (
             <Link
               href="/feed"
-              className="relative z-40 rounded-full bg-black/35 px-3 py-1 text-xs font-semibold text-white/90 backdrop-blur"
+              className="relative z-40 rounded-full border-2 border-amber-200/70 bg-[#fff6e6]/90 px-3 py-1 text-xs font-semibold text-amber-900 shadow-[0_3px_0_rgba(197,139,79,0.2)] backdrop-blur"
             >
               ← Back
             </Link>
@@ -121,7 +121,7 @@ export const CafeScene = ({
 
           {questionText ? (
             <div className="absolute bottom-[60%] left-4 max-w-[70%] sm:bottom-[50%] sm:left-10">
-              <div className="animate-bubble-pop rounded-[18px] border border-white/70 bg-white/85 px-4 py-3 text-sm text-slate-700 shadow-[0_10px_20px_rgba(15,23,42,0.12)] backdrop-blur">
+              <div className="animate-bubble-pop rounded-[18px] border-2 border-amber-200/80 bg-[#fff6e6]/95 px-4 py-3 text-sm text-amber-900 shadow-[0_10px_20px_rgba(197,139,79,0.18)] backdrop-blur">
                 <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-700/70">
                   Your note
                 </div>

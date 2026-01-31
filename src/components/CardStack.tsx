@@ -187,9 +187,9 @@ export const CardStack = ({ characters, onSwipeLeft, onSwipeRight }: CardStackPr
 
   if (!activeCard) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 rounded-[28px] border-2 border-dashed border-rose-200 bg-white/70 p-10 text-center shadow-lg">
-        <div className="text-lg font-semibold text-slate-700">No more dates right now</div>
-        <p className="text-sm text-slate-500">Refresh to reshuffle the cafe crowd.</p>
+      <div className="flex flex-col items-center justify-center gap-4 rounded-[28px] border-2 border-dashed border-amber-200 bg-[#fff6e6]/95 p-10 text-center shadow-[0_12px_26px_rgba(197,139,79,0.2)]">
+        <div className="text-lg font-semibold text-amber-900">No more dates right now</div>
+        <p className="text-sm text-amber-700/80">Refresh to reshuffle the cafe crowd.</p>
         <Button variant="secondary" onClick={() => setIndex(0)}>
           Shuffle again
         </Button>

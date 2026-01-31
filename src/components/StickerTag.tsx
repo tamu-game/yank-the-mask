@@ -6,11 +6,11 @@ type StickerTagProps = {
 };
 
 const palettes = [
-  "bg-rose-100 text-rose-700 ring-rose-200/70",
-  "bg-amber-100 text-amber-700 ring-amber-200/70",
-  "bg-teal-100 text-teal-700 ring-teal-200/70",
-  "bg-purple-100 text-purple-700 ring-purple-200/70",
-  "bg-sky-100 text-sky-700 ring-sky-200/70"
+  "bg-rose-100 text-rose-700 ring-rose-200/80",
+  "bg-amber-100 text-amber-800 ring-amber-200/80",
+  "bg-lime-100 text-lime-800 ring-lime-200/80",
+  "bg-orange-100 text-orange-800 ring-orange-200/80",
+  "bg-yellow-100 text-yellow-800 ring-yellow-200/80"
 ];
 
 const hashToIndex = (value: string) => {

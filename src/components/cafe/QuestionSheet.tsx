@@ -123,7 +123,7 @@ export const QuestionSheet = ({
   return (
     <div className={`w-full ${className}`}>
         <div
-          className={`relative overflow-hidden rounded-t-[30px] border border-amber-200/70 bg-gradient-to-b from-amber-50/95 via-amber-50/90 to-white/90 px-4 pb-6 pt-4 shadow-[0_-12px_30px_rgba(15,23,42,0.18)] backdrop-blur transform-gpu will-change-[max-height,transform] motion-safe:transition-[max-height,transform] motion-safe:duration-300 motion-safe:ease-out ${
+          className={`relative overflow-hidden rounded-t-[30px] border-2 border-amber-200/80 bg-gradient-to-b from-[#fff4de]/95 via-[#fff0d6]/92 to-[#fff7ea]/90 px-4 pb-6 pt-4 shadow-[0_-12px_30px_rgba(197,139,79,0.22)] backdrop-blur transform-gpu will-change-[max-height,transform] motion-safe:transition-[max-height,transform] motion-safe:duration-300 motion-safe:ease-out ${
           isCollapsed
             ? "max-h-[78px] min-h-[78px] translate-y-2"
             : isProfileOpen
@@ -147,7 +147,7 @@ export const QuestionSheet = ({
               onToggle();
             }
           }}
-          className="relative mx-auto h-1.5 w-12 rounded-full bg-amber-200/90 cursor-pointer"
+          className="relative mx-auto h-1.5 w-12 rounded-full bg-amber-300/90 cursor-pointer"
           aria-label="Toggle menu"
         />
         <div className="relative mt-3 flex w-full items-center justify-between gap-3">
@@ -168,17 +168,17 @@ export const QuestionSheet = ({
             <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-amber-100 text-sm">
               🍵
             </span>
-            <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-amber-700/80">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-amber-800/80">
               Menu
             </div>
-            <div className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-amber-700/90 shadow-sm">
+            <div className="rounded-full bg-[#fff7ea]/95 px-3 py-1 text-xs font-semibold text-amber-900 shadow-[0_3px_0_rgba(197,139,79,0.18)]">
               Questions left: {questionsLeft}
             </div>
           </div>
           <button
             type="button"
             onClick={handleProfileToggle}
-            className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-amber-200/70 bg-white/90 text-xs font-semibold text-amber-700/90 shadow-sm transition hover:-translate-y-[1px]"
+            className="inline-flex h-7 w-7 items-center justify-center rounded-full border-2 border-amber-200/80 bg-[#fff7ea]/95 text-xs font-semibold text-amber-800 shadow-[0_3px_0_rgba(197,139,79,0.18)] transition hover:-translate-y-[1px]"
             aria-label={isProfileOpen ? "Close date card" : "Open date card"}
           >
             {isProfileOpen ? "×" : "i"}
@@ -187,7 +187,7 @@ export const QuestionSheet = ({
         <button
           type="button"
           onClick={onToggle}
-          className={`relative mt-2 w-full rounded-full border border-amber-200/70 bg-white/80 px-3 py-1 text-xs font-semibold text-amber-700/80 shadow-sm transition ${
+          className={`relative mt-2 w-full rounded-full border-2 border-amber-200/80 bg-[#fff7ea]/95 px-3 py-1 text-xs font-semibold text-amber-800/80 shadow-[0_3px_0_rgba(197,139,79,0.18)] transition ${
             isCollapsed ? "hover:-translate-y-[1px]" : "opacity-0 pointer-events-none"
           }`}
         >
@@ -201,8 +201,8 @@ export const QuestionSheet = ({
                 : "pointer-events-none max-h-0 scale-[0.98] opacity-0"
             }`}
           >
-            <div className="mx-auto w-full max-w-[520px] overflow-hidden rounded-[28px] border border-amber-200/70 bg-gradient-to-b from-amber-50/90 via-amber-50/85 to-white/80 shadow-[0_18px_36px_rgba(124,58,237,0.12)]">
-              <div className="relative border-b border-amber-200/60 px-5 pb-4 pt-5">
+            <div className="mx-auto w-full max-w-[520px] overflow-hidden rounded-[28px] border-2 border-amber-200/80 bg-gradient-to-b from-[#fff4de]/92 via-[#fff0d6]/88 to-[#fff7ea]/85 shadow-[0_18px_36px_rgba(197,139,79,0.2)]">
+              <div className="relative border-b border-amber-200/70 px-5 pb-4 pt-5">
                 <div className="absolute inset-0" style={{ background: gradient }} />
                 <div className="relative flex items-center gap-4">
                   <div className="relative h-20 w-20 overflow-hidden rounded-full border-2 border-white/80 shadow-lg">
@@ -214,23 +214,23 @@ export const QuestionSheet = ({
                       className="object-cover object-center"
                     />
                   </div>
-                  <div className="flex-1 text-slate-800">
+                  <div className="flex-1 text-amber-950">
                     <div className="text-2xl font-semibold">
                       {character.name}, {character.age}
                     </div>
-                    <div className="mt-1 text-sm text-slate-600">{observation}</div>
+                    <div className="mt-1 text-sm text-amber-800/90">{observation}</div>
                   </div>
                   <StickerTag
                     label={shortDescriptor}
                     className="rotate-[-1deg] ring-2 ring-amber-200/70"
                   />
                 </div>
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-amber-100/50 via-transparent to-transparent" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-amber-200/50 via-transparent to-transparent" />
               </div>
-              <div className="max-h-[50vh] overflow-y-auto px-5 pb-6 pt-4 text-slate-700">
+              <div className="max-h-[50vh] overflow-y-auto px-5 pb-6 pt-4 text-amber-900">
                 <div className="flex flex-col gap-5">
                   <div>
-                    <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-amber-700/70">
                       Signals
                     </div>
                     <div className="mt-3 flex flex-wrap gap-2">
@@ -245,28 +245,28 @@ export const QuestionSheet = ({
                   </div>
 
                   <div>
-                    <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-amber-700/70">
                       Whispers
                     </div>
-                    <p className="mt-2 text-sm text-slate-600">{whispers}</p>
+                    <p className="mt-2 text-sm text-amber-800/90">{whispers}</p>
                   </div>
 
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div>
-                      <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">
+                      <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-amber-700/70">
                         Drawn to
                       </div>
-                      <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-600">
+                      <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-amber-800/90">
                         {likes.map((item) => (
                           <li key={item}>{item}</li>
                         ))}
                       </ul>
                     </div>
                     <div>
-                      <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-slate-400">
+                      <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-amber-700/70">
                         Avoids
                       </div>
-                      <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-600">
+                      <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-amber-800/90">
                         {dislikes.map((item) => (
                           <li key={item}>{item}</li>
                         ))}
@@ -290,8 +290,8 @@ export const QuestionSheet = ({
               const isPending = pendingId === question.id;
               const isDisabled = disabled || isAsked || Boolean(pendingId);
               const surfaceClasses = isAsked
-                ? "border-amber-100/70 bg-gradient-to-b from-amber-50/80 via-white/85 to-amber-50/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_6px_14px_rgba(15,23,42,0.06)]"
-                : "border-amber-100/80 bg-gradient-to-b from-white/95 via-amber-50/90 to-rose-50/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_8px_18px_rgba(15,23,42,0.08)]";
+                ? "border-amber-200/80 bg-gradient-to-b from-[#fff4de]/90 via-[#fff7ea]/95 to-[#fff0d6]/85 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_6px_14px_rgba(197,139,79,0.12)]"
+                : "border-amber-200/90 bg-gradient-to-b from-[#fffaf1]/95 via-[#fff1db]/92 to-[#ffe6c6]/85 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_8px_18px_rgba(197,139,79,0.16)]";
               const stateClasses = isDisabled ? "cursor-not-allowed opacity-70" : "cursor-pointer";
               const interactiveClasses = !isDisabled
                 ? "motion-safe:transition-transform motion-safe:duration-150 motion-safe:ease-out motion-safe:hover:-translate-y-[1px] motion-safe:hover:scale-[1.01] motion-safe:active:scale-[0.98] hover:border-amber-200/80"
@@ -301,15 +301,15 @@ export const QuestionSheet = ({
                 <button
                   key={question.id}
                   type="button"
-                  className={`group relative w-full rounded-[22px] border px-4 py-3.5 text-left text-[15px] font-medium tracking-[0.01em] text-slate-600 ${surfaceClasses} ${stateClasses} ${interactiveClasses}`}
+                  className={`group relative w-full rounded-[22px] border px-4 py-3.5 text-left text-[15px] font-medium tracking-[0.01em] text-amber-900 ${surfaceClasses} ${stateClasses} ${interactiveClasses}`}
                   onClick={() => onAsk(question.id)}
                   disabled={isDisabled}
                 >
-                  <span className={`${isAsked ? "line-through text-slate-500" : ""}`}>
+                  <span className={`${isAsked ? "line-through text-amber-700/70" : ""}`}>
                     {isPending ? "Brewing..." : question.prompt}
                   </span>
                   {isAsked ? (
-                    <span className="absolute right-2 top-2 rotate-6 rounded-full border border-rose-300/70 bg-rose-100/90 px-2 py-0.5 text-[10px] font-bold tracking-[0.15em] text-rose-500/90 shadow-[0_2px_6px_rgba(244,63,94,0.18)]">
+                    <span className="absolute right-2 top-2 rotate-6 rounded-full border border-rose-300/80 bg-rose-100/95 px-2 py-0.5 text-[10px] font-bold tracking-[0.15em] text-rose-600/90 shadow-[0_2px_6px_rgba(214,94,107,0.18)]">
                       ASKED
                     </span>
                   ) : null}
