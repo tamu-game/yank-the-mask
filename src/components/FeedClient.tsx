@@ -27,7 +27,7 @@ export const FeedClient = ({ characters }: { characters: CharacterPreview[] }) =
       }
       setIsTransitioning(true);
       await new Promise((resolve) => window.setTimeout(resolve, 240));
-      router.push(`/match/${character.id}?sessionId=${data.sessionId}`);
+      router.push(`/match/${character.id}?sessionId=${data.sessionId}&from=feed`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {

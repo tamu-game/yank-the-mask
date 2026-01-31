@@ -4,6 +4,7 @@ import { getCharacterById } from "@/data/characters";
 import { memoryStore } from "@/store/memoryStore";
 import { createSeed } from "@/lib/rng";
 import type { Session } from "@/types/game";
+import { determineRole } from "@/lib/answerPicker";
 
 export const runtime = "nodejs";
 
@@ -29,7 +30,7 @@ export async function POST(request: NextRequest) {
     id: crypto.randomUUID(),
     seed,
     characterId,
-    isAlien: false,
+    isAlien: determineRole(seed) === "alien",
     askedQuestionIds: [],
     turns: [],
     suspicion: 0,

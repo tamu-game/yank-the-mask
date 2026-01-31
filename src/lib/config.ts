@@ -1,5 +1,18 @@
 export const gameConfig = {
+  questionsPerGame: 5,
   alienChance: 0.45,
+  answerSelection: {
+    targetSuspicion: {
+      human: 1.0,
+      alien: 1.9
+    },
+    targetMeanRange: {
+      human: { min: 0.9, max: 1.3 },
+      alien: { min: 1.6, max: 2.1 }
+    },
+    weightK: 2.0,
+    balancingWindow: 2
+  },
   alienSuspicionThreshold: 12,
   streakLimit: 3,
   maxObviousLies: 1,

@@ -18,6 +18,7 @@ type CafeSceneProps = {
   suspicion: number;
   className?: string;
   onBack?: () => void;
+  portraitRestartKey?: number;
 };
 
 export const CafeScene = ({
@@ -31,7 +32,8 @@ export const CafeScene = ({
   glitch,
   suspicion,
   className = "",
-  onBack
+  onBack,
+  portraitRestartKey = 0
 }: CafeSceneProps) => {
   const showBubble = isTyping || Boolean(answerText);
   const portraitImageSources = portraitSources?.length
@@ -95,6 +97,7 @@ export const CafeScene = ({
                 alt={portraitAlt}
                 className="absolute inset-x-0 bottom-0 h-full w-full z-10"
                 priority
+                restartKey={portraitRestartKey}
               />
               {showBubble ? (
                 <div className="absolute left-1/2 bottom-[calc(55%-40px)] sm:bottom-[calc(55%-120px)] lg:bottom-[calc(55%-160px)] z-20 w-[78%] max-w-[420px] -translate-x-1/2">
