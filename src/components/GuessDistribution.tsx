@@ -6,6 +6,8 @@ type GuessDistributionProps = {
   playerGuessedAtQuestion: number | null;
 };
 
+const MAX_QUESTIONS = 5;
+
 const clampQuestion = (value: number | null, maxQuestions: number) => {
   if (!value || Number.isNaN(value)) return null;
   return Math.min(Math.max(value, 1), maxQuestions);
@@ -18,14 +20,16 @@ export const GuessDistribution = ({
 }: GuessDistributionProps) => {
   const isWin = playerOutcome === "WIN";
   const isLose = playerOutcome === "LOSE";
+  const cappedMaxQuestions = Math.min(data.maxQuestions, MAX_QUESTIONS);
+  const distribution = data.distribution.filter((entry) => entry.question <= MAX_QUESTIONS);
   const highlightQuestion = isWin
-    ? clampQuestion(playerGuessedAtQuestion, data.maxQuestions)
+    ? clampQuestion(playerGuessedAtQuestion, cappedMaxQuestions)
     : null;
   const totalWins = data.totalWins;
-  const mostCommon = data.distribution.reduce(
+  const mostCommon = distribution.reduce(
     (current, entry) =>
       entry.winCount > current.winCount ? entry : current,
-    data.distribution[0] ?? { question: 0, winCount: 0, percent: 0 }
+    distribution[0] ?? { question: 0, winCount: 0, percent: 0 }
   );
 
   return (
@@ -51,7 +55,7 @@ export const GuessDistribution = ({
         <div className="mt-3 text-xs text-slate-500">Henüz yeterli veri yok.</div>
       ) : null}
       <div className="mt-4 max-h-52 space-y-2 overflow-y-auto pr-1">
-        {data.distribution.map((entry) => {
+        {distribution.map((entry) => {
           const isHighlight = highlightQuestion === entry.question;
           const isMostCommon = entry.question === mostCommon.question && mostCommon.winCount > 0;
           const width =

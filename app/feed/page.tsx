@@ -11,7 +11,7 @@ export default function FeedPage() {
       <div className="sticky top-0 z-20 bg-amber-50/70 backdrop-blur">
         <TopBar title="Find a Date" backHref="/" />
       </div>
-      <div className="flex min-h-[calc(100vh-72px)] flex-col items-center justify-start px-6 pb-[calc(env(safe-area-inset-bottom)+7rem)] pt-3">
+      <div className="flex min-h-[calc(100vh-72px)] flex-col items-center justify-start px-0 pb-[calc(env(safe-area-inset-bottom)+7rem)] pt-3">
         <FeedClient characters={previews} />
       </div>
     </main>

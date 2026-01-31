@@ -84,6 +84,8 @@ const stableGlitch = (id: string, chance: number) => {
   return normalized < chance;
 };
 
+const MAX_QUESTIONS = 5;
+
 type ResultOverlay = {
   decision: "accuse" | "trust";
   outcome: "win" | "lose";
@@ -168,7 +170,10 @@ export const MatchClient = ({
 
   const askedIds = session?.askedQuestionIds ?? [];
   const askedCount = askedIds.length;
-  const minQuestionsToDecide = gameConfig.minQuestionsToDecide;
+  const limitedQuestions = questions.slice(0, MAX_QUESTIONS);
+  const questionsLeft = Math.max(0, MAX_QUESTIONS - askedCount);
+  const canAskMore = questionsLeft > 0;
+  const minQuestionsToDecide = 1;
   const canDecide = askedCount >= minQuestionsToDecide && session?.status === "in_progress";
   const lastTurn = session?.turns?.[session.turns.length - 1] ?? null;
   const lastTurnId = lastTurn?.id ?? null;
@@ -364,6 +369,7 @@ export const MatchClient = ({
   const handleAsk = async (questionId: string) => {
     if (!sessionId) return;
     if (pendingQuestionId) return;
+    if (askedCount >= MAX_QUESTIONS) return;
     setError(null);
     setPendingQuestionId(questionId);
     setIsSheetCollapsed(true);
@@ -516,6 +522,8 @@ export const MatchClient = ({
   const story = resultKey ? resultCopy[resultKey] : null;
   const showResultOverlay = Boolean(story);
   const showInteractionUI = !showResultOverlay && !decision && !hideQuestionSheet;
+  const showQuestionSheet = showInteractionUI && canAskMore;
+  const showDecisionOnly = showInteractionUI && !canAskMore && session?.status === "in_progress";
   const holdResultUntilYankLoseEnd = yankLoseActive && !yankLoseSnapshot;
   const canShowResultUI = showResultOverlay && resultReady && !holdResultUntilYankLoseEnd;
   const playerOutcome = resultOverlay
@@ -787,22 +795,39 @@ export const MatchClient = ({
           </div>
         ) : showInteractionUI ? (
           <>
-            <QuestionSheet
-              className="pointer-events-auto w-full max-w-xl"
-              character={character}
-              questions={questions}
-              askedIds={askedIds}
-              pendingId={pendingQuestionId}
-              onAsk={handleAsk}
-              disabled={!session || session.status !== "in_progress"}
-              collapsed={isSheetCollapsed}
-              onToggle={() => setIsSheetCollapsed((prev) => !prev)}
-              footer={
+            {showQuestionSheet ? (
+              <QuestionSheet
+                className="pointer-events-auto w-full max-w-xl"
+                character={character}
+                questions={limitedQuestions}
+                askedIds={askedIds}
+                pendingId={pendingQuestionId}
+                onAsk={handleAsk}
+                disabled={!session || session.status !== "in_progress"}
+                collapsed={isSheetCollapsed}
+                onToggle={() => setIsSheetCollapsed((prev) => !prev)}
+                footer={
+                  <ChoiceBar
+                    className="w-full"
+                    canDecide={canDecide}
+                    minQuestionsToDecide={minQuestionsToDecide}
+                    disabled={Boolean(pendingQuestionId) || session?.status !== "in_progress"}
+                    onChoose={(value) => {
+                      setHideQuestionSheet(true);
+                      setIsSheetCollapsed(true);
+                      setIsResultCollapsed(true);
+                      setDecision(value);
+                    }}
+                  />
+                }
+              />
+            ) : showDecisionOnly ? (
+              <div className="pointer-events-auto w-full max-w-xl">
                 <ChoiceBar
                   className="w-full"
                   canDecide={canDecide}
                   minQuestionsToDecide={minQuestionsToDecide}
-                  disabled={Boolean(pendingQuestionId) || session?.status !== "in_progress"}
+                  disabled={session?.status !== "in_progress"}
                   onChoose={(value) => {
                     setHideQuestionSheet(true);
                     setIsSheetCollapsed(true);
@@ -810,8 +835,8 @@ export const MatchClient = ({
                     setDecision(value);
                   }}
                 />
-              }
-            />
+              </div>
+            ) : null}
           </>
         ) : null}
         {error ? (
