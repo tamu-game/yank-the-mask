@@ -9,7 +9,6 @@ export type Question = {
   id: string;
   prompt: string;
   answers: AnswerOption[];
-  answerIndex: AnswerChoice;
 };
 
 export type QuestionPublic = Pick<Question, "id" | "prompt">;
@@ -23,6 +22,12 @@ export type Character = {
   tags: string[];
   bio: string;
   traits: string[];
+  likes: string[];
+  dislikes: string[];
+  quirks: string[];
+  hangout: string;
+  observation: string;
+  whispers: string;
   questions: Question[];
 };
 
@@ -35,6 +40,12 @@ export type CharacterPreview = {
   tags: string[];
   bio: string;
   traits: string[];
+  likes: string[];
+  dislikes: string[];
+  quirks: string[];
+  hangout: string;
+  observation: string;
+  whispers: string;
 };
 
 export type CharacterPublic = CharacterPreview & {

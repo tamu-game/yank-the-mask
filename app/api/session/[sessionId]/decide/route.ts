@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { decideSchema } from "@/validation/schemas";
 import { memoryStore } from "@/store/memoryStore";
 import { calculateScore } from "@/lib/scoring";
-import { isAlienFromSuspicion } from "@/lib/suspicion";
+import { isAlienFromAverageSuspicion } from "@/lib/suspicion";
 import { getCharacterById } from "@/data/characters";
 
 export const runtime = "nodejs";
@@ -29,12 +29,9 @@ export async function POST(
     return jsonError("Session has ended.", 409, "conflict");
   }
 
-  if (session.askedQuestionIds.length < 3) {
-    return jsonError("Ask at least 3 questions before deciding.", 409, "conflict");
-  }
-
   const { decision } = parsed.data;
-  const isAlien = isAlienFromSuspicion(session.suspicion);
+  const answeredCount = session.askedQuestionIds.length;
+  const isAlien = isAlienFromAverageSuspicion(session.suspicion, answeredCount);
   const isWin =
     (decision === "accuse" && isAlien) || (decision === "trust" && !isAlien);
 
