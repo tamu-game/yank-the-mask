@@ -16,11 +16,12 @@
     ],
     "likes": [
       "Wildlife Photography",
+      "Walking",
       "Harry Potter 3",
       "Cats"
     ],
     "dislikes": [
-      "Anything unexpected",
+      "Noise",
       "New tastes"
     ],
     "quirks": [
@@ -34,132 +35,198 @@
     "questions": [
       {
         "id": "aylin-sakar_q1",
-        "prompt": "Gotham night out. You pick the first stop?",
+        "prompt": "I saw you like Harry Potter, do you prefer reading the books or watching the movies?",
         "answers": [
           {
-            "text": "A quiet diner, pie first.",
+            "text": "Actually, I love both! The more magic the better for me...",
             "suspicion": 0
           },
           {
-            "text": "A dive bar with a punchy jukebox.",
+            "text": "Both are great, but I am going to choose the books.",
             "suspicion": 1
           },
           {
-            "text": "Roller rink. We make sparks.",
+            "text": "Books, I guess, kind of.",
             "suspicion": 2
           },
           {
-            "text": "Rooftop chase. I brought a bat.",
+            "text": "The movies, of course - who reads books in this era anyway?",
             "suspicion": 3
           }
         ]
       },
       {
         "id": "aylin-sakar_q2",
-        "prompt": "If I bring a mallet to the date, you...",
+        "prompt": "I love this place. They have such different dishes. Want to try the special?",
         "answers": [
           {
-            "text": "Ask me to leave it at the door.",
+            "text": "Actually, I will stick with a good old salad - but, thank you...",
             "suspicion": 0
           },
           {
-            "text": "Laugh and ask what the plan is.",
+            "text": "Uh… should I? I don’t know, maybe?",
             "suspicion": 1
           },
           {
-            "text": "Name it. Every mallet needs a name.",
+            "text": "Yeah, sure — if you really want to.",
             "suspicion": 2
           },
           {
-            "text": "Bring my own. Matching set.",
+            "text": "I’ve never tried that, but hey — new is always better. Let's go for it.",
             "suspicion": 3
           }
         ]
       },
       {
         "id": "aylin-sakar_q3",
-        "prompt": "Arkham vending machine snack?",
+        "prompt": "By the way… why do you always carry stickers with you?",
         "answers": [
           {
-            "text": "Plain chips. I like boring safety.",
+            "text": "I don’t actually know, it's like a habit now. And sometimes people smile when I give them one.",
             "suspicion": 0
           },
           {
-            "text": "Cherry fizz and a mystery bar.",
+            "text": "It’s just a habit. I like having small, comforting things around.",
             "suspicion": 1
           },
           {
-            "text": "Protein bar. Gotta be nimble.",
+            "text": "I guess I like being prepared for social … situations?",
             "suspicion": 2
           },
           {
-            "text": "The machine. I eat the machine.",
+            "text": "They are useful for social interaction. To attract people, you know?",
             "suspicion": 3
           }
-        ]
-      },
+          ]
+          },
       {
         "id": "aylin-sakar_q4",
-        "prompt": "Which rule do you break first?",
+        "prompt": "What is it with the bicycles? If you don't mind I mean...",
         "answers": [
           {
-            "text": "Curfew. I like my sleep.",
+            "text": "I don't know actually, never had one and always though I would fall off it if I ever tried.",
             "suspicion": 0
           },
           {
-            "text": "Dress code. Shoes are optional.",
+            "text": "They seem hard to balance, I don't trust my skills I guess.",
             "suspicion": 1
           },
           {
-            "text": "The one that says \"be normal\".",
+            "text": "Why use such a primitive vehicle anyway, while we have all these... cars and stuff.",
             "suspicion": 2
           },
           {
-            "text": "All of them, in order.",
+            "text": "They always felt oddly inefficient to me. Too much effort for too little movement.",
             "suspicion": 3
           }
         ]
       },
       {
         "id": "aylin-sakar_q5",
-        "prompt": "Puddin' means...",
+        "prompt": "So, I guess the third Harry Potter movie is your favorite one, right? Why is that?",
         "answers": [
           {
-            "text": "A dessert I will steal.",
+            "text": "It feels darker and more emotional somehow. Like the story finally grows up with the characters.",
             "suspicion": 0
           },
           {
-            "text": "A nickname with baggage.",
+            "text": "I like how it focuses more on atmosphere than big plot twists. It just feels cozy in a strange way.",
             "suspicion": 1
           },
           {
-            "text": "A code word for trouble.",
+            "text": "The third, the third one feels good actually. It is cozy.",
             "suspicion": 2
           },
           {
-            "text": "A password to my hideout.",
+            "text": "The third one was, about, a prison. It takes place in a prison. It was good, really.",
             "suspicion": 3
           }
         ]
       },
       {
         "id": "aylin-sakar_q6",
-        "prompt": "Pick our getaway ride.",
+        "prompt": "Do you have a cat? Something about cats was written in your bio.",
         "answers": [
           {
-            "text": "Skates. Fast, loud, dramatic.",
+            "text": "I do! His name is Pamuk — he acts like he owns the place and I just live there.",
             "suspicion": 0
           },
           {
-            "text": "Motorcycle with a glitter helmet.",
+            "text": "I do! 3 of them actually...",
             "suspicion": 1
           },
           {
-            "text": "Stolen cop car, sirens on.",
+            "text": "I really like them, but I never felt fully ready to take one in. They seem more independent than people expect.",
             "suspicion": 2
           },
           {
-            "text": "Helicopter. The sky owes me.",
+            "text": "Yes. Cats are… comforting. They observe quietly and don’t demand explanations.",
+            "suspicion": 3
+          }
+        ]
+      },
+      {
+        "id": "aylin-sakar_q7",
+        "prompt": "How did you like this place? Figured you may like the music.",
+        "answers": [
+          {
+            "text": "I loved it. Especially the chilling music in the background. ",
+            "suspicion": 0
+          },
+          {
+            "text": "Great place, it has a great vibe.",
+            "suspicion": 1
+          },
+          {
+            "text": "Place is good, the music is good; not noisy, just like how I would like it.",
+            "suspicion": 2
+          },
+          {
+            "text": "I like this music, comfy. But the place is too isolated, not much people around. I like hearing people talk in the background.",
+            "suspicion": 3
+          }
+        ]
+      },
+            {
+        "id": "aylin-sakar_q8",
+        "prompt": "Are you interested in photography?",
+        "answers": [
+          {
+            "text": "Yes! I specially love taking photos of wild animals.",
+            "suspicion": 0
+          },
+          {
+            "text": "Yeah, I like how it makes you notice details you’d normally miss.",
+            "suspicion": 1
+          },
+          {
+            "text": "I do. It helps me stay aware of what’s happening around me, like a way of grounding myself.",
+            "suspicion": 2
+          },
+          {
+            "text": "Yes. It lets me observe other creatures without interrupting them — just watching how they move and exist.",
+            "suspicion": 3
+          }
+        ]
+      },
+      {
+        "id": "aylin-sakar_q9",
+        "prompt": "You wrote walking is a hobby for you in your bio. How is that so? How can something like that be a hobby?",
+        "answers": [
+          {
+            "text": "I like how it is relaxing to just walk, without thinking of anything else.",
+            "suspicion": 0
+          },
+          {
+            "text": "I see walking as a way of meditating, just living in the moment.",
+            "suspicion": 1
+          },
+          {
+            "text": "It helps me clear my mind from the distractions my environment causes.",
+            "suspicion": 2
+          },
+          {
+            "text": "It is obviously a hobby, why would I use such an inefficient way of transportation otherwise?",
             "suspicion": 3
           }
         ]
