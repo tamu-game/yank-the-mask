@@ -1,7 +1,9 @@
 import type { Character } from "@/types/game";
 import seed from "@/data/characters.seed.json";
 
-const seedCharacters = seed as Array<Omit<Character, "portraitSrc">>;
+type SeedCharacter = Omit<Character, "portraitSrc">;
+
+const seedCharacters = seed as SeedCharacter[];
 
 export const characters: Character[] = seedCharacters.map((character) => ({
   ...character,
@@ -9,3 +11,7 @@ export const characters: Character[] = seedCharacters.map((character) => ({
 }));
 
 export const charactersById = new Map(characters.map((character) => [character.id, character]));
+
+export const getCharacterById = (characterId: string) => {
+  return charactersById.get(characterId);
+};

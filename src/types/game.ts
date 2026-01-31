@@ -12,10 +12,7 @@ export type Question = {
   answerIndex: AnswerChoice;
 };
 
-export type QuestionPrompt = {
-  id: string;
-  prompt: string;
-};
+export type QuestionPublic = Pick<Question, "id" | "prompt">;
 
 export type Character = {
   id: string;
@@ -41,7 +38,7 @@ export type CharacterPreview = {
 };
 
 export type CharacterPublic = CharacterPreview & {
-  questions: QuestionPrompt[];
+  questions: QuestionPublic[];
 };
 
 export type TurnLog = {
@@ -78,7 +75,6 @@ export type Session = {
   askedQuestionIds: string[];
   turns: TurnLog[];
   suspicion: number;
-  totalQuestions: number;
   status: SessionStatus;
   finalDecision: FinalDecision;
   finalOutcome: FinalOutcome;

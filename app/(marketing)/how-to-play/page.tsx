@@ -10,8 +10,8 @@ export default function HowToPlayPage() {
       <div className="space-y-4 text-sm text-slate-600">
         <p>1) Swipe right to match with a character. Left to skip.</p>
         <p>
-          2) At the cafe table, ask up to 10 questions. Humans always answer perfectly. Aliens
-          try to blend in with the occasional slip.
+          2) At the cafe table, ask from that character's curated question list. Humans always
+          answer perfectly. Aliens try to blend in with the occasional slip.
         </p>
         <p>3) Watch the Vibe Meter. It reacts to how believable the answers feel.</p>
         <p>4) After at least 3 questions, choose to Yank the Mask or Trust Them.</p>

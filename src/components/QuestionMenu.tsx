@@ -1,9 +1,9 @@
 "use client";
 
-import type { QuestionPrompt } from "@/types/game";
+import type { QuestionPublic } from "@/types/game";
 
 type QuestionMenuProps = {
-  questions: QuestionPrompt[];
+  questions: QuestionPublic[];
   askedIds: string[];
   pendingId?: string | null;
   onAsk: (questionId: string) => void;

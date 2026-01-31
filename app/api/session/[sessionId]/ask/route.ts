@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { askQuestionSchema } from "@/validation/schemas";
-import { charactersById } from "@/data/characters";
+import { getCharacterById } from "@/data/characters";
 import { memoryStore } from "@/store/memoryStore";
 import { addSuspicion, isAlienFromSuspicion } from "@/lib/suspicion";
 import { nowIso } from "@/lib/time";
@@ -30,7 +30,7 @@ export async function POST(
     return jsonError("Session has ended.", 409, "conflict");
   }
 
-  const character = charactersById.get(session.characterId);
+  const character = getCharacterById(session.characterId);
   if (!character) {
     return jsonError("Character not found.", 404, "not_found");
   }
@@ -48,8 +48,8 @@ export async function POST(
   const suspicionBefore = session.suspicion;
   const answerChoice: AnswerChoice = question.answerIndex;
   const answer = question.answers[answerChoice - 1] ?? question.answers[0];
-  const answerText = answer.text;
-  const suspicionAfter = addSuspicion(suspicionBefore, answer.suspicion);
+  const answerText = answer?.text ?? "";
+  const suspicionAfter = addSuspicion(suspicionBefore, answer?.suspicion ?? 0);
   const glitchChance = 0;
 
   const turn: TurnLog = {

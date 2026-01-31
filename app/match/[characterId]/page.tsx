@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { charactersById } from "@/data/characters";
+import { getCharacterById } from "@/data/characters";
 import { getCharacterPublic } from "@/lib/sanitize";
 import { MatchClient } from "@/components/MatchClient";
 
@@ -10,7 +10,7 @@ export default function MatchPage({
   params: { characterId: string };
   searchParams: { sessionId?: string };
 }) {
-  const character = charactersById.get(params.characterId);
+  const character = getCharacterById(params.characterId);
   if (!character) {
     notFound();
   }

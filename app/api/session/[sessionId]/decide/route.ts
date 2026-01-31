@@ -3,6 +3,7 @@ import { decideSchema } from "@/validation/schemas";
 import { memoryStore } from "@/store/memoryStore";
 import { calculateScore } from "@/lib/scoring";
 import { isAlienFromSuspicion } from "@/lib/suspicion";
+import { getCharacterById } from "@/data/characters";
 
 export const runtime = "nodejs";
 
@@ -37,14 +38,19 @@ export async function POST(
   const isWin =
     (decision === "accuse" && isAlien) || (decision === "trust" && !isAlien);
 
+  const character = getCharacterById(session.characterId);
+  if (!character) {
+    return jsonError("Character not found.", 404, "not_found");
+  }
+
   const outcome = isWin ? "win" : "lose";
   const breakdown = calculateScore({
     isWin,
     decision,
     isAlien,
     questionsAsked: session.askedQuestionIds.length,
-    totalQuestions: session.totalQuestions,
-    suspicion: session.suspicion
+    suspicion: session.suspicion,
+    totalQuestions: character.questions.length
   });
 
   session.status = "ended";

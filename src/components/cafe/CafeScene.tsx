@@ -12,6 +12,8 @@ type CafeSceneProps = {
   questionText: string | null;
   answerText: string | null;
   answerKey?: string | null;
+  portraitOverrideSrc?: string | null;
+  portraitOverrideAlt?: string | null;
   isTyping: boolean;
   glitch: boolean;
   suspicion: number;
@@ -24,6 +26,8 @@ export const CafeScene = ({
   questionText,
   answerText,
   answerKey = null,
+  portraitOverrideSrc = null,
+  portraitOverrideAlt = null,
   isTyping,
   glitch,
   suspicion,
@@ -34,6 +38,8 @@ export const CafeScene = ({
   const clamped = Math.max(0, Math.min(gameConfig.suspicionClamp.max, suspicion));
   const filled = Math.round((clamped / gameConfig.suspicionClamp.max) * segments);
   const showBubble = isTyping || Boolean(answerText);
+  const portraitSrc = portraitOverrideSrc ?? character.portraitSrc;
+  const portraitAlt = portraitOverrideAlt ?? character.name;
 
   return (
     <div className={`relative min-h-screen w-full overflow-hidden bg-[#f6efe6] ${className}`}>
@@ -99,8 +105,8 @@ export const CafeScene = ({
           <div className="absolute inset-x-0 bottom-[40%] flex justify-center">
             <div className="relative h-[80vh] w-[108%] max-w-[880px]">
               <CharacterSprite
-                src={character.portraitSrc}
-                alt={character.name}
+                src={portraitSrc}
+                alt={portraitAlt}
                 className="absolute inset-x-0 bottom-0 h-full w-full"
                 priority
               />

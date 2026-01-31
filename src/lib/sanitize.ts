@@ -1,4 +1,11 @@
-import type { Character, CharacterPreview, CharacterPublic, Session, SessionPublic } from "@/types/game";
+import type {
+  Character,
+  CharacterPreview,
+  CharacterPublic,
+  QuestionPublic,
+  Session,
+  SessionPublic
+} from "@/types/game";
 
 export const sanitizeSession = (session: Session): SessionPublic => {
   const { seed: _seed, isAlien: _isAlien, ...rest } = session;
@@ -13,7 +20,7 @@ export const getCharacterPreview = (character: Character): CharacterPreview => {
 export const getCharacterPublic = (character: Character): CharacterPublic => {
   return {
     ...getCharacterPreview(character),
-    questions: character.questions.map((question) => ({
+    questions: character.questions.map<QuestionPublic>((question) => ({
       id: question.id,
       prompt: question.prompt
     }))

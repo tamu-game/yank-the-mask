@@ -9,8 +9,8 @@ export default function LandingPage() {
           Swipe into the unknown. Is your match human or alien in disguise?
         </h1>
         <p className="text-sm text-slate-600">
-          Ask the right questions, read the vibe, and decide when to pull the mask. You have
-          ten questions to find the truth.
+          Ask the right questions, read the vibe, and decide when to pull the mask. Every date
+          has their own list of questions to unlock the truth.
         </p>
         <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
           <Button href="/feed" className="w-40">

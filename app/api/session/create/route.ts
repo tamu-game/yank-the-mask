@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createSessionSchema } from "@/validation/schemas";
-import { charactersById } from "@/data/characters";
+import { getCharacterById } from "@/data/characters";
 import { memoryStore } from "@/store/memoryStore";
 import { createSeed } from "@/lib/rng";
 import type { Session } from "@/types/game";
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
   }
 
   const { characterId } = parsed.data;
-  const character = charactersById.get(characterId);
+  const character = getCharacterById(characterId);
   if (!character) {
     return jsonError("Character not found.", 404, "not_found");
   }
@@ -33,7 +33,6 @@ export async function POST(request: NextRequest) {
     askedQuestionIds: [],
     turns: [],
     suspicion: 0,
-    totalQuestions: character.questions.length,
     status: "in_progress",
     finalDecision: null,
     finalOutcome: null,

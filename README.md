@@ -14,10 +14,9 @@ Then open `http://localhost:3000`.
 ## How to add characters
 
 1. Edit `src/data/characters.seed.json` and add a new character entry.
-2. Provide `id`, `name`, `age`, `avatarSeed`, `tags`, `bio`, and a `profile` with `movies`, `shows`, `sports`, and `traits`.
-3. The game auto-generates 10 questions per character from this seed in `src/data/characters.ts`.
-
-Tip: keep each profile array at 3+ items so the question generator stays coherent.
+2. Provide `id`, `name`, `age`, `avatarSeed`, `tags`, `traits`, `bio`, and a `questions` array.
+3. Each `questions` entry must include `id`, `prompt`, `answerIndex` (1-4), and an `answers` array with 4 items containing `text` and `suspicion` (0-3).
+4. Each character owns their question list; the count can vary per character.
 
 ## How to tune the alien algorithm
 

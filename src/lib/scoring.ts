@@ -6,12 +6,12 @@ export type ScoreInput = {
   decision: FinalDecision;
   isAlien: boolean;
   questionsAsked: number;
-  totalQuestions: number;
   suspicion: number;
+  totalQuestions: number;
 };
 
 export const calculateScore = (input: ScoreInput): ScoreBreakdown => {
-  const { isWin, decision, isAlien, questionsAsked, totalQuestions, suspicion } = input;
+  const { isWin, decision, isAlien, questionsAsked, suspicion, totalQuestions } = input;
   const unused = Math.max(0, totalQuestions - questionsAsked);
 
   const base = isWin ? gameConfig.scoring.baseWin : gameConfig.scoring.baseLose;

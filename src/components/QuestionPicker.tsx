@@ -1,10 +1,10 @@
 "use client";
 
-import type { QuestionPrompt } from "@/types/game";
+import type { QuestionPublic } from "@/types/game";
 import { Button } from "@/components/Button";
 
 type QuestionPickerProps = {
-  questions: QuestionPrompt[];
+  questions: QuestionPublic[];
   askedIds: string[];
   pendingId?: string | null;
   onAsk: (questionId: string) => void;

@@ -29,7 +29,6 @@ export async function POST(_: Request, { params }: { params: { sessionId: string
     askedQuestionIds: [],
     turns: [],
     suspicion: 0,
-    totalQuestions: session.totalQuestions,
     status: "in_progress",
     finalDecision: null,
     finalOutcome: null,

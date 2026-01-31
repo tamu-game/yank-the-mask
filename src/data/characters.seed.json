@@ -5,62 +5,73 @@
     "age": 26,
     "avatarSeed": "HQ",
     "tags": ["Chaos", "Roller skates", "Dark humor"],
-    "bio": "Love is messy. So am I. But at least I’m fun.",
     "traits": ["impulsive", "flirty", "unpredictable"],
+    "bio": "Love is messy. So am I. But at least I’m fun.",
     "questions": [
       {
-        "id": "harley-q1",
-        "prompt": "What gets you moving on a rough day?",
+        "id": "harley-quinn_q1",
+        "prompt": "Gotham night out. You pick the first stop?",
         "answerIndex": 3,
         "answers": [
-          { "text": "A pep talk and a hot drink.", "suspicion": 0 },
-          { "text": "A loud song and a fast ride.", "suspicion": 1 },
-          { "text": "The sound of chaos calling my name.", "suspicion": 2 },
-          { "text": "Gravity gives up and I follow.", "suspicion": 3 }
+          { "text": "A quiet diner, pie first.", "suspicion": 0 },
+          { "text": "A dive bar with a punchy jukebox.", "suspicion": 1 },
+          { "text": "Roller rink. We make sparks.", "suspicion": 2 },
+          { "text": "Rooftop chase. I brought a bat.", "suspicion": 3 }
         ]
       },
       {
-        "id": "harley-q2",
-        "prompt": "How do you make an entrance?",
+        "id": "harley-quinn_q2",
+        "prompt": "If I bring a mallet to the date, you...",
+        "answerIndex": 4,
+        "answers": [
+          { "text": "Ask me to leave it at the door.", "suspicion": 0 },
+          { "text": "Laugh and ask what the plan is.", "suspicion": 1 },
+          { "text": "Name it. Every mallet needs a name.", "suspicion": 2 },
+          { "text": "Bring my own. Matching set.", "suspicion": 3 }
+        ]
+      },
+      {
+        "id": "harley-quinn_q3",
+        "prompt": "Arkham vending machine snack?",
         "answerIndex": 2,
         "answers": [
-          { "text": "Quietly. Let the room find me.", "suspicion": 0 },
-          { "text": "Skates, sparks, and a grin.", "suspicion": 1 },
-          { "text": "Through whatever wall looks weakest.", "suspicion": 2 },
-          { "text": "I appear after the screams.", "suspicion": 3 }
+          { "text": "Plain chips. I like boring safety.", "suspicion": 0 },
+          { "text": "Cherry fizz and a mystery bar.", "suspicion": 1 },
+          { "text": "Protein bar. Gotta be nimble.", "suspicion": 2 },
+          { "text": "The machine. I eat the machine.", "suspicion": 3 }
         ]
       },
       {
-        "id": "harley-q3",
-        "prompt": "What's your idea of a fair game?",
+        "id": "harley-quinn_q4",
+        "prompt": "Which rule do you break first?",
         "answerIndex": 3,
         "answers": [
-          { "text": "Rules first, then fun.", "suspicion": 0 },
-          { "text": "House rules, written in glitter.", "suspicion": 1 },
-          { "text": "A dare that bites back.", "suspicion": 2 },
-          { "text": "Any game where I win by default.", "suspicion": 3 }
+          { "text": "Curfew. I like my sleep.", "suspicion": 0 },
+          { "text": "Dress code. Shoes are optional.", "suspicion": 1 },
+          { "text": "The one that says \"be normal\".", "suspicion": 2 },
+          { "text": "All of them, in order.", "suspicion": 3 }
         ]
       },
       {
-        "id": "harley-q4",
-        "prompt": "When someone underestimates you, you...",
+        "id": "harley-quinn_q5",
+        "prompt": "Puddin' means...",
         "answerIndex": 2,
         "answers": [
-          { "text": "Smile and let them.", "suspicion": 0 },
-          { "text": "Turn it into a show.", "suspicion": 1 },
-          { "text": "Flip the table and the mood.", "suspicion": 2 },
-          { "text": "Mark them for later.", "suspicion": 3 }
+          { "text": "A dessert I will steal.", "suspicion": 0 },
+          { "text": "A nickname with baggage.", "suspicion": 1 },
+          { "text": "A code word for trouble.", "suspicion": 2 },
+          { "text": "A password to my hideout.", "suspicion": 3 }
         ]
       },
       {
-        "id": "harley-q5",
-        "prompt": "Pick your perfect late-night snack.",
-        "answerIndex": 2,
+        "id": "harley-quinn_q6",
+        "prompt": "Pick our getaway ride.",
+        "answerIndex": 1,
         "answers": [
-          { "text": "Something sweet and small.", "suspicion": 0 },
-          { "text": "Anything I can eat while rolling.", "suspicion": 1 },
-          { "text": "A bite and a bite back.", "suspicion": 2 },
-          { "text": "No food. Just the thrill.", "suspicion": 3 }
+          { "text": "Skates. Fast, loud, dramatic.", "suspicion": 0 },
+          { "text": "Motorcycle with a glitter helmet.", "suspicion": 1 },
+          { "text": "Stolen cop car, sirens on.", "suspicion": 2 },
+          { "text": "Helicopter. The sky owes me.", "suspicion": 3 }
         ]
       }
     ]
@@ -71,62 +82,62 @@
     "age": 23,
     "avatarSeed": "PP",
     "tags": ["Photography", "Science", "Awkward jokes"],
-    "bio": "Friendly neighborhood overthinker.",
     "traits": ["kind", "self-sacrificing", "nerdy"],
+    "bio": "Friendly neighborhood overthinker.",
     "questions": [
       {
-        "id": "spider-q1",
-        "prompt": "What do you notice first in a new place?",
+        "id": "spider-man_q1",
+        "prompt": "When a web line snaps over Queens, you...",
         "answerIndex": 2,
         "answers": [
-          { "text": "The people and their mood.", "suspicion": 0 },
-          { "text": "The lighting and the angles.", "suspicion": 1 },
-          { "text": "Structural weak points.", "suspicion": 2 },
-          { "text": "Every exit, all at once.", "suspicion": 3 }
+          { "text": "Apologize to the building.", "suspicion": 0 },
+          { "text": "Improvise another swing. Keep smiling.", "suspicion": 1 },
+          { "text": "Calculate wind drift mid-air.", "suspicion": 2 },
+          { "text": "Land on a drone. Perfectly.", "suspicion": 3 }
         ]
       },
       {
-        "id": "spider-q2",
-        "prompt": "A friend texts 'help' at 2 a.m. You...",
+        "id": "spider-man_q2",
+        "prompt": "Your camera of choice?",
         "answerIndex": 1,
         "answers": [
-          { "text": "Go immediately, no questions.", "suspicion": 0 },
-          { "text": "Call them first, then go.", "suspicion": 1 },
-          { "text": "Map a route before moving.", "suspicion": 2 },
-          { "text": "Track their signal from above.", "suspicion": 3 }
+          { "text": "A beat-up DSLR with character.", "suspicion": 0 },
+          { "text": "My phone. Quick and clean.", "suspicion": 1 },
+          { "text": "A lab prototype with silent shutter.", "suspicion": 2 },
+          { "text": "No camera. I see in HD.", "suspicion": 3 }
         ]
       },
       {
-        "id": "spider-q3",
-        "prompt": "How do you de-stress after a long day?",
+        "id": "spider-man_q3",
+        "prompt": "MJ's ideal coffee order is...",
+        "answerIndex": 3,
+        "answers": [
+          { "text": "Black, with a sarcastic comment.", "suspicion": 0 },
+          { "text": "Iced latte, extra shot.", "suspicion": 1 },
+          { "text": "Whatever keeps her on her feet.", "suspicion": 2 },
+          { "text": "A web-shaped foam art thing.", "suspicion": 3 }
+        ]
+      },
+      {
+        "id": "spider-man_q4",
+        "prompt": "Where do you hide a suit on a date?",
         "answerIndex": 2,
         "answers": [
-          { "text": "Crash on the couch.", "suspicion": 0 },
-          { "text": "Tinker with a side project.", "suspicion": 1 },
-          { "text": "Swing somewhere high and quiet.", "suspicion": 2 },
-          { "text": "Hang upside down and think.", "suspicion": 3 }
+          { "text": "Locker at ESU.", "suspicion": 0 },
+          { "text": "Backpack. It still fits.", "suspicion": 1 },
+          { "text": "In the ceiling, obviously.", "suspicion": 2 },
+          { "text": "I don't. It's under my skin.", "suspicion": 3 }
         ]
       },
       {
-        "id": "spider-q4",
-        "prompt": "What's your biggest weakness?",
+        "id": "spider-man_q5",
+        "prompt": "Pick a science fair topic.",
         "answerIndex": 1,
         "answers": [
-          { "text": "I care too much.", "suspicion": 0 },
-          { "text": "I overthink everything.", "suspicion": 1 },
-          { "text": "I try to do it all.", "suspicion": 2 },
-          { "text": "I keep too many secrets.", "suspicion": 3 }
-        ]
-      },
-      {
-        "id": "spider-q5",
-        "prompt": "Choose a weekend plan.",
-        "answerIndex": 2,
-        "answers": [
-          { "text": "Movie night with friends.", "suspicion": 0 },
-          { "text": "A photo walk across town.", "suspicion": 1 },
-          { "text": "Climb somewhere no one goes.", "suspicion": 2 },
-          { "text": "Patrol the skyline.", "suspicion": 3 }
+          { "text": "Advanced adhesives that don't hurt.", "suspicion": 0 },
+          { "text": "Bio-mechanics of wall-crawling.", "suspicion": 1 },
+          { "text": "Quantum web fluid stabilization.", "suspicion": 2 },
+          { "text": "Alien DNA compatibility testing.", "suspicion": 3 }
         ]
       }
     ]
@@ -137,62 +148,73 @@
     "age": 28,
     "avatarSeed": "WM",
     "tags": ["Reality bending", "Classic sitcoms", "Grief"],
-    "bio": "I just want a quiet life. Reality disagrees.",
     "traits": ["emotional", "powerful", "protective"],
+    "bio": "I just want a quiet life. Reality disagrees.",
     "questions": [
       {
-        "id": "wanda-q1",
-        "prompt": "What makes a place feel like home?",
+        "id": "wanda-maximoff_q1",
+        "prompt": "If the town turns into a sitcom decade, you...",
         "answerIndex": 2,
         "answers": [
-          { "text": "Familiar faces and warm light.", "suspicion": 0 },
-          { "text": "A story I can replay.", "suspicion": 1 },
-          { "text": "A room that listens.", "suspicion": 2 },
-          { "text": "A world I can rewrite.", "suspicion": 3 }
+          { "text": "Play along. Smile through it.", "suspicion": 0 },
+          { "text": "Find the edge of the spell.", "suspicion": 1 },
+          { "text": "Rewrite the script for everyone.", "suspicion": 2 },
+          { "text": "Cancel the show. Rip the set.", "suspicion": 3 }
         ]
       },
       {
-        "id": "wanda-q2",
-        "prompt": "When you lose control, what happens?",
+        "id": "wanda-maximoff_q2",
+        "prompt": "Your grounding ritual?",
+        "answerIndex": 1,
+        "answers": [
+          { "text": "Tea and a slow breath.", "suspicion": 0 },
+          { "text": "A memory I repeat.", "suspicion": 1 },
+          { "text": "A hex I reverse quietly.", "suspicion": 2 },
+          { "text": "I don't ground. I float.", "suspicion": 3 }
+        ]
+      },
+      {
+        "id": "wanda-maximoff_q3",
+        "prompt": "Favorite Sokovian comfort food?",
+        "answerIndex": 2,
+        "answers": [
+          { "text": "Honey bread and warm milk.", "suspicion": 0 },
+          { "text": "Paprikash, heavy on the spice.", "suspicion": 1 },
+          { "text": "Something I can't quite name.", "suspicion": 2 },
+          { "text": "I don't eat. I remember.", "suspicion": 3 }
+        ]
+      },
+      {
+        "id": "wanda-maximoff_q4",
+        "prompt": "What do you protect at all costs?",
         "answerIndex": 3,
         "answers": [
-          { "text": "I step away and breathe.", "suspicion": 0 },
-          { "text": "I try to fix it fast.", "suspicion": 1 },
-          { "text": "Things bend around me.", "suspicion": 2 },
-          { "text": "Reality blinks first.", "suspicion": 3 }
+          { "text": "The people who stay.", "suspicion": 0 },
+          { "text": "A home you build yourself.", "suspicion": 1 },
+          { "text": "My family, even if imaginary.", "suspicion": 2 },
+          { "text": "The power. It is me.", "suspicion": 3 }
         ]
       },
       {
-        "id": "wanda-q3",
-        "prompt": "Pick a comfort ritual.",
+        "id": "wanda-maximoff_q5",
+        "prompt": "Chaos magic feels like...",
         "answerIndex": 2,
         "answers": [
-          { "text": "Tea and a quiet room.", "suspicion": 0 },
-          { "text": "Old sitcom reruns.", "suspicion": 1 },
-          { "text": "A spell for sleep.", "suspicion": 2 },
-          { "text": "A loop with no exit.", "suspicion": 3 }
+          { "text": "A storm in my chest.", "suspicion": 0 },
+          { "text": "A language I never learned.", "suspicion": 1 },
+          { "text": "A promise I can't break.", "suspicion": 2 },
+          { "text": "A weapon I'm always holding.", "suspicion": 3 }
         ]
       },
       {
-        "id": "wanda-q4",
-        "prompt": "How do you protect what you love?",
-        "answerIndex": 3,
+        "id": "wanda-maximoff_q6",
+        "prompt": "Pick a sitcom theme song.",
+        "answerIndex": 1,
         "answers": [
-          { "text": "By being present.", "suspicion": 0 },
-          { "text": "By standing between them and harm.", "suspicion": 1 },
-          { "text": "By shaping the outcome.", "suspicion": 2 },
-          { "text": "By remaking the rules.", "suspicion": 3 }
-        ]
-      },
-      {
-        "id": "wanda-q5",
-        "prompt": "What's your idea of peace?",
-        "answerIndex": 2,
-        "answers": [
-          { "text": "A slow morning.", "suspicion": 0 },
-          { "text": "Silence and someone beside me.", "suspicion": 1 },
-          { "text": "A world that finally stays put.", "suspicion": 2 },
-          { "text": "A world that obeys.", "suspicion": 3 }
+          { "text": "Cheerful strings with a wink.", "suspicion": 0 },
+          { "text": "Synths and a slowed-down laugh.", "suspicion": 1 },
+          { "text": "Something that glitches mid-note.", "suspicion": 2 },
+          { "text": "Silence. Just the credits.", "suspicion": 3 }
         ]
       }
     ]
@@ -203,62 +225,62 @@
     "age": 40,
     "avatarSeed": "JW",
     "tags": ["Dogs", "Classic cars", "Silence"],
-    "bio": "I’m thinking I’m back.",
     "traits": ["stoic", "loyal", "dangerous"],
+    "bio": "I’m thinking I’m back.",
     "questions": [
       {
-        "id": "wick-q1",
-        "prompt": "What do you never leave behind?",
-        "answerIndex": 1,
-        "answers": [
-          { "text": "A promise.", "suspicion": 0 },
-          { "text": "A car with a full tank.", "suspicion": 1 },
-          { "text": "A plan for every exit.", "suspicion": 2 },
-          { "text": "A trail no one follows.", "suspicion": 3 }
-        ]
-      },
-      {
-        "id": "wick-q2",
-        "prompt": "How do you handle pressure?",
+        "id": "john-wick_q1",
+        "prompt": "Someone touches the car. You...",
         "answerIndex": 2,
         "answers": [
-          { "text": "I stay calm.", "suspicion": 0 },
-          { "text": "I focus and finish.", "suspicion": 1 },
-          { "text": "I remove the problem.", "suspicion": 2 },
-          { "text": "I end the room.", "suspicion": 3 }
+          { "text": "Ask them not to. Calmly.", "suspicion": 0 },
+          { "text": "Stare until they step away.", "suspicion": 1 },
+          { "text": "Fix the scratch yourself.", "suspicion": 2 },
+          { "text": "Remove the hand. Permanently.", "suspicion": 3 }
         ]
       },
       {
-        "id": "wick-q3",
-        "prompt": "Pick your kind of night.",
+        "id": "john-wick_q2",
+        "prompt": "The Continental rule you never break?",
         "answerIndex": 1,
         "answers": [
-          { "text": "Quiet, with a dog nearby.", "suspicion": 0 },
-          { "text": "A late drive through the city.", "suspicion": 1 },
-          { "text": "A mission with no loose ends.", "suspicion": 2 },
-          { "text": "No night, just targets.", "suspicion": 3 }
+          { "text": "No business on the premises.", "suspicion": 0 },
+          { "text": "Always pay with gold.", "suspicion": 1 },
+          { "text": "Never trust the Sommelier.", "suspicion": 2 },
+          { "text": "Rules exist to be eliminated.", "suspicion": 3 }
         ]
       },
       {
-        "id": "wick-q4",
-        "prompt": "What's your patience like?",
+        "id": "john-wick_q3",
+        "prompt": "Best way to honor a dog?",
         "answerIndex": 2,
         "answers": [
-          { "text": "Long, if it's earned.", "suspicion": 0 },
-          { "text": "Short if it's wasted.", "suspicion": 1 },
-          { "text": "Measured in seconds.", "suspicion": 2 },
-          { "text": "I don't wait.", "suspicion": 3 }
+          { "text": "A long walk at sunrise.", "suspicion": 0 },
+          { "text": "Protect them. Always.", "suspicion": 1 },
+          { "text": "A name etched in metal.", "suspicion": 2 },
+          { "text": "A revenge arc.", "suspicion": 3 }
         ]
       },
       {
-        "id": "wick-q5",
-        "prompt": "What do you value most?",
+        "id": "john-wick_q4",
+        "prompt": "What do you drink after a job?",
         "answerIndex": 1,
         "answers": [
-          { "text": "Loyalty.", "suspicion": 0 },
-          { "text": "Respect.", "suspicion": 1 },
-          { "text": "Control.", "suspicion": 2 },
-          { "text": "Fear.", "suspicion": 3 }
+          { "text": "Bourbon. One glass.", "suspicion": 0 },
+          { "text": "Espresso. Keep sharp.", "suspicion": 1 },
+          { "text": "Water. No distractions.", "suspicion": 2 },
+          { "text": "Nothing. Machines don't drink.", "suspicion": 3 }
+        ]
+      },
+      {
+        "id": "john-wick_q5",
+        "prompt": "A marker on the table means...",
+        "answerIndex": 2,
+        "answers": [
+          { "text": "A promise that must be paid.", "suspicion": 0 },
+          { "text": "A debt you cannot ignore.", "suspicion": 1 },
+          { "text": "A ticket out of hell.", "suspicion": 2 },
+          { "text": "A trap. Burn it.", "suspicion": 3 }
         ]
       }
     ]
@@ -269,62 +291,73 @@
     "age": 25,
     "avatarSeed": "DT",
     "tags": ["Dragons", "Power", "Destiny"],
-    "bio": "I don’t want the throne. I deserve it.",
     "traits": ["ambitious", "charismatic", "intense"],
+    "bio": "I don’t want the throne. I deserve it.",
     "questions": [
       {
-        "id": "dany-q1",
+        "id": "daenerys-targaryen_q1",
+        "prompt": "How do you greet a dragon?",
+        "answerIndex": 3,
+        "answers": [
+          { "text": "With a bow and soft words.", "suspicion": 0 },
+          { "text": "With food and steady hands.", "suspicion": 1 },
+          { "text": "With no fear at all.", "suspicion": 2 },
+          { "text": "With fire. Always fire.", "suspicion": 3 }
+        ]
+      },
+      {
+        "id": "daenerys-targaryen_q2",
+        "prompt": "\"Break the wheel\" means...",
+        "answerIndex": 2,
+        "answers": [
+          { "text": "End the cycle of tyranny.", "suspicion": 0 },
+          { "text": "Build something new from ashes.", "suspicion": 1 },
+          { "text": "Crush anyone who clings to it.", "suspicion": 2 },
+          { "text": "Let the wheel burn forever.", "suspicion": 3 }
+        ]
+      },
+      {
+        "id": "daenerys-targaryen_q3",
+        "prompt": "Pick your Dothraki ride.",
+        "answerIndex": 1,
+        "answers": [
+          { "text": "A black stallion that never tires.", "suspicion": 0 },
+          { "text": "A red mare with a wild streak.", "suspicion": 1 },
+          { "text": "A warhorse in full armor.", "suspicion": 2 },
+          { "text": "A dragon. Horses are slow.", "suspicion": 3 }
+        ]
+      },
+      {
+        "id": "daenerys-targaryen_q4",
         "prompt": "How do you earn loyalty?",
         "answerIndex": 2,
         "answers": [
-          { "text": "By listening.", "suspicion": 0 },
-          { "text": "By leading with fire.", "suspicion": 1 },
-          { "text": "By promising a new world.", "suspicion": 2 },
-          { "text": "By taking it.", "suspicion": 3 }
+          { "text": "By listening before speaking.", "suspicion": 0 },
+          { "text": "By freeing those who are bound.", "suspicion": 1 },
+          { "text": "By demanding fealty.", "suspicion": 2 },
+          { "text": "By fear alone.", "suspicion": 3 }
         ]
       },
       {
-        "id": "dany-q2",
-        "prompt": "What does justice look like?",
-        "answerIndex": 3,
-        "answers": [
-          { "text": "Fair and measured.", "suspicion": 0 },
-          { "text": "Swift and firm.", "suspicion": 1 },
-          { "text": "A balance of fear and hope.", "suspicion": 2 },
-          { "text": "Ashes and silence.", "suspicion": 3 }
-        ]
-      },
-      {
-        "id": "dany-q3",
-        "prompt": "Choose a symbol.",
+        "id": "daenerys-targaryen_q5",
+        "prompt": "Chains are...",
         "answerIndex": 2,
         "answers": [
-          { "text": "A crown.", "suspicion": 0 },
-          { "text": "A dragon.", "suspicion": 1 },
-          { "text": "A broken chain.", "suspicion": 2 },
-          { "text": "A burning wheel.", "suspicion": 3 }
+          { "text": "A warning for future kings.", "suspicion": 0 },
+          { "text": "Something I will break.", "suspicion": 1 },
+          { "text": "A tool when mercy fails.", "suspicion": 2 },
+          { "text": "Jewelry for the weak.", "suspicion": 3 }
         ]
       },
       {
-        "id": "dany-q4",
-        "prompt": "What's the price of peace?",
+        "id": "daenerys-targaryen_q6",
+        "prompt": "Your throne room is filled with...",
         "answerIndex": 3,
         "answers": [
-          { "text": "Patience.", "suspicion": 0 },
-          { "text": "Compromise.", "suspicion": 1 },
-          { "text": "Sacrifice.", "suspicion": 2 },
-          { "text": "Obedience.", "suspicion": 3 }
-        ]
-      },
-      {
-        "id": "dany-q5",
-        "prompt": "Who do you trust?",
-        "answerIndex": 2,
-        "answers": [
-          { "text": "Those who earn it.", "suspicion": 0 },
-          { "text": "Those who stand beside me.", "suspicion": 1 },
-          { "text": "Those who fear me.", "suspicion": 2 },
-          { "text": "No one.", "suspicion": 3 }
+          { "text": "Maps and open windows.", "suspicion": 0 },
+          { "text": "Counselors who challenge me.", "suspicion": 1 },
+          { "text": "Banners that remind me who I am.", "suspicion": 2 },
+          { "text": "Ashes, if necessary.", "suspicion": 3 }
         ]
       }
     ]
@@ -335,62 +368,62 @@
     "age": 30,
     "avatarSeed": "DP",
     "tags": ["Breaking the 4th wall", "Tacos", "Sarcasm"],
-    "bio": "You’re probably wondering how I got this profile.",
     "traits": ["chaotic", "funny", "self-aware"],
+    "bio": "You’re probably wondering how I got this profile.",
     "questions": [
       {
-        "id": "dp-q1",
-        "prompt": "How do you handle awkward silence?",
+        "id": "deadpool_q1",
+        "prompt": "Pick our safe word for a fight scene.",
+        "answerIndex": 2,
+        "answers": [
+          { "text": "Marshmallow.", "suspicion": 0 },
+          { "text": "Chimichanga.", "suspicion": 1 },
+          { "text": "\"This is meta\".", "suspicion": 2 },
+          { "text": "There is no safe word.", "suspicion": 3 }
+        ]
+      },
+      {
+        "id": "deadpool_q2",
+        "prompt": "Best place for tacos?",
+        "answerIndex": 1,
+        "answers": [
+          { "text": "Truck on 5th, extra hot sauce.", "suspicion": 0 },
+          { "text": "Anywhere with free refills.", "suspicion": 1 },
+          { "text": "A secret lair with a fryer.", "suspicion": 2 },
+          { "text": "Inside the script.", "suspicion": 3 }
+        ]
+      },
+      {
+        "id": "deadpool_q3",
+        "prompt": "Katanas or guns?",
         "answerIndex": 3,
         "answers": [
-          { "text": "I laugh it off.", "suspicion": 0 },
-          { "text": "I crack a joke.", "suspicion": 1 },
-          { "text": "I break the wall and narrate it.", "suspicion": 2 },
-          { "text": "I rewrite the scene.", "suspicion": 3 }
+          { "text": "Guns. Less cardio.", "suspicion": 0 },
+          { "text": "Katanas. I like the shimmer.", "suspicion": 1 },
+          { "text": "Both. It's a package deal.", "suspicion": 2 },
+          { "text": "Neither. I regenerate.", "suspicion": 3 }
         ]
       },
       {
-        "id": "dp-q2",
-        "prompt": "Pick your ideal sidekick.",
+        "id": "deadpool_q4",
+        "prompt": "Your slow-mo entrance song?",
         "answerIndex": 2,
         "answers": [
-          { "text": "A loyal friend.", "suspicion": 0 },
-          { "text": "Someone who banters back.", "suspicion": 1 },
-          { "text": "A narrator with good timing.", "suspicion": 2 },
-          { "text": "An invisible audience.", "suspicion": 3 }
+          { "text": "Power ballad from the 80s.", "suspicion": 0 },
+          { "text": "Maximum effort mixtape.", "suspicion": 1 },
+          { "text": "A choir chanting my name.", "suspicion": 2 },
+          { "text": "Silence. Then explosions.", "suspicion": 3 }
         ]
       },
       {
-        "id": "dp-q3",
-        "prompt": "What's your weakness?",
+        "id": "deadpool_q5",
+        "prompt": "If you see the camera, you...",
         "answerIndex": 2,
         "answers": [
-          { "text": "Probably tacos.", "suspicion": 0 },
-          { "text": "Tacos, definitely tacos.", "suspicion": 1 },
-          { "text": "Continuity.", "suspicion": 2 },
-          { "text": "Not having a script.", "suspicion": 3 }
-        ]
-      },
-      {
-        "id": "dp-q4",
-        "prompt": "How do you make a first impression?",
-        "answerIndex": 3,
-        "answers": [
-          { "text": "Smile and wave.", "suspicion": 0 },
-          { "text": "Finger guns and a wink.", "suspicion": 1 },
-          { "text": "A dramatic entrance with commentary.", "suspicion": 2 },
-          { "text": "An R-rated cold open.", "suspicion": 3 }
-        ]
-      },
-      {
-        "id": "dp-q5",
-        "prompt": "Your favorite kind of plan?",
-        "answerIndex": 2,
-        "answers": [
-          { "text": "A simple one.", "suspicion": 0 },
-          { "text": "A messy one.", "suspicion": 1 },
-          { "text": "A plan that winks at you.", "suspicion": 2 },
-          { "text": "No plan, just chaos.", "suspicion": 3 }
+          { "text": "Wave awkwardly.", "suspicion": 0 },
+          { "text": "Break into a monologue.", "suspicion": 1 },
+          { "text": "Ask for a rewrite.", "suspicion": 2 },
+          { "text": "Eat the camera.", "suspicion": 3 }
         ]
       }
     ]
@@ -401,62 +434,73 @@
     "age": 29,
     "avatarSeed": "LO",
     "tags": ["Mischief", "Illusions", "Sibling rivalry"],
-    "bio": "I am burdened with glorious purpose.",
     "traits": ["manipulative", "charming", "intelligent"],
+    "bio": "I am burdened with glorious purpose.",
     "questions": [
       {
-        "id": "loki-q1",
-        "prompt": "How do you win a room?",
+        "id": "loki_q1",
+        "prompt": "A TVA cafeteria date. Your move?",
         "answerIndex": 2,
         "answers": [
-          { "text": "By listening first.", "suspicion": 0 },
-          { "text": "By telling the best story.", "suspicion": 1 },
-          { "text": "By making them doubt themselves.", "suspicion": 2 },
-          { "text": "By bending the room to me.", "suspicion": 3 }
+          { "text": "Swipe every dessert.", "suspicion": 0 },
+          { "text": "Steal a quiet table in the corner.", "suspicion": 1 },
+          { "text": "Swap everyone's trays for chaos.", "suspicion": 2 },
+          { "text": "Rewrite the menu with a spell.", "suspicion": 3 }
         ]
       },
       {
-        "id": "loki-q2",
-        "prompt": "Pick a favorite trick.",
+        "id": "loki_q2",
+        "prompt": "Thor's hammer is...",
         "answerIndex": 3,
         "answers": [
-          { "text": "A clever joke.", "suspicion": 0 },
-          { "text": "A harmless illusion.", "suspicion": 1 },
-          { "text": "A lie wrapped as truth.", "suspicion": 2 },
-          { "text": "A perfect imitation.", "suspicion": 3 }
+          { "text": "Overrated, but shiny.", "suspicion": 0 },
+          { "text": "A symbol of my brother's ego.", "suspicion": 1 },
+          { "text": "An insult I refuse to lift.", "suspicion": 2 },
+          { "text": "A paperweight for my throne.", "suspicion": 3 }
         ]
       },
       {
-        "id": "loki-q3",
-        "prompt": "What do you want most?",
+        "id": "loki_q3",
+        "prompt": "Pick an illusion for first impressions.",
         "answerIndex": 2,
         "answers": [
-          { "text": "Belonging.", "suspicion": 0 },
-          { "text": "Recognition.", "suspicion": 1 },
-          { "text": "Control.", "suspicion": 2 },
-          { "text": "The throne of everything.", "suspicion": 3 }
+          { "text": "A gentle snowfall indoors.", "suspicion": 0 },
+          { "text": "A duplicate of me, for style.", "suspicion": 1 },
+          { "text": "A dragon shadow on the wall.", "suspicion": 2 },
+          { "text": "Reality itself bends.", "suspicion": 3 }
         ]
       },
       {
-        "id": "loki-q4",
-        "prompt": "How do you handle betrayal?",
+        "id": "loki_q4",
+        "prompt": "Being called a \"variant\" makes you...",
+        "answerIndex": 2,
+        "answers": [
+          { "text": "Roll my eyes and smirk.", "suspicion": 0 },
+          { "text": "Plot a charming revenge.", "suspicion": 1 },
+          { "text": "Rewrite the timeline.", "suspicion": 2 },
+          { "text": "Erase whoever said it.", "suspicion": 3 }
+        ]
+      },
+      {
+        "id": "loki_q5",
+        "prompt": "Your title of choice?",
         "answerIndex": 3,
         "answers": [
-          { "text": "I forgive, eventually.", "suspicion": 0 },
-          { "text": "I remember it.", "suspicion": 1 },
-          { "text": "I repay it with interest.", "suspicion": 2 },
-          { "text": "I rewrite who betrayed me.", "suspicion": 3 }
+          { "text": "Prince of Asgard.", "suspicion": 0 },
+          { "text": "The rightful king.", "suspicion": 1 },
+          { "text": "God of Mischief.", "suspicion": 2 },
+          { "text": "The One Who Remains.", "suspicion": 3 }
         ]
       },
       {
-        "id": "loki-q5",
-        "prompt": "Choose a companion.",
-        "answerIndex": 2,
+        "id": "loki_q6",
+        "prompt": "Best mischief on a date?",
+        "answerIndex": 1,
         "answers": [
-          { "text": "Someone honest.", "suspicion": 0 },
-          { "text": "Someone interesting.", "suspicion": 1 },
-          { "text": "Someone useful.", "suspicion": 2 },
-          { "text": "Someone I can control.", "suspicion": 3 }
+          { "text": "Switch names and see who notices.", "suspicion": 0 },
+          { "text": "Enchant the music to slow down time.", "suspicion": 1 },
+          { "text": "Make the candles speak.", "suspicion": 2 },
+          { "text": "Turn the cafe into a throne room.", "suspicion": 3 }
         ]
       }
     ]

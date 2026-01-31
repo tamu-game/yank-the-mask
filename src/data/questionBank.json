@@ -1,0 +1,102 @@
+[
+  {
+    "id": "q1",
+    "prompt": "When the lights flicker, what do you do?",
+    "answers": [
+      { "text": "Wait it out, probably a loose bulb.", "suspicion": 0 },
+      { "text": "Check the breakers and keep moving.", "suspicion": 1 },
+      { "text": "Listen for patterns in the hum.", "suspicion": 2 },
+      { "text": "Flicker? I was already in the walls.", "suspicion": 3 }
+    ]
+  },
+  {
+    "id": "q2",
+    "prompt": "How do you choose a seat?",
+    "answers": [
+      { "text": "Near the window, easy.", "suspicion": 0 },
+      { "text": "Anywhere with a good view.", "suspicion": 1 },
+      { "text": "Back corner, I like angles.", "suspicion": 2 },
+      { "text": "I stand. Sitting feels optional.", "suspicion": 3 }
+    ]
+  },
+  {
+    "id": "q3",
+    "prompt": "A stranger drops a note. You...",
+    "answers": [
+      { "text": "Return it politely.", "suspicion": 0 },
+      { "text": "Skim it, then return it.", "suspicion": 1 },
+      { "text": "Keep it; it might matter later.", "suspicion": 2 },
+      { "text": "Notes are how they track you.", "suspicion": 3 }
+    ]
+  },
+  {
+    "id": "q4",
+    "prompt": "What do you order at midnight?",
+    "answers": [
+      { "text": "Something warm and familiar.", "suspicion": 0 },
+      { "text": "Whatever smells best.", "suspicion": 1 },
+      { "text": "The same thing, every time.", "suspicion": 2 },
+      { "text": "I don't eat, I calibrate.", "suspicion": 3 }
+    ]
+  },
+  {
+    "id": "q5",
+    "prompt": "How do you handle a dare?",
+    "answers": [
+      { "text": "Laugh and pass.", "suspicion": 0 },
+      { "text": "Maybe, if it's harmless.", "suspicion": 1 },
+      { "text": "Do it, to see what happens.", "suspicion": 2 },
+      { "text": "Dares are tests; I never fail.", "suspicion": 3 }
+    ]
+  },
+  {
+    "id": "q6",
+    "prompt": "A song you can't shake?",
+    "answers": [
+      { "text": "A chorus I heard last week.", "suspicion": 0 },
+      { "text": "Anything with a good beat.", "suspicion": 1 },
+      { "text": "A tune from somewhere else.", "suspicion": 2 },
+      { "text": "I hum it to keep the signal clear.", "suspicion": 3 }
+    ]
+  },
+  {
+    "id": "q7",
+    "prompt": "Your pace on a walk?",
+    "answers": [
+      { "text": "Match whoever I'm with.", "suspicion": 0 },
+      { "text": "A little quick, I like momentum.", "suspicion": 1 },
+      { "text": "Measured. I count my steps.", "suspicion": 2 },
+      { "text": "I don't walk; I arrive.", "suspicion": 3 }
+    ]
+  },
+  {
+    "id": "q8",
+    "prompt": "When plans change last-minute?",
+    "answers": [
+      { "text": "No big deal, adapt.", "suspicion": 0 },
+      { "text": "I need a minute, then I'm in.", "suspicion": 1 },
+      { "text": "I prefer schedules to survive.", "suspicion": 2 },
+      { "text": "Plans are for humans.", "suspicion": 3 }
+    ]
+  },
+  {
+    "id": "q9",
+    "prompt": "How do you spend quiet time?",
+    "answers": [
+      { "text": "Reading or daydreaming.", "suspicion": 0 },
+      { "text": "Catching up on messages.", "suspicion": 1 },
+      { "text": "Watching people, learning.", "suspicion": 2 },
+      { "text": "Downloading updates.", "suspicion": 3 }
+    ]
+  },
+  {
+    "id": "q10",
+    "prompt": "What do you keep close?",
+    "answers": [
+      { "text": "A small keepsake.", "suspicion": 0 },
+      { "text": "My phone, always.", "suspicion": 1 },
+      { "text": "A checklist in my head.", "suspicion": 2 },
+      { "text": "My exit routes.", "suspicion": 3 }
+    ]
+  }
+]
