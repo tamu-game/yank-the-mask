@@ -13,7 +13,7 @@ export default function HowToPlayPage() {
           2) At the cafe table, ask from that character's curated question list. Humans always
           answer perfectly. Aliens try to blend in with the occasional slip.
         </p>
-        <p>3) Watch the Vibe Meter. It reacts to how believable the answers feel.</p>
+        <p>3) Read the answers carefully and decide for yourself.</p>
         <p>4) After at least 1 question, choose to Yank the Mask or Trust Them.</p>
         <p>5) Fewer questions means more points if you guess correctly.</p>
       </div>

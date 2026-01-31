@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CharacterPreview } from "@/types/game";
-import { gameConfig } from "@/lib/config";
 import { CharacterSprite } from "@/components/cafe/CharacterSprite";
 import { SpeechBubble } from "@/components/cafe/SpeechBubble";
 
@@ -34,9 +33,6 @@ export const CafeScene = ({
   className = "",
   onBack
 }: CafeSceneProps) => {
-  const segments = 5;
-  const clamped = Math.max(0, Math.min(gameConfig.suspicionClamp.max, suspicion));
-  const filled = Math.round((clamped / gameConfig.suspicionClamp.max) * segments);
   const showBubble = isTyping || Boolean(answerText);
   const portraitSrc = portraitOverrideSrc ?? character.portraitSrc;
   const portraitAlt = portraitOverrideAlt ?? character.name;
@@ -78,27 +74,6 @@ export const CafeScene = ({
               ← Back
             </Link>
           )}
-          <div className="flex items-center gap-2 rounded-full bg-black/35 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/80 backdrop-blur">
-            <span>Vibe</span>
-            <div className="flex items-center gap-1">
-              {Array.from({ length: segments }).map((_, index) => {
-                const isActive = index < filled;
-                return (
-                  <svg
-                    key={`vibe-${index}`}
-                    className={`h-3.5 w-3.5 ${
-                      isActive ? "text-rose-300" : "text-white/30"
-                    }`}
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4c1.74 0 3.41 0.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18 4 20 6 20 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                  </svg>
-                );
-              })}
-            </div>
-          </div>
         </div>
 
         <div className="relative flex-1">

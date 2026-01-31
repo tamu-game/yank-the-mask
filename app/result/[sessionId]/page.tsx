@@ -51,7 +51,7 @@ const storyCopy: Record<string, { title: string; line: string; status: string }>
     status: "You lose"
   },
   "trust-win": {
-    title: "Good Vibes",
+    title: "Safe Choice",
     line: "No abductions today. Just a warm, human connection.",
     status: "You win"
   },
