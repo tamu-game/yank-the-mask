@@ -1,6 +1,7 @@
 import { Button } from "@/components/Button";
 import { AuthPanel } from "@/components/auth/AuthPanel";
 import { AuthProvider } from "@/components/auth/AuthProvider";
+import { TypingText } from "@/components/TypingText";
 
 export default function LandingPage() {
   return (
@@ -8,11 +9,29 @@ export default function LandingPage() {
       <div className="max-w-xl space-y-6">
         <p className="text-xs uppercase tracking-[0.3em] text-rose-400">Maskle</p>
         <h1 className="text-4xl font-semibold text-slate-700 sm:text-5xl">
-          Swipe into the unknown. Is your match human or alien in disguise?
+          <span className="grid">
+            <span className="invisible col-start-1 row-start-1">
+              Swipe into the unknown. Is your match human or alien in disguise?
+            </span>
+            <TypingText
+              text="Swipe into the unknown. Is your match human or alien in disguise?"
+              durationMs={1400}
+              className="col-start-1 row-start-1"
+            />
+          </span>
         </h1>
         <p className="text-sm text-slate-600">
-          Ask the right questions, read the answers, and decide when to pull the mask. Every date
-          has their own list of questions to unlock the truth.
+          <span className="grid">
+            <span className="invisible col-start-1 row-start-1">
+              Ask the right questions, read the answers, and decide when to pull the mask. Every date
+              has their own list of questions to unlock the truth.
+            </span>
+            <TypingText
+              text="Ask the right questions, read the answers, and decide when to pull the mask. Every date has their own list of questions to unlock the truth."
+              durationMs={1800}
+              className="col-start-1 row-start-1"
+            />
+          </span>
         </p>
         <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
           <Button href="/feed" className="w-40">

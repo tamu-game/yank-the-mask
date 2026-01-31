@@ -1,5 +1,7 @@
 "use client";
 
+import { TypingText } from "@/components/TypingText";
+
 type SpeechBubbleProps = {
   text: string;
   isTyping?: boolean;
@@ -43,12 +45,12 @@ export const SpeechBubble = ({
               />
             </div>
           ) : (
-            <span
+            <TypingText
               key={animateKey ?? text}
-              className="typing-reveal block leading-relaxed text-amber-800/90"
-            >
-              {text}
-            </span>
+              text={text}
+              animateKey={animateKey ?? text}
+              className="block leading-relaxed text-amber-800/90"
+            />
           )}
         </div>
       </div>
