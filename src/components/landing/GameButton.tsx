@@ -1,14 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 
-export type GameButtonProps = {
+type GameButtonSharedProps = {
   variant?: "primary" | "secondary";
   size?: "md" | "sm";
   icon?: ReactNode;
   href?: string;
-} & ButtonHTMLAttributes<HTMLButtonElement>;
+  children: ReactNode;
+  className?: string;
+};
+
+type GameButtonAnchorProps = GameButtonSharedProps &
+  AnchorHTMLAttributes<HTMLAnchorElement> & {
+    href: string;
+  };
+
+type GameButtonButtonProps = GameButtonSharedProps &
+  ButtonHTMLAttributes<HTMLButtonElement> & {
+    href?: undefined;
+  };
+
+export type GameButtonProps = GameButtonAnchorProps | GameButtonButtonProps;
 
 const baseStyles =
   "group relative inline-flex items-center justify-center gap-2 rounded-[24px] px-6 font-semibold uppercase tracking-[0.35em] transition duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 disabled:cursor-not-allowed disabled:opacity-70";
@@ -34,7 +48,6 @@ export const GameButton = ({
   children,
   ...props
 }: GameButtonProps) => {
-  const { type, ...rest } = props;
   const classes = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`.trim();
   const content = (
     <span className="flex items-center gap-2">
@@ -44,15 +57,17 @@ export const GameButton = ({
   );
 
   if (href) {
+    const { variant: _v, size: _s, icon: _icon, children: _children, className: _className, ...anchorRest } = props;
     return (
-      <Link href={href} className={classes} {...rest}>
+      <Link href={href} className={classes} {...anchorRest}>
         {content}
       </Link>
     );
   }
 
+  const { variant: _v, size: _s, icon: _icon, children: _children, className: _className, ...buttonRest } = props;
   return (
-    <button className={classes} type={type ?? "button"} {...rest}>
+    <button className={classes} type={props.type ?? "button"} {...buttonRest}>
       {content}
     </button>
   );

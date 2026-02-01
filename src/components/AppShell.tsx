@@ -84,8 +84,10 @@ export const AppShell = ({
         </div>
       )}
 
+      {hideBackground && <div className="landing-space-backdrop" aria-hidden />}
+
       {/* ✅ Frame container */}
-      <div className="absolute inset-0 flex items-start justify-center md:items-center">
+      <div className="absolute inset-0 flex items-start justify-center md:items-center z-10">
         <div
           className="
             relative
