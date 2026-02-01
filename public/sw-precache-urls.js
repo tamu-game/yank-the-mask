@@ -4,6 +4,7 @@ self.__PRECACHE_URLS = [
   "/backgrounds/chair.png",
   "/backgrounds/table-old.png",
   "/backgrounds/table.png",
+  "/backgrounds/ufo.png",
   "/bubble/bubble.png",
   "/characters/alien/alien.gif",
   "/characters/alien/alien.png",

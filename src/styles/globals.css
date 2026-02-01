@@ -283,3 +283,163 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.landing-outer-shell {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background: #02030c;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.landing-outer-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.3), transparent 40%),
+    radial-gradient(circle at 80% 10%, rgba(255, 209, 102, 0.2), transparent 45%),
+    radial-gradient(circle at 50% 60%, rgba(255, 255, 255, 0.12), transparent 35%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent 50%);
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.landing-outer-shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1px),
+    radial-gradient(rgba(255, 255, 255, 0.35) 1px, transparent 1px);
+  background-size: 160px 160px, 90px 90px;
+  opacity: 0.25;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.landing-ufo-stage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: transparent;
+  color: #fff;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.landing-ufo-stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px),
+    radial-gradient(rgba(255, 255, 255, 0.4) 1px, transparent 1px),
+    radial-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px);
+  background-size: 90px 90px, 60px 60px, 140px 140px;
+  opacity: 0.35;
+  z-index: 0;
+  animation: landing-star-twinkle 10s linear infinite;
+  pointer-events: none;
+}
+
+.landing-ufo-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08), rgba(2, 2, 6, 0.85) 70%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.landing-ufo-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover !important;
+  z-index: 0;
+}
+
+.landing-spotlight-gradient {
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  top: 32%;
+  bottom: 6%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.08));
+  filter: blur(26px);
+  opacity: 0.8;
+  pointer-events: none;
+  border-radius: 80px;
+}
+
+.landing-spotlight-ui {
+  position: absolute;
+  left: 50%;
+  top: 34%;
+  width: min(78%, 360px);
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  z-index: 10;
+}
+
+.landing-spotlight-ui > .space-y-1 {
+  z-index: 10;
+}
+
+.landing-auth-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(3, 3, 10, 0.7);
+  padding: 1.5rem;
+}
+
+.landing-auth-popup {
+  width: min(92vw, 460px);
+  border-radius: 28px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  background: rgba(5, 5, 15, 0.95);
+  padding: 1.5rem;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
+}
+
+.landing-auth-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.landing-auth-close {
+  border: none;
+  background: none;
+  color: #fefefe;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+@keyframes landing-star-twinkle {
+  0% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0.15;
+  }
+}

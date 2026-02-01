@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { Button } from "@/components/Button";
+import { GameButton } from "@/components/landing/GameButton";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { isApiError } from "@/lib/apiClient";
 
@@ -28,6 +28,7 @@ export const AuthPanel = () => {
     event.preventDefault();
     setError(null);
     setSubmitting(true);
+
     try {
       if (mode === "register") {
         await register({
@@ -51,40 +52,49 @@ export const AuthPanel = () => {
     }
   };
 
+  const inputStyle =
+    "mt-1 w-full rounded-[16px] border border-white/30 bg-white/15 px-3 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-amber-300";
+  const toggleStyle =
+    "rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.3em] transition";
+
   if (loading) {
     return (
-      <div className="rounded-3xl border-2 border-white/80 bg-white/80 p-6 text-sm text-slate-600 shadow-xl">
-        Kullanıcı durumu yükleniyor...
+      <div className="space-y-2 text-sm text-white/80">
+        <p className="text-xs uppercase tracking-[0.4em] text-white/50">Player Status</p>
+        <p>Kullanıcı durumu yükleniyor...</p>
       </div>
     );
   }
 
   if (user) {
     return (
-      <div className="rounded-3xl border-2 border-white/80 bg-white/80 p-6 text-left shadow-xl">
-        <div className="text-xs uppercase tracking-[0.3em] text-rose-400">Hesap</div>
-        <div className="mt-2 text-lg font-semibold text-slate-700">
-          Merhaba {user.firstName}!
+      <div className="space-y-3 text-left text-white">
+        <div className="flex items-center justify-between">
+          <span className="text-[11px] uppercase tracking-[0.4em] text-white/60">Live</span>
+          <span className="rounded-full border border-amber-200/70 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.35em] text-amber-200">
+            Ready
+          </span>
         </div>
-        <p className="mt-1 text-sm text-slate-600">{user.email}</p>
-        <Button className="mt-4 w-full" variant="secondary" onClick={() => void logout()}>
+        <div className="space-y-1">
+          <p className="text-lg font-semibold">Merhaba {user.firstName}!</p>
+          <p className="text-xs uppercase tracking-[0.35em] text-white/60">{user.email}</p>
+        </div>
+        <GameButton variant="secondary" size="sm" className="w-full" onClick={() => void logout()}>
           Çıkış Yap
-        </Button>
+        </GameButton>
       </div>
     );
   }
 
   return (
-    <div className="rounded-3xl border-2 border-white/80 bg-white/80 p-6 text-left shadow-xl">
-      <div className="flex items-center justify-between text-xs uppercase tracking-[0.3em] text-rose-400">
-        <span>Hesap</span>
+    <form className="space-y-3 text-left text-white" onSubmit={handleSubmit}>
+      <div className="flex items-center justify-between text-xs uppercase tracking-[0.25em] text-white/60">
+        <span>Account</span>
         <div className="flex gap-2">
           <button
             type="button"
-            className={`rounded-full px-3 py-1 text-[10px] font-semibold tracking-[0.2em] transition ${
-              mode === "login"
-                ? "bg-rose-500 text-white"
-                : "bg-white/70 text-rose-500"
+            className={`${toggleStyle} ${
+              mode === "login" ? "bg-rose-500 text-white" : "bg-white/20 text-rose-300"
             }`}
             onClick={() => setMode("login")}
           >
@@ -92,10 +102,8 @@ export const AuthPanel = () => {
           </button>
           <button
             type="button"
-            className={`rounded-full px-3 py-1 text-[10px] font-semibold tracking-[0.2em] transition ${
-              mode === "register"
-                ? "bg-rose-500 text-white"
-                : "bg-white/70 text-rose-500"
+            className={`${toggleStyle} ${
+              mode === "register" ? "bg-rose-500 text-white" : "bg-white/20 text-rose-300"
             }`}
             onClick={() => setMode("register")}
           >
@@ -103,58 +111,58 @@ export const AuthPanel = () => {
           </button>
         </div>
       </div>
-      <form className="mt-4 space-y-3" onSubmit={handleSubmit}>
-        {mode === "register" ? (
-          <div className="grid gap-3 sm:grid-cols-2">
-            <label className="text-xs text-slate-500">
-              Ad
-              <input
-                className="mt-1 w-full rounded-xl border border-rose-100 bg-white/70 px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-200"
-                value={formState.firstName}
-                onChange={(event) => handleChange("firstName", event.target.value)}
-                required
-              />
-            </label>
-            <label className="text-xs text-slate-500">
-              Soyad
-              <input
-                className="mt-1 w-full rounded-xl border border-rose-100 bg-white/70 px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-200"
-                value={formState.lastName}
-                onChange={(event) => handleChange("lastName", event.target.value)}
-                required
-              />
-            </label>
-          </div>
-        ) : null}
-        <label className="text-xs text-slate-500">
-          Email
-          <input
-            type="email"
-            className="mt-1 w-full rounded-xl border border-rose-100 bg-white/70 px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-200"
-            value={formState.email}
-            onChange={(event) => handleChange("email", event.target.value)}
-            required
-          />
-        </label>
-        <label className="text-xs text-slate-500">
-          Şifre
-          <input
-            type="password"
-            minLength={8}
-            className="mt-1 w-full rounded-xl border border-rose-100 bg-white/70 px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-200"
-            value={formState.password}
-            onChange={(event) => handleChange("password", event.target.value)}
-            required
-          />
-        </label>
-        {error ? <p className="text-xs text-rose-500">{error}</p> : null}
-        <Button className="w-full" disabled={submitting}>
-          {submitting ? "Bekleyin..." : mode === "login" ? "Giriş Yap" : "Üye Ol"}
-        </Button>
-        <p className="text-[11px] text-slate-500">
-          Şifre minimum 8 karakter olmalı.
-        </p>
-      </form>
-    </div>
+      {mode === "register" ? (
+        <div className="grid gap-3 sm:grid-cols-2">
+          <label className="text-xs text-white/60">
+            Ad
+            <input
+              className={inputStyle}
+              placeholder="Ali"
+              value={formState.firstName}
+              onChange={(event) => handleChange("firstName", event.target.value)}
+              required
+            />
+          </label>
+          <label className="text-xs text-white/60">
+            Soyad
+            <input
+              className={inputStyle}
+              placeholder="Kaya"
+              value={formState.lastName}
+              onChange={(event) => handleChange("lastName", event.target.value)}
+              required
+            />
+          </label>
+        </div>
+      ) : null}
+      <label className="text-xs text-white/60">
+        Email
+        <input
+          type="email"
+          className={inputStyle}
+          placeholder="you@email.com"
+          value={formState.email}
+          onChange={(event) => handleChange("email", event.target.value)}
+          required
+        />
+      </label>
+      <label className="text-xs text-white/60">
+        Şifre
+        <input
+          type="password"
+          minLength={8}
+          className={inputStyle}
+          placeholder="••••••••"
+          value={formState.password}
+          onChange={(event) => handleChange("password", event.target.value)}
+          required
+        />
+      </label>
+      {error ? <p className="text-xs text-rose-400">{error}</p> : null}
+      <GameButton className="w-full" type="submit" disabled={submitting}>
+        {submitting ? "Bekleyin..." : mode === "login" ? "Giriş Yap" : "Üye Ol"}
+      </GameButton>
+      <p className="text-[11px] text-white/60">Şifre minimum 8 karakter olmalı.</p>
+    </form>
   );
 };
