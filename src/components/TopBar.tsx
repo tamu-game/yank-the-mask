@@ -16,10 +16,6 @@ export const TopBar = ({ title, backHref }: { title: string; backHref?: string }
         ) : null}
         <span className="text-sm font-semibold text-amber-900">{title}</span>
       </div>
-      <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-amber-700/80">
-        <span className="h-2 w-2 rounded-full bg-amber-400 shadow-sm" />
-        Maskle
-      </span>
     </div>
   );
 };

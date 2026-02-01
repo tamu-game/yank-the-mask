@@ -27,7 +27,7 @@ export const UfoLanding = () => {
 
           <div className="landing-spotlight-ui text-slate-900" style={{ paddingTop: "5rem" }}>
             <div className="space-y-1 text-center">
-              <p className="text-[10px] uppercase tracking-[0.45em] text-amber-700">Maskle</p>
+              <p className="text-[10px] uppercase tracking-[0.45em] text-amber-700">Yank The Mask</p>
               <p className="text-xs uppercase tracking-[0.5em] text-slate-800">Game mode</p>
             </div>
             <GameButton href="/feed" className="w-full mt-8" variant="primary">
