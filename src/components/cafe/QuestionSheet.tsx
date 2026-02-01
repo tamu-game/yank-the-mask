@@ -190,7 +190,7 @@ export const QuestionSheet = ({
           type="button"
           onClick={onToggle}
           className={`relative mt-2 w-full rounded-full border-2 border-amber-200/80 bg-[#fff7ea]/95 px-3 py-1 text-xs font-semibold text-amber-800/80 shadow-[0_3px_0_rgba(197,139,79,0.18)] transition ${
-            isCollapsed ? "hover:-translate-y-[1px]" : "opacity-0 pointer-events-none"
+            isCollapsed ? "hover:-translate-y-[1px]" : "hidden"
           }`}
         >
           Tap to open menu
@@ -295,7 +295,7 @@ export const QuestionSheet = ({
           </div>
         ) : (
         <div
-          className={`relative mt-3 space-y-2 overflow-y-auto pr-1 transform-gpu will-change-[max-height,opacity,transform] motion-safe:transition-[max-height,opacity,transform] motion-safe:duration-250 motion-safe:ease-out ${
+          className={`relative mt-0 space-y-2 overflow-y-auto pr-1 transform-gpu will-change-[max-height,opacity,transform] motion-safe:transition-[max-height,opacity,transform] motion-safe:duration-250 motion-safe:ease-out ${
             isCollapsed
               ? "max-h-0 opacity-0 -translate-y-1 pointer-events-none"
               : "max-h-[20vh] sm:max-h-[24vh] opacity-100 translate-y-0"
