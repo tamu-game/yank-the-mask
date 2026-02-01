@@ -2,7 +2,7 @@ const ALIEN_ROOT = "/characters/alien";
 const uppercasePortraitIds = new Set(["aylin-sakar"]);
 const loveIds = new Set(["aylin-sakar", "walter-white"]);
 const yankMaskIds = new Set(["aylin-sakar"]);
-const yankMaskLoseIds = new Set(["aylin-sakar"]);
+const yankMaskLoseSources = [`${ALIEN_ROOT}/yank_mask_lose.gif`];
 
 const uniqueSources = (sources: string[]) => {
   const seen = new Set<string>();
@@ -86,11 +86,7 @@ export const getYankWinSources = (characterId: string) => {
 };
 
 export const getYankLoseSources = (characterId: string) => {
-  const yankLoseSources = yankMaskLoseIds.has(characterId)
-    ? [`/characters/${characterId}/yank_mask_lose.gif`]
-    : [];
-
-  return uniqueSources([...yankLoseSources, ...baseAnimatedSources(characterId)]);
+  return uniqueSources([...yankMaskLoseSources, ...baseAnimatedSources(characterId)]);
 };
 
 export const getAlienIdleSources = () => {
