@@ -29,6 +29,7 @@ self.__PRECACHE_URLS = [
   "/characters/walter-white/talk.gif",
   "/characters/walter-white/yank_mask_lose.gif",
   "/characters/walter-white/yank_mask_win.gif",
+  "/logo.png",
   "/music/alien_happy.mp3",
   "/music/alien_sad.mp3",
   "/music/button_click.mp3",

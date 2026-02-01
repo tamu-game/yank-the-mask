@@ -25,7 +25,7 @@ export const UfoLanding = () => {
           <div className="landing-ufo-vignette" aria-hidden />
           <div className="landing-spotlight-gradient" aria-hidden />
 
-          <div className="landing-spotlight-ui text-slate-900" style={{ paddingTop: "5rem" }}>
+          <div className="landing-spotlight-ui text-slate-900" style={{ paddingTop: "1rem" }}>
             <div className="space-y-1 text-center">
               <div className="mx-auto h-auto w-36">
                 <Image
@@ -37,7 +37,8 @@ export const UfoLanding = () => {
                   priority
                 />
               </div>
-              <p className="text-xs uppercase tracking-[0.5em] text-slate-800">by <span className="text-xs">TAMU Studio</span></p>
+              {/* make this text smaller */}
+              <p className="text-xs uppercase tracking-[0.5em] text-[8px]">by <span className="text-[8px]">TAMU Studio</span></p>
             </div>
             <GameButton href="/feed" className="w-full mt-8" variant="primary">
               Start
