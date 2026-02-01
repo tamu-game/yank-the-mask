@@ -7,10 +7,15 @@ import { AppShell } from "./AppShell";
 export const AppShellClient = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname() ?? "/";
   const isLandingRoute = pathname === "/";
+  const isFeedRoute = pathname === "/feed";
   const desktopFrameClass = isLandingRoute ? "desktop-frame-login" : "";
 
   return (
-    <AppShell hideBackground={isLandingRoute} desktopFrameClass={desktopFrameClass}>
+    <AppShell
+      hideBackground={isLandingRoute}
+      desktopFrameClass={desktopFrameClass}
+      showAudioControl={!isFeedRoute}
+    >
       {children}
     </AppShell>
   );

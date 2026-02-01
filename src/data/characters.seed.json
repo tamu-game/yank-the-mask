@@ -267,116 +267,96 @@
     "whispers": "Rumor says he never raises his voice — because he never needs to.",
     "bio": "I am not in danger. I am the danger.",
     "questions": [
-      {
-        "id": "walter-white_q1",
-        "prompt": "What do you think separates amateurs from professionals?",
-        "answers": [
-          {
-            "text": "Attention to detail. Most people are sloppy.",
-            "suspicion": 0
-          },
-          {
-            "text": "Discipline. Knowing when not to act.",
-            "suspicion": 1
-          },
-          {
-            "text": "Power. Professionals decide the rules.",
-            "suspicion": 2
-          },
-          {
-            "text": "Fear. The willingness to use it.",
-            "suspicion": 3
-          }
-        ]
-      },
-      {
-        "id": "walter-white_q2",
-        "prompt": "You seem calm under pressure. How?",
-        "answers": [
-          {
-            "text": "Pressure clarifies things. I actually enjoy it.",
-            "suspicion": 0
-          },
-          {
-            "text": "I plan ahead. Panic is for the unprepared.",
-            "suspicion": 1
-          },
-          {
-            "text": "I don't feel pressure when I'm in control.",
-            "suspicion": 2
-          },
-          {
-            "text": "Because I'm always ten steps ahead.",
-            "suspicion": 3
-          }
-        ]
-      },
-      {
-        "id": "walter-white_q3",
-        "prompt": "If someone underestimates you, what do you do?",
-        "answers": [
-          {
-            "text": "Let them. It's useful.",
-            "suspicion": 0
-          },
-          {
-            "text": "Correct them quietly.",
-            "suspicion": 1
-          },
-          {
-            "text": "Prove them wrong when it matters.",
-            "suspicion": 2
-          },
-          {
-            "text": "Make sure they regret it.",
-            "suspicion": 3
-          }
-        ]
-      },
-      {
-        "id": "walter-white_q4",
-        "prompt": "Do you believe the end justifies the means?",
-        "answers": [
-          {
-            "text": "Sometimes. If the goal is important enough.",
-            "suspicion": 0
-          },
-          {
-            "text": "Yes — but only when you're the one deciding.",
-            "suspicion": 1
-          },
-          {
-            "text": "Morality is flexible under necessity.",
-            "suspicion": 2
-          },
-          {
-            "text": "Ends are all that matter.",
-            "suspicion": 3
-          }
-        ]
-      },
-      {
-        "id": "walter-white_q5",
-        "prompt": "How do you handle betrayal?",
-        "answers": [
-          {
-            "text": "I take note. Nothing more.",
-            "suspicion": 0
-          },
-          {
-            "text": "I distance myself permanently.",
-            "suspicion": 1
-          },
-          {
-            "text": "I make sure it never happens again.",
-            "suspicion": 2
-          },
-          {
-            "text": "I eliminate the variable.",
-            "suspicion": 3
-          }
-        ]
-      }
-    ]
+    {
+      "id": "walter-white_q1",
+      "prompt": "You’re a chemistry teacher—what does it feel like to be a teacher? Do you like your profession?",
+      "answers": [
+        { "text": "To be honest, I don’t really like it that much...", "suspicion": 0 },
+        { "text": "No", "suspicion": 1 },
+        { "text": "Yes, it’s a calm and low-risk job", "suspicion": 2 },
+        { "text": "Yes, I’ve always wanted to be a teacher", "suspicion": 3 }
+      ]
+    },
+    {
+      "id": "walter-white_q2",
+      "prompt": "What is the most important thing in life for you?",
+      "answers": [
+        { "text": "Family and respect are the most important things in life for me", "suspicion": 0 },
+        { "text": "Achieving a memorable success", "suspicion": 1 },
+        { "text": "Money is the most important thing for me. I don’t want to live an ordinary life without money", "suspicion": 2 },
+        { "text": "Staying away from danger", "suspicion": 3 }
+      ]
+    },
+    {
+      "id": "walter-white_q3",
+      "prompt": "If you won the lottery, what would you do with the money?",
+      "answers": [
+        { "text": "I would use it to secure my family’s future", "suspicion": 0 },
+        { "text": "I would buy my child a car", "suspicion": 1 },
+        { "text": "I would start my own chemistry company with that money", "suspicion": 2 },
+        { "text": "I would buy a rocket", "suspicion": 3 }
+      ]
+    },
+    {
+      "id": "walter-white_q4",
+      "prompt": "Lately I’ve been seeing a lot of criminals in the news. Do you feel in danger too?",
+      "answers": [
+        { "text": "I am the danger", "suspicion": 0 },
+        { "text": "Sometimes life pushes people to do bad things", "suspicion": 1 },
+        { "text": "Yes, in times like these it’s best not to be out and about too much", "suspicion": 2 },
+        { "text": "Things like that don’t really happen where we live", "suspicion": 3 }
+      ]
+    },
+    {
+      "id": "walter-white_q5",
+      "prompt": "Do you ever keep in touch with your former students? It must be something to be proud of to see them grow up.",
+      "answers": [
+        { "text": "I do. One of my students even became a very good cook—ah sorry, I meant chemist—and we worked together for a while", "suspicion": 0 },
+        { "text": "I can’t say I keep in touch much, except for one student", "suspicion": 1 },
+        { "text": "Yes, I often keep in touch with my former students", "suspicion": 2 },
+        { "text": "I’m a teacher, not a student—why would I keep in touch?", "suspicion": 3 }
+      ]
+    },
+    {
+      "id": "walter-white_q6",
+      "prompt": "What kind of music do you enjoy listening to?",
+      "answers": [
+        { "text": "I can’t say I listen to music a lot, but when I do, I mostly listen to classical music and opera", "suspicion": 0 },
+        { "text": "I like calm, not too energetic music that can play in the background while I work", "suspicion": 1 },
+        { "text": "I enjoy listening to music that gives me energy; it helps me focus on my work", "suspicion": 2 },
+        { "text": "I,..., I am the danger", "suspicion": 3 }
+      ]
+    },
+    {
+      "id": "walter-white_q7",
+      "prompt": "I’m a bit hungry, let’s order something together. What kind of food would you like?",
+      "answers": [
+        { "text": "I don’t really prefer eating out, but a simple home-style meal would be fine", "suspicion": 0 },
+        { "text": "I’m not going to eat. I don’t like eating out", "suspicion": 1 },
+        { "text": "I heard their salad is good, we could try that", "suspicion": 2 },
+        { "text": "You decide for me", "suspicion": 3 }
+      ]
+    },
+    {
+      "id": "walter-white_q8",
+      "prompt": "From what I understand, you’re interested in science outside of teaching as well. Who is your favorite scientist?",
+      "answers": [
+        { "text": "Heisenberg is my favorite scientist. Themes of control and chaos interest me", "suspicion": 0 },
+        { "text": "Marie Curie, because of her contributions to chemistry", "suspicion": 1 },
+        { "text": "The founder of the Gray Matter company, a very successful scientist", "suspicion": 2 },
+        { "text": "Elon Musk", "suspicion": 3 }
+      ]
+    },
+    {
+      "id": "walter-white_q9",
+      "prompt": "If you weren’t a teacher, what would you want to be?",
+      "answers": [
+        { "text": "I would want to be a well-known scientist", "suspicion": 0 },
+        { "text": "Any profession that people respect would be enough; what it is doesn’t really matter", "suspicion": 1 },
+        { "text": "Any job where I earn good money", "suspicion": 2 },
+        { "text": "I would like to be a violet", "suspicion": 3 }
+      ]
+    }
+  ]
   }
 ]

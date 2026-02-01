@@ -12,11 +12,13 @@ const BASE_HEIGHT = 844;
 export const AppShell = ({
   children,
   hideBackground = false,
-  desktopFrameClass = ""
+  desktopFrameClass = "",
+  showAudioControl = true
 }: {
   children: ReactNode;
   hideBackground?: boolean;
   desktopFrameClass?: string;
+  showAudioControl?: boolean;
 }) => {
   useEffect(() => {
     preloadButtonClickSound();
@@ -115,7 +117,7 @@ export const AppShell = ({
             overscrollBehaviorY: "contain"
           }}
         >
-          <BackgroundAudio />
+          {showAudioControl ? <BackgroundAudio /> : null}
           {children}
         </div>
       </div>
