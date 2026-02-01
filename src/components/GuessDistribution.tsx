@@ -46,8 +46,8 @@ export const GuessDistribution = ({
         <div className="mt-3 flex items-start gap-2 rounded-2xl border border-rose-200/70 bg-rose-50/70 px-3 py-2 text-xs text-rose-600">
           <span className="text-base leading-none">✕</span>
           <div>
-            <div className="font-semibold">Bu tur bilemedin</div>
-            <div className="text-[11px] text-rose-500/80">Bir dahaki oyunda şans!</div>
+            <div className="font-semibold">You didn't get it this time...</div>
+            <div className="text-[11px] text-rose-500/80">Good luck with the next one!</div>
           </div>
         </div>
       ) : null}

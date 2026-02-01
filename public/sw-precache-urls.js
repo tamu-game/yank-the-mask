@@ -10,6 +10,7 @@ self.__PRECACHE_URLS = [
   "/characters/alien/alien.png",
   "/characters/alien/alien_cry.gif",
   "/characters/alien/alien_laugh.gif",
+  "/characters/alien/yank_mask_lose.gif",
   "/characters/aylin-sakar/alien_cry.gif",
   "/characters/aylin-sakar/angry_init.gif",
   "/characters/aylin-sakar/angry_loop.gif",
@@ -40,5 +41,5 @@ self.__PRECACHE_URLS = [
   "/music/talking_male_final.mp3",
   "/music/talking_male_final_1.mp3",
   "/music/talking_male_final_long.mp3",
-  "/music/talking_male_final_short.mp3"
+  "/music/talking_male_final_mid.mp3"
 ];
