@@ -27,8 +27,17 @@ export const UfoLanding = () => {
 
           <div className="landing-spotlight-ui text-slate-900" style={{ paddingTop: "5rem" }}>
             <div className="space-y-1 text-center">
-              <p className="text-[10px] uppercase tracking-[0.45em] text-amber-700">Yank The Mask</p>
-              <p className="text-xs uppercase tracking-[0.5em] text-slate-800">Game mode</p>
+              <div className="mx-auto h-auto w-36">
+                <Image
+                  src="/logo.png"
+                  alt="Yank the Mask logo"
+                  width={400}
+                  height={400}
+                  className="h-auto w-full object-contain"
+                  priority
+                />
+              </div>
+              <p className="text-xs uppercase tracking-[0.5em] text-slate-800">by <span className="text-xs">TAMU Studio</span></p>
             </div>
             <GameButton href="/feed" className="w-full mt-8" variant="primary">
               Start
