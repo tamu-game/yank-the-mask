@@ -233,39 +233,40 @@
       }
     ]
   },
-  {
+    {
     "id": "walter-white",
     "name": "Walter White",
     "age": 50,
     "avatarSeed": "EQ",
     "tags": [
-      "Chemistry",
-      "Control",
-      "Pride"
+      "Chemistry teacher",
+      "Family Man",
+      "Love science"
     ],
     "traits": [
-      "calculated",
-      "ego-driven",
-      "intimidating"
+      "Self directed",
+      "Control freak",
+      "Very good at cooking"
     ],
     "likes": [
-      "precision",
-      "being underestimated",
-      "order"
+      "Chemistry",
+      "Precision",
+      "Respect"
     ],
     "dislikes": [
-      "chaos",
-      "disrespect",
-      "losing control"
+      "Losing control",
+      "Friends who betray",
+      "Disrespect"
     ],
     "quirks": [
-      "adjusts his glasses when annoyed",
-      "pauses before answering to assert dominance"
+      "I enjoy working in a caravan.",
+      "I can't stand flies buzzing around while I'm working."
     ],
-    "hangout": "a quiet booth far from distractions",
+    "hangout": "",
     "observation": "Speaks softly, as if volume itself is a choice.",
-    "whispers": "Rumor says he never raises his voice — because he never needs to.",
-    "bio": "I am not in danger. I am the danger.",
+    "whispers": "Rumor says he founded a company called Grey Matter with his friend, but later became a chemistry teacher.",
+    "bio": "A scientist who has not proven their potential.",
+
     "questions": [
     {
       "id": "walter-white_q1",

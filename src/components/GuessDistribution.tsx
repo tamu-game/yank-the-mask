@@ -39,7 +39,7 @@ export const GuessDistribution = ({
       </div>
       {isWin && highlightQuestion ? (
         <div className="mt-2 text-xs text-slate-600">
-          Sen: {highlightQuestion}. soruda bildin
+          You guessed in Question {highlightQuestion} ...
         </div>
       ) : null}
       {isLose ? (
@@ -70,15 +70,16 @@ export const GuessDistribution = ({
               <div className="relative flex-1">
                 <div className="h-6 w-full rounded-full bg-amber-50/80" />
                 <div
-                  className={`absolute left-0 top-0 flex h-6 items-center justify-end rounded-full px-2 text-[11px] font-semibold shadow-sm transition ${
+                  className={`absolute left-0 top-0 h-6 rounded-full shadow-sm transition ${
                     isHighlight
                       ? "bg-emerald-400 text-emerald-950"
                       : "bg-rose-200/80 text-rose-700"
                   } ${isMostCommon && !isHighlight ? "ring-2 ring-amber-200/70" : ""}`}
                   style={{ width: `${width}%` }}
-                >
+                />
+                <span className="pointer-events-none absolute inset-0 flex items-center justify-center px-3 text-[11px] font-semibold text-rose-700 whitespace-nowrap">
                   {totalWins > 0 ? `${entry.percent}%` : "0%"}
-                </div>
+                </span>
               </div>
               <div className="w-10 text-right text-[11px] text-slate-500">
                 {entry.winCount}
