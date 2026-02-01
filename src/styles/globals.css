@@ -339,6 +339,15 @@ body {
   z-index: 1;
 }
 
+.landing-ufo-inner {
+  position: absolute;
+  inset: 0;
+  padding: 1.2rem clamp(1rem, 4vw, 2.4rem);
+  box-sizing: border-box;
+  z-index: 1;
+  overflow: hidden;
+}
+
 .landing-ufo-stars {
   position: absolute;
   inset: 0;
@@ -436,6 +445,42 @@ body {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   cursor: pointer;
+}
+
+.landing-space-backdrop {
+  position: absolute;
+  inset: 0;
+  background: #02030c;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.landing-space-backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.3), transparent 40%),
+    radial-gradient(circle at 80% 10%, rgba(255, 209, 102, 0.2), transparent 45%),
+    radial-gradient(circle at 50% 60%, rgba(255, 255, 255, 0.12), transparent 35%),
+    radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent 50%);
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.landing-space-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1px),
+    radial-gradient(rgba(255, 255, 255, 0.35) 1px, transparent 1px);
+  background-size: 160px 160px, 90px 90px;
+  opacity: 0.25;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 0;
 }
 
 @keyframes landing-star-twinkle {
