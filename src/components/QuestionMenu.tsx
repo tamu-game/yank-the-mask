@@ -5,6 +5,7 @@ import type { QuestionPublic } from "@/types/game";
 type QuestionMenuProps = {
   questions: QuestionPublic[];
   askedIds: string[];
+  maxQuestions: number;
   pendingId?: string | null;
   onAsk: (questionId: string) => void;
   disabled?: boolean;
@@ -13,11 +14,12 @@ type QuestionMenuProps = {
 export const QuestionMenu = ({
   questions,
   askedIds,
+  maxQuestions,
   pendingId,
   onAsk,
   disabled
 }: QuestionMenuProps) => {
-  const questionsLeft = Math.max(0, questions.length - askedIds.length);
+  const questionsLeft = Math.max(0, maxQuestions - askedIds.length);
 
   return (
     <div className="notebook-panel rounded-[28px] border-2 border-white/80 bg-white/80 p-4 shadow-xl">

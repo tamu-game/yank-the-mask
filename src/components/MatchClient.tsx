@@ -26,6 +26,7 @@ import { CafeScene } from "@/components/cafe/CafeScene";
 import { QuestionSheet } from "@/components/cafe/QuestionSheet";
 import { ChoiceBar } from "@/components/cafe/ChoiceBar";
 import { Button } from "@/components/Button";
+import { TypingText } from "@/components/TypingText";
 import { useRouter } from "next/navigation";
 import { apiFetch, isApiError } from "@/lib/apiClient";
 import { GuessDistribution } from "@/components/GuessDistribution";
@@ -167,7 +168,6 @@ export const MatchClient = ({
 
   const askedIds = session?.askedQuestionIds ?? [];
   const askedCount = askedIds.length;
-  const limitedQuestions = questions.slice(0, MAX_QUESTIONS);
   const questionsLeft = Math.max(0, MAX_QUESTIONS - askedCount);
   const canAskMore = questionsLeft > 0;
   const minQuestionsToDecide = 1;
@@ -797,7 +797,11 @@ export const MatchClient = ({
                 Your note
               </div>
               <div className="mt-1 leading-relaxed">
-                <span className={isQuestionTyping ? "typing-reveal" : ""}>{questionText}</span>
+                <TypingText
+                  text={questionText ?? ""}
+                  animate={isQuestionTyping}
+                  className=""
+                />
                 {isQuestionTyping ? (
                   <span className="ml-2 inline-flex items-center gap-1 align-baseline">
                     <span className="typing-dot h-1.5 w-1.5 rounded-full bg-amber-500/70" />
@@ -903,8 +907,9 @@ export const MatchClient = ({
               <QuestionSheet
                 className={questionSheetClasses}
                 character={character}
-                questions={limitedQuestions}
+                questions={questions}
                 askedIds={askedIds}
+                maxQuestions={MAX_QUESTIONS}
                 pendingId={pendingQuestionId}
                 onAsk={handleAsk}
                 disabled={!session || session.status !== "in_progress"}

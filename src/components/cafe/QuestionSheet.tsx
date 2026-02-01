@@ -37,6 +37,7 @@ type QuestionSheetProps = {
   character: CharacterPreview;
   questions: QuestionPublic[];
   askedIds: string[];
+  maxQuestions: number;
   pendingId?: string | null;
   onAsk: (questionId: string) => void;
   disabled?: boolean;
@@ -50,6 +51,7 @@ export const QuestionSheet = ({
   character,
   questions,
   askedIds,
+  maxQuestions,
   pendingId,
   onAsk,
   disabled,
@@ -58,7 +60,7 @@ export const QuestionSheet = ({
   collapsed = false,
   onToggle
 }: QuestionSheetProps) => {
-  const questionsLeft = Math.max(0, questions.length - askedIds.length);
+  const questionsLeft = Math.max(0, maxQuestions - askedIds.length);
   const isCollapsed = collapsed;
   const [profileState, setProfileState] = useState<"closed" | "open" | "closing">("closed");
   const profileTimerRef = useRef<number | null>(null);

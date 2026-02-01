@@ -36,5 +36,6 @@ self.__PRECACHE_URLS = [
   "/music/talking_female.mp3",
   "/music/talking_male.mp3",
   "/music/talking_male_final.mp3",
+  "/music/talking_male_final_1.mp3",
   "/music/talking_male_final_2.mp3"
 ];
