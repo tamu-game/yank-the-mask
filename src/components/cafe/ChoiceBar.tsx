@@ -33,7 +33,6 @@ export const ChoiceBar = ({
             disabled={isDisabled}
           >
             <span>Yank the Mask</span>
-            <span className="ml-1 text-base">😈</span>
           </button>
           <button
             type="button"
@@ -46,7 +45,6 @@ export const ChoiceBar = ({
             disabled={isDisabled}
           >
             <span>Trust Them</span>
-            <span className="ml-1 text-base">💖</span>
           </button>
         </div>
       ) : (

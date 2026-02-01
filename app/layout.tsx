@@ -9,7 +9,7 @@ const fredoka = Fredoka({
 });
 
 export const metadata: Metadata = {
-  title: "Maskle",
+  title: "Yank The Mask",
   description: "Swipe, match, and unmask the alien impostor."
 };
 

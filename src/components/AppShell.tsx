@@ -66,6 +66,11 @@ export const AppShell = ({
   return (
     <div
       className={`app-shell-root fixed inset-0 overflow-hidden text-slate-900 ${desktopFrameClass}`}
+      style={{
+        height: "100dvh",
+        minHeight: "100svh",
+        minWidth: "100vw"
+      }}
     >
       {!hideBackground && (
         <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
@@ -92,19 +97,22 @@ export const AppShell = ({
           className="
             relative
             w-full
-            h-full
             min-h-0
             flex flex-col
-            overflow-x-hidden overflow-y-auto
-            overscroll-contain
-            touch-pan-y
-            [webkit-overflow-scrolling:touch]
+            overflow-x-hidden
           "
           data-game-root
           style={{
             // ✅ iOS safe area için (özellikle notch)
             paddingTop: "env(safe-area-inset-top)",
-            paddingBottom: "env(safe-area-inset-bottom)"
+            paddingBottom: "env(safe-area-inset-bottom)",
+            scrollPaddingBottom: "env(safe-area-inset-bottom)",
+            height: "100dvh",
+            minHeight: "100svh",
+            maxHeight: "100dvh",
+            overflowY: "auto",
+            WebkitOverflowScrolling: "touch",
+            overscrollBehaviorY: "contain"
           }}
         >
           <BackgroundAudio />
