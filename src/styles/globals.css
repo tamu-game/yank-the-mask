@@ -21,6 +21,12 @@ body {
   min-height: 100%;
 }
 
+@media (min-width: 1024px) {
+  .app-shell-root.desktop-frame-login {
+    background: #000;
+  }
+}
+
 [data-game-root] {
   width: 390px;
   height: 844px;

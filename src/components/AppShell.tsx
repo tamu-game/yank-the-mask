@@ -11,10 +11,12 @@ const BASE_HEIGHT = 844;
 
 export const AppShell = ({
   children,
-  hideBackground = false
+  hideBackground = false,
+  desktopFrameClass = ""
 }: {
   children: ReactNode;
   hideBackground?: boolean;
+  desktopFrameClass?: string;
 }) => {
   useEffect(() => {
     preloadButtonClickSound();
@@ -62,7 +64,9 @@ export const AppShell = ({
   }, []);
 
   return (
-    <div className="fixed inset-0 overflow-hidden text-slate-900">
+    <div
+      className={`app-shell-root fixed inset-0 overflow-hidden text-slate-900 ${desktopFrameClass}`}
+    >
       {!hideBackground && (
         <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
           <div className="absolute -left-24 top-6 h-72 w-72 rounded-full bg-amber-200/60 blur-[120px]" />
